@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Balance</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ bank.id }}</td>
                 <td>{{ bank.name }}</td>
+                <td>{{ bank.balance is empty ? 0 : bank.balance  }}</td>
                 <td>
                     <a href="{{ path('bank_show', {'id': bank.id}) }}">show</a>
                     <a href="{{ path('bank_edit', {'id': bank.id}) }}">edit</a>
@@ -25,7 +27,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

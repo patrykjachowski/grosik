@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bank;
-use App\Form\Bank3Type;
+use App\Form\BankType;
 use App\Repository\BankRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,13 +31,15 @@ class BankController extends AbstractController
     public function new(Request $request): Response
     {
         $bank = new Bank();
-        $form = $this->createForm(Bank3Type::class, $bank);
+        $form = $this->createForm(BankType::class, $bank);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $bank->setUser($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($bank);
             $entityManager->flush();
+
 
             return $this->redirectToRoute('bank_index');
         }
@@ -63,7 +65,7 @@ class BankController extends AbstractController
      */
     public function edit(Request $request, Bank $bank): Response
     {
-        $form = $this->createForm(Bank3Type::class, $bank);
+        $form = $this->createForm(BankType::class, $bank);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

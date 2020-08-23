@@ -11,10 +11,7 @@ class BankType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('name')
-            ->add('user_id')
-        ;
+        $builder->add('name') ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

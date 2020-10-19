@@ -28,6 +28,11 @@ class Bank
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $balance;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +58,18 @@ class Bank
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getBalance(): ?float
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(float $balance): self
+    {
+        $this->balance = $balance;
 
         return $this;
     }

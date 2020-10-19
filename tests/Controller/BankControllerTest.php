@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 class BankControllerTest extends WebTestCase
 {
 
-    public function testShouldCreateBankByLoggedUser()
+    public function testShouldCreateEmptyBankByLoggedUser()
     {
         // Given
         $client = static::createClient();
@@ -32,6 +32,7 @@ class BankControllerTest extends WebTestCase
         // Then
         $this->assertNotEmpty($filteredCollection);
         $this->assertEquals(1, $filteredCollection->count());
+        $this->assertEquals(0, $filteredCollection[0]->getBalance());
     }
 
 }

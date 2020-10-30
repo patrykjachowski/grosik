@@ -35,5 +35,5 @@ security:
             # switch_user: true
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
          - { path: ^/bank, roles: ROLE_USER }
+         - { path: ^/transaction, roles: ROLE_USER }

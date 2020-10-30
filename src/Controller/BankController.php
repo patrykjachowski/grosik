@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Bank;
+use App\Entity\User;
 use App\Form\BankType;
 use App\Repository\BankRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,6 +36,9 @@ class BankController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var User $currentUser */
+            $currentUser = $this->getUser();
+            $bank->setUser($currentUser);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($bank);
             $entityManager->flush();

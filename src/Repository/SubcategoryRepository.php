@@ -20,7 +20,7 @@ class SubcategoryRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Subcategory[] Returns an array of Subcategory objects
+    //  * @return SubcategoryFixtures[] Returns an array of SubcategoryFixtures objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SubcategoryRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Subcategory
+    public function findOneBySomeField($value): ?SubcategoryFixtures
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

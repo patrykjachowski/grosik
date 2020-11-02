@@ -1,5 +1,6 @@
 import React from 'react'
+import { Button } from '@material-ui/core';
 
 export default () => {
-    return 'React!'
+    return <Button color="primary">No siemasz ziomuś</Button>;
 }

@@ -1,10 +1,10 @@
 module.exports = {
     extends: ['eslint:recommended'],
-    parserOptions: {
-        ecmaVersion: 6,
-        sourceType: 'module',
-        ecmaFeatures: {
-            jsx: true
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "ecmaFeatures": {
+            "globalReturn": true,
+            "experimentalObjectRestSpread": true
         }
     },
     env: {

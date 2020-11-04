@@ -20,9 +20,17 @@ class TransactionController extends AbstractController
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
-        return $this->render('transaction/index.html.twig', [
-            'transactions' => $transactionRepository->findAll(),
-        ]);
+        $transactions = $transactionRepository->findAll();
+        //$serializer = $this->get('serializer')->setCircularReferenceLimit(1);
+        $serializer = $this->get('serializer');
+        $data = $serializer->serialize($transactions, 'json');
+
+        return new Response($data);
+        //return $this->json($transactions);
+
+        /*        return $this->render('transaction/index.html.twig', [
+                    'transactions' => $transactionRepository->findAll(),
+                ]);*/
     }
 
     /**

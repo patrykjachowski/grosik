@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Component from './components/Component'
-import Transactions from './components/Transactions'
+import Transactions from './components/TransactionsList'
 import '../styles/app.css';
 
 ReactDOM.render(<Transactions />, document.getElementById('root'))

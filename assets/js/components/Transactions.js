@@ -7,15 +7,6 @@ import axios from 'axios';
 export default () => {
     const [ transactions, setTransactions ] = useState({ transactions: [] })
 
-    useEffect(async () => {
-        const result = await axios(
-            'transactions/',
-        );
-
-        setTransactions(result.data);
-    }, []);
-
-
     return (
             <Grid container spacing={2}>
                 <Grid item xs={3}>

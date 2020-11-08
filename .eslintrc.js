@@ -1,11 +1,14 @@
 module.exports = {
-    extends: ['eslint:recommended'],
-    "parserOptions": {
+    plugins: ["testing-library"],
+    extends: ["plugin:testing-library/react"],
+    parserOptions: {
         "ecmaVersion": 8,
         "ecmaFeatures": {
             "globalReturn": true,
-            "experimentalObjectRestSpread": true
-        }
+            "experimentalObjectRestSpread": true,
+            "jsx": true
+        },
+        "sourceType": "module",
     },
     env: {
         browser: true,
@@ -14,6 +17,17 @@ module.exports = {
     },
     rules: {
         "no-console": 0,
-        "no-unused-vars": 0
-    }
+        "no-unused-vars": 0,
+        "testing-library/await-async-query": "error",
+        "testing-library/no-await-sync-query": "error",
+        "testing-library/no-debug": "warn",
+    },
+    overrides: [
+        {
+            "files": ["*.test.js", "*.spec.js"],
+            "rules": {
+                "no-unused-expressions": "off"
+            }
+        }
+    ]
 };

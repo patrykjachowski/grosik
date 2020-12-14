@@ -2,11 +2,12 @@ module.exports = {
     plugins: ["testing-library"],
     extends: ["plugin:testing-library/react"],
     parserOptions: {
-        "ecmaVersion": 8,
+        "ecmaVersion": 9,
         "ecmaFeatures": {
             "globalReturn": true,
             "experimentalObjectRestSpread": true,
-            "jsx": true
+            "jsx": true,
+            "modules": true
         },
         "sourceType": "module",
     },

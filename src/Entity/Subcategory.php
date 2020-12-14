@@ -2,14 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\SubcategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=SubcategoryRepository::class)
+ *
+ * @ApiResource(
+ *     normalizationContext={"groups"={"subcategory"}},
+ *     denormalizationContext={"groups"={"write"}}
+ * )
  */
+
+//*     collectionOperations={"get"={"normalization_context"={"groups"="read"}}},
+// *     itemOperations={"get"={"normalization_context"={"groups"="subcategory:item"}}},
+// *     paginationEnabled=false
 class Subcategory
 {
     /**
@@ -21,6 +32,8 @@ class Subcategory
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"transaction:list"})
      */
     private $name;
 
@@ -31,7 +44,7 @@ class Subcategory
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="subcategory")
      */
     private $transactions;
 

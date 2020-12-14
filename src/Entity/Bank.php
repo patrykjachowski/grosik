@@ -2,13 +2,21 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BankRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=BankRepository::class)
+ *
+ * @ApiResource(
+ *     collectionOperations={"get"={"normalization_context"={"groups"="transaction:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="transaction:item"}}},
+ *     paginationEnabled=false
+ * )
  */
 class Bank
 {
@@ -21,6 +29,8 @@ class Bank
 
     /**
      * @ORM\Column(type="string", length=255)
+     *
+     * @Groups({"transaction:list"})
      */
     private $name;
 

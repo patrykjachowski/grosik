@@ -17,6 +17,9 @@ class TransactionController extends AbstractController
 {
     /**
      * @Route("/", name="transaction_index", methods={"GET"})
+     * @param TransactionRepository $transactionRepository
+     *
+     * @return Response
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
@@ -28,9 +31,9 @@ class TransactionController extends AbstractController
         return new Response($data);
         //return $this->json($transactions);
 
-        /*        return $this->render('transaction/index.html.twig', [
-                    'transactions' => $transactionRepository->findAll(),
-                ]);*/
+        //return $this->render('transaction/index.html.twig', [
+        //            'transactions' => $transactionRepository->findAll(),
+        //        ]);
     }
 
     /**

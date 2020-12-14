@@ -19,7 +19,9 @@
 {#        {% block body %}{% endblock %}#}
         <div id="root"></div>
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+{#            {% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
+                {{ encore_entry_script_tags('app') }}
+{#            {% endif %}#}
         {% endblock %}
     </body>
 </html>

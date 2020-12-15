@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import DateFnsUtils from "@date-io/date-fns"
-import FORMAT from "date-fns/format"
 import plLocale from "date-fns/locale/pl"
 import enLocale from "date-fns/locale/en-US"
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"

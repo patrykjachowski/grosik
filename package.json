@@ -30,7 +30,8 @@
         "eslint": "^7.12.1",
         "prop-types": "^15.7.2",
         "react": "^16.0.8",
-        "react-dom": "^16.0.8"
+        "react-dom": "^16.0.8",
+        "react-router-dom": "^5.2.0"
     },
     "prettier": {
         "singlequote": true,

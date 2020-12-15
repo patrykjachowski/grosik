@@ -18,14 +18,6 @@ export default () => {
   }, [])
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={2}>
-        Sidebar
-      </Grid>
-      <Grid item xs={10}>
-          <Header />
         <TransactionsList transactions={transactions} />
-      </Grid>
-    </Grid>
   )
 }

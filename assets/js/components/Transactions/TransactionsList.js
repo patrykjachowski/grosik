@@ -225,11 +225,3 @@ EnhancedTableHead.propTypes = {
   // rowCount: PropTypes.number.isRequired,
 }
 
-// <Grid container spacing={2}>
-//     <Grid item xs={3}>
-//         Sidebar
-//     </Grid>
-//     <Grid item xs={9}>
-//         Transactions list is empty
-//     </Grid>
-// </Grid>

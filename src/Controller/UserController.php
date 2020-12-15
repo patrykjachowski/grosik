@@ -20,9 +20,24 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
+        $user = $this->getUser();
+        $userBanks = $user->getBanks()->getValues();
+        // TODO: Test it
+        $totalBalance = array_reduce($userBanks, function($carry, $item) {
+            return $carry + $item->getBalance();
+        });
+
+        $userResponse = [
+            'email' => $user->getEmail(),
+            'totalBalance' => $totalBalance,
+        ];
+        return $this->json( $userResponse );
+
+        //return $this->render('user/index.html.twig', [
+        //    'users' => $userRepository->findAll(),
+        //]);
     }
 
     /**

@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid"
 
 import CONFIG from "../config"
 import TransactionsList from "./TransactionsList"
-import Header from "./Header"
+import Header from "../Header"
 
 export default () => {
   const [transactions, setTransactions] = useState(null)

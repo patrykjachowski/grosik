@@ -3,11 +3,12 @@ import ReactDOM from "react-dom"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import "core-js/stable"
 import "regenerator-runtime/runtime"
-
-import Transactions from "./components/Transactions/"
-import "../styles/app.css"
 import Grid from "@material-ui/core/Grid"
+
+import "../styles/app.css"
 import Header from "./components/Header";
+import Transactions from "./components/Transactions/"
+import Categories from "./components/Categories/"
 
 ReactDOM.render(
   <Router>
@@ -48,10 +49,6 @@ ReactDOM.render(
   </Router>,
   document.getElementById("root")
 )
-
-function Categories() {
-  return <h2>Kategorie</h2>
-}
 
 function Report() {
   return <h2>Raport</h2>

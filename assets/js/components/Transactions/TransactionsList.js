@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react"
 import PropTypes from "prop-types"
-import Container from "@material-ui/core/Container"
-import Grid from "@material-ui/core/Grid"
-import axios from "axios"
 import TableContainer from "@material-ui/core/TableContainer"
 import Table from "@material-ui/core/Table"
 import TableBody from "@material-ui/core/TableBody"
@@ -114,7 +111,7 @@ export default ({ transactions }) => {
                   <TableCell>
                     {new Date(transaction.date).toLocaleDateString()}
                   </TableCell>
-                  <TableCell>{transaction.value}</TableCell>
+                  <TableCell data-id={'value'}>{transaction.value}</TableCell>
                   <TableCell>{transaction.payee}</TableCell>
                   <TableCell>{transaction.memo}</TableCell>
                 </TableRow>
@@ -195,7 +192,7 @@ function EnhancedTableHead(props) {
 
 const renderTransactionCells = (transactions) => {
   return transactions.map((transaction) => (
-    <React.Fragment>
+    <React.Fragment key={transaction.id}>
       <TableCell>
         {/*
                                     <Checkbox

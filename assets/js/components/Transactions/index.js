@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
-import Grid from "@material-ui/core/Grid"
 
 import CONFIG from "../config"
 import TransactionsList from "./TransactionsList"
-import Header from "../Header"
 
 export default () => {
   const [transactions, setTransactions] = useState(null)
@@ -17,7 +15,5 @@ export default () => {
     fetchData()
   }, [])
 
-  return (
-        <TransactionsList transactions={transactions} />
-  )
+  return <TransactionsList transactions={transactions} />
 }

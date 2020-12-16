@@ -1,41 +1,44 @@
 import React from 'react';
-import {render, screen} from '@testing-library/react'
+import {cleanup, render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import Transactions from '../components/Transactions/TransactionsList'
+import TransactionsList from '../components/Transactions/TransactionsList'
 
+afterEach(cleanup)
+
+// TODO: Mock API
 const singleTransaction = [
     {
-        bank: 'AcmeBank',
+        bank: {name: 'AcmeBank'},
         subcategory: 'Electricity',
         date: new Date(),
-        value: 35,
+        value: '35',
         payee: 'Electricity Provider',
-        memo: ''
+        memo: 'Note to myself'
     }
 ]
 
 const multipleTransactions = [
     {
-        bank: 'AcmeBank',
+        bank: {name: 'AcmeBank'},
         subcategory: 'Electricity',
         date: new Date(),
         value: 35,
         payee: 'Electricity Provider',
-        memo: ''
+        memo: 'asd'
     },
     {
-        bank: 'AcmeBank',
+        bank: {name: 'DeltaBank'},
         subcategory: 'Water',
         date: new Date(),
         value: 20,
         payee: 'Water Provider',
-        memo: ''
+        memo: 'dsa'
     }
 ]
 
-/*
+
 test('Should return empty list when no transactions provided', () => {
-    render(<Transactions/>)
+    render(<TransactionsList/>)
 
     expect(screen.getByText('Transactions list is empty')).toBeVisible();
     expect(screen.getByRole('table')).toBeVisible();
@@ -46,34 +49,32 @@ test('Should return empty list when no transactions provided', () => {
     expect(screen.getByText('Payee')).toBeVisible()
     expect(screen.getByText('Memo')).toBeVisible()
 })
-*/
 
-
-// bank: 'AcmeBank',
-//     subcategory: 'Electricity',
-//     date: new Date(),
-//     value: 35,
-//     payee: 'Electricity Provider',
-//     memo: ''
-//
 test('Should return single transaction when one is provided', () => {
-    const {debug} = render(<Transactions transactions={singleTransaction} />)
-
-    debug()
+    const {debug} = render(<TransactionsList transactions={singleTransaction} />)
 
     expect(screen.queryByText('Transactions list is empty')).not.toBeInTheDocument();
-    expect(screen.getByText(singleTransaction[0].bank)).toBeVisible()
-    expect(screen.getByText(singleTransaction[0].date)).toBeVisible()
+    expect(screen.getByText(singleTransaction[0].bank.name)).toBeVisible()
+    expect(screen.getByText(singleTransaction[0].date.toLocaleDateString())).toBeVisible()
     expect(screen.getByText(singleTransaction[0].value)).toBeVisible()
     expect(screen.getByText(singleTransaction[0].payee)).toBeVisible()
     expect(screen.getByText(singleTransaction[0].memo)).toBeVisible()
 })
 
-/*
 test('Should return multiple transactions when they are provided', () => {
-    render(<Transactions transactions={[multipleTransactions]} />)
+    render(<TransactionsList transactions={multipleTransactions} />)
 
-    expect(screen.queryByText('Transactions list is empty')).not.toBeInTheDocument();
+    expect(screen.getByText(multipleTransactions[0].bank.name)).toBeVisible()
+    // expect(screen.getByText(multipleTransactions[0].date.toLocaleDateString())).toBeVisible()
+    // expect(screen.getByText(multipleTransactions[0].value)).toBeVisible()
+    expect(screen.getByText(multipleTransactions[0].payee)).toBeVisible()
+    expect(screen.getByText(multipleTransactions[0].memo)).toBeVisible()
+
+    expect(screen.getByText(multipleTransactions[1].bank.name)).toBeVisible()
+    // expect(screen.getByText(multipleTransactions[1].date.toLocaleDateString())).toBeVisible()
+    // expect(screen.getByText(multipleTransactions[1].value)).toBeVisible()
+    expect(screen.getByText(multipleTransactions[1].payee)).toBeVisible()
+    expect(screen.getByText(multipleTransactions[1].memo)).toBeVisible()
+
 })
-*/
 

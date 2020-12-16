@@ -27,13 +27,15 @@ class Subcategory
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     *
+     * @Groups({"category:list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"transaction:list"})
+     * @Groups({"transaction:list", "category:list"})
      */
     private $name;
 

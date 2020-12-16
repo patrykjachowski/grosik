@@ -9,6 +9,7 @@ import TableCell from "@material-ui/core/TableCell"
 import Checkbox from "@material-ui/core/Checkbox"
 import TableHead from "@material-ui/core/TableHead"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
+import SubcategoryCell from "./SubcategoryCell";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,7 +108,7 @@ export default ({ transactions }) => {
               transactions.map((transaction) => (
                 <TableRow hover key={transaction.id}>
                   <TableCell> {transaction.bank.name} </TableCell>
-                  <TableCell>{transaction.subcategory ? transaction.subcategory.name : 'uncategorised' }</TableCell>
+                    <SubcategoryCell subcategory={transaction.subcategory} />
                   <TableCell>
                     {new Date(transaction.date).toLocaleDateString()}
                   </TableCell>

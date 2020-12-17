@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 import Categories from './features/Categories/Categories'
 import '../styles/app.css'
 import Header from './features/Header'
-import Transactions from './features/Transactions/'
+import Transactions from './features/Transactions/Transactions'
 
 export default function App() {
   // const [categories, setCategories] = useState(null)
@@ -37,12 +37,7 @@ export default function App() {
                 <Report />
               </Route>
               <Route path="/transactions">
-                <Transactions
-                  transactions={transactions}
-                  onSetTransactions={(newTransactions) =>
-                    setTransactions(newTransactions)
-                  }
-                />
+                <Transactions />
               </Route>
               <Route path="/">
                 <Categories

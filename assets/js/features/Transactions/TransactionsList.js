@@ -9,7 +9,7 @@ import TableCell from "@material-ui/core/TableCell"
 import Checkbox from "@material-ui/core/Checkbox"
 import TableHead from "@material-ui/core/TableHead"
 import TableSortLabel from "@material-ui/core/TableSortLabel"
-import SubcategoryCell from "./SubcategoryCell";
+import SubcategoryCell from "../../components/SubcategoryCell";
 
 const useStyles = makeStyles((theme) => ({
   root: {

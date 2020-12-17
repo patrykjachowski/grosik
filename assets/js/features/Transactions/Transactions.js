@@ -8,12 +8,11 @@ import TransactionsList from './TransactionsList'
 export default () => {
   const transactions = useSelector(selectTransactions)
   const dispatch = useDispatch()
-  
+
   useEffect(() => {
     console.log(transactions.length)
     if (transactions.length) return
 
-    console.log('przechodzi')
     const fetchData = async () => {
       const payload = await axios(CONFIG.endpoint.transactions)
       dispatch(addTransactions(payload.data['hydra:member']))

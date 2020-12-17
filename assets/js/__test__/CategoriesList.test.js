@@ -3,7 +3,7 @@ import { rest } from "msw"
 import { setupServer } from "msw/node"
 import { render, fireEvent, waitFor, screen } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
-import CategoriesList from "../components/Categories/CategoriesList";
+import CategoriesList from "../features/Categories/CategoriesList";
 import CategoriesResponse from "./CategoriesResponse";
 
 const server = setupServer(

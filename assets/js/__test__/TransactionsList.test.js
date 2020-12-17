@@ -1,7 +1,7 @@
 import React from 'react';
 import {cleanup, render, screen} from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
-import TransactionsList from '../components/Transactions/TransactionsList'
+import TransactionsList from '../features/Transactions/TransactionsList'
 
 afterEach(cleanup)
 

@@ -18,7 +18,7 @@ Encore
      * Add 1 entry for each "page" of your app
      * (including one that's included on every page - e.g. "app")
      *
-     * Each entry will result in one JavaScript file (e.g. index.js)
+     * Each entry will result in one JavaScript file (e.g. Categories.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('index', './assets/js/index.js')

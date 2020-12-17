@@ -105,8 +105,8 @@ export default ({ transactions }) => {
                 <TableCell>Transactions list is empty</TableCell>
               </TableRow>
             ) : (
-              transactions.map((transaction) => (
-                <TableRow hover key={transaction.id}>
+              transactions.map((transaction, index) => (
+                <TableRow hover key={index}>
                   <TableCell> {transaction.bank.name} </TableCell>
                     <SubcategoryCell subcategory={transaction.subcategory} />
                   <TableCell>

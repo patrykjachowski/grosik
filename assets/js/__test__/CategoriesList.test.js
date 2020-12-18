@@ -3,7 +3,7 @@ import { rest } from "msw"
 import { setupServer } from "msw/node"
 import { render, fireEvent, waitFor, screen } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
-import CategoriesList from "../features/Categories/CategoriesList";
+import Categories from "../features/Categories/Categories";
 import CategoriesResponse from "./CategoriesResponse";
 
 const server = setupServer(
@@ -13,7 +13,7 @@ const server = setupServer(
 )
 
 test('Should return empty list when no categories provided',  () => {
-    render(<CategoriesList/>)
+    render(<Categories/>)
 
     expect(screen.getByText('Loading categories...')).toBeVisible()
     expect(screen.getByText('Category')).toBeVisible()
@@ -23,7 +23,7 @@ test('Should return empty list when no categories provided',  () => {
 })
 
 test('Should display categories with subcategories', () => {
-    render(<CategoriesList categories={CategoriesResponse['hydra:member']}/>)
+    render(<Categories categories={CategoriesResponse['hydra:member']}/>)
 
     expect(screen.getByText('Category 0')).toBeVisible()
     expect(screen.getByText('Category 1')).toBeVisible()

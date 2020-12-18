@@ -18,9 +18,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * )
  */
 
-//*     collectionOperations={"get"={"normalization_context"={"groups"="read"}}},
-// *     itemOperations={"get"={"normalization_context"={"groups"="subcategory:item"}}},
-// *     paginationEnabled=false
 class Subcategory
 {
     /**

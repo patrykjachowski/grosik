@@ -12,20 +12,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
  *
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="transaction:list"}}},
+ *     collectionOperations={
+ *          "get"={"normalization_context"={"groups"="transaction:list"}},
+ *     },
+ *     itemOperations={"get","put"}
  * )
  */
-
-//* @ApiResource(normalizationContext={"groups"={"subcategory"}})
-
-//* @ApiResource(
-// *     collectionOperations={"get"={"normalization_context"={"groups"="transaction:list"}}},
-// *     itemOperations={"get"={"normalization_context"={"groups"="transaction:item"}}},
-// *     paginationEnabled=false
-//    * )
-
-//*     collectionOperations={"get"={"normalization_context"={"groups"="transaction:list"}}},
-// *     itemOperations={"get"={"normalization_context"={"groups"={"transaction:item", "transaction:item:get"}}}},
 class Transaction
 {
     /**

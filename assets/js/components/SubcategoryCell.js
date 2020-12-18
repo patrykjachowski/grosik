@@ -1,5 +1,5 @@
-import TableCell from '@material-ui/core/TableCell'
 import React, { useState } from 'react'
+import TableCell from '@material-ui/core/TableCell'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import { useSelector } from 'react-redux'
@@ -44,13 +44,13 @@ function Grouped() {
         <Autocomplete
             id="grouped-demo"
             options={mergedOptions}
-            // groupBy={(option) => option.firstLetter}
+            groupBy={(option) => option.group}
             getOptionLabel={(option) => option.name}
             style={{ width: 300 }}
             renderInput={(params) => (
                 <TextField
                     {...params}
-                    label="With categories"
+                    label="Kategorie"
                     variant="outlined"
                 />
             )}

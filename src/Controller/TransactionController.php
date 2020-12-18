@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/transaction")
+ * @Route("/transactions")
  */
 class TransactionController extends AbstractController
 {
@@ -23,6 +23,10 @@ class TransactionController extends AbstractController
      */
     public function index(TransactionRepository $transactionRepository): Response
     {
+        return $this->render('home/index.html.twig', [
+            'controller_name' => 'HomeController',
+        ]);
+
         $transactions = $transactionRepository->findAll();
         //$serializer = $this->get('serializer')->setCircularReferenceLimit(1);
         $serializer = $this->get('serializer');

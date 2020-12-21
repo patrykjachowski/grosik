@@ -19,12 +19,9 @@ import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 
 export default function App() {
-    // const transactions = useSelector((state) => state.transactions)
     const categories = useSelector(selectCategories)
     const dispatch = useDispatch()
     const transactions = useSelector((state) => state.transactions)
-
-    // console.log(transactions)
 
     useEffect(() => {
         const fetchData = async () => {

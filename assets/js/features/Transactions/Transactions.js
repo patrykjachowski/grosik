@@ -11,7 +11,7 @@ import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import SubcategoryCell from '../../components/SubcategoryCell'
-import CONFIG from '../config'
+import CONFIG from '../../app/config'
 import { useSelector } from 'react-redux'
 import { selectTransactions } from './transactionsSlice'
 

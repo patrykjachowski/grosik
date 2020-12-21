@@ -1,6 +1,6 @@
 import {createSlice} from '@reduxjs/toolkit'
 import axios from 'axios'
-import CONFIG from '../../features/config'
+import CONFIG from '../../app/config'
 
 export const transactionsSlice = createSlice({
     name: 'transactions',

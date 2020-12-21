@@ -1,16 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import '../styles/app.css'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    addCategories,
+    fetchCategories,
     selectCategories,
 } from './features/Categories/categoriesSlice'
 import {
-    addTransactions,
     fetchTransactions,
-    selectTransactions,
 } from './features/Transactions/transactionsSlice'
 
 import Grid from '@material-ui/core/Grid'
@@ -21,38 +19,11 @@ import Categories from './features/Categories/Categories'
 export default function App() {
     const categories = useSelector(selectCategories)
     const dispatch = useDispatch()
-    const transactions = useSelector((state) => state.transactions)
 
     useEffect(() => {
-        const fetchData = async () => {
-            const transactionsPayload = await dispatch(fetchTransactions())
-            // dispatch(fetchTransactions())
-
-            // const categoriesPayload = await axios(CONFIG.endpoint.categories)
-            // const transactionsPayload = await axios(
-            //     CONFIG.endpoint.transactions
-            // )
-            //
-            // dispatch(addCategories(categoriesPayload.data['hydra:member']))
-            // dispatch(addTransactions(transactionsPayload.data['hydra:member']))
-        }
-        fetchData()
+        dispatch(fetchTransactions())
+        dispatch(fetchCategories())
     }, [])
-
-    /*
-        useEffect(() => {
-            const fetchData = async () => {
-                const categoriesPayload = await axios(CONFIG.endpoint.categories)
-                const transactionsPayload = await axios(
-                    CONFIG.endpoint.transactions
-                )
-
-                dispatch(addCategories(categoriesPayload.data['hydra:member']))
-                dispatch(addTransactions(transactionsPayload.data['hydra:member']))
-            }
-            fetchData()
-        }, [])
-    */
 
     return (
         <Router>
@@ -81,7 +52,6 @@ export default function App() {
                                 <Report />
                             </Route>
                             <Route path="/transactions">
-                                {/*<Transactions transactions={transactions} />*/}
                                 <Transactions />
                             </Route>
                             <Route path="/">

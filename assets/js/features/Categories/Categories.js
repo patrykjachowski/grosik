@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {useSelector} from "react-redux";
+import {selectCategories} from "./categoriesSlice";
 
 const useRowStyles = makeStyles({
     root: {
@@ -69,7 +71,9 @@ function Row({ row }) {
   )
 }
 
-export default function Categories({categories}) {
+export default function Categories() {
+    const { categories } = useSelector(selectCategories)
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table" style={{'tableLayout':'fixed'}}>

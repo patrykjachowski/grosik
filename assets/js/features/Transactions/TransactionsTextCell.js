@@ -1,12 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import TableCell from '@material-ui/core/TableCell'
 import TableRow from '@material-ui/core/TableRow'
 import { updateTransaction } from './transactionsSlice'
 import TextField from '@material-ui/core/TextField'
 import { useOutsideClick, useEnterKeyPressed } from '../../hooks'
-import {useDispatch} from "react-redux";
+import { useDispatch } from 'react-redux'
 
-export default function TransactionTextCell({transaction, valueName, value }) {
+export default function TransactionTextCell({ transaction, valueName, value }) {
     const [isInChangeMode, setChangeMode] = useState(false)
     const [newValue, setNewValue] = useState(null)
     const [updatedTransaction, setUpdatedTransaction] = useState(false)
@@ -14,8 +14,11 @@ export default function TransactionTextCell({transaction, valueName, value }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        containerRef.current;
-    }, []);
+        containerRef.current
+        if (isInChangeMode) {
+            containerRef.current.querySelector('input').focus()
+        }
+    }, [isInChangeMode])
 
     useOutsideClick(containerRef, () => {
         if (!isInChangeMode) return
@@ -29,7 +32,7 @@ export default function TransactionTextCell({transaction, valueName, value }) {
     const handleChange = (e) => {
         const newValue = e.target.value
         if (!newValue) return
-        const updatedTransaction = {...transaction}
+        const updatedTransaction = { ...transaction }
 
         updatedTransaction[valueName] = newValue
         setUpdatedTransaction(updatedTransaction)
@@ -42,15 +45,16 @@ export default function TransactionTextCell({transaction, valueName, value }) {
     }
 
     return (
-        <TableCell ref={containerRef} data-id={'value'} data-name={name} onClick={handleChange}>
-
+        <TableCell
+            ref={containerRef}
+            data-id={'value'}
+            data-name={name}
+            onClick={handleChange}
+        >
             {!isInChangeMode ? (
                 <span onClick={() => setChangeMode(true)}>{value}</span>
             ) : (
-                <TextField
-                    defaultValue={value}
-                    onChange={handleChange}
-                />
+                <TextField defaultValue={value} onChange={handleChange} />
             )}
         </TableCell>
     )

@@ -21,7 +21,11 @@ export default function TransactionsDateCell({ transaction }) {
 
     useEffect(() => {
         containerRef.current;
-    }, []);
+
+        if (isInChangeMode) {
+            containerRef.current.querySelector('input').focus()
+        }
+    }, [isInChangeMode]);
 
     useOutsideClick(containerRef, () => {
         if (!isInChangeMode) return
@@ -51,7 +55,8 @@ export default function TransactionsDateCell({ transaction }) {
     }
 
     return (
-        <TableCell>
+        <TableCell ref={containerRef}>
+
             {!isInChangeMode ? (
                 <span onClick={() => setChangeMode(true)}>
                     {new Date(transaction.date).toLocaleDateString()}

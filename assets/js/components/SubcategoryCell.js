@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import TableCell from '@material-ui/core/TableCell'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -34,7 +34,6 @@ export default function SubcategoryCell({ transaction }) {
 
 function Grouped({onValueChange}) {
     const  categories  = useSelector(selectCategories)
-
     const options = categories
         .map((option) => {
             const subcategories = option.subcategories.map(

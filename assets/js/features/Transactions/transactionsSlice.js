@@ -28,10 +28,15 @@ export const {
 export const updateTransaction = (transaction) => async (dispatch) => {
     dispatch(transactionsLoading())
 
+    const transactionParsed = {
+        ...transaction,
+        value: parseFloat(transaction.value)
+    }
+
     await axios({
         method: 'put',
         url: CONFIG.endpoint.transaction + transaction.id,
-        data: transaction,
+        data: transactionParsed,
     })
 
     dispatch(fetchTransactions())

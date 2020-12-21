@@ -14,6 +14,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import CONFIG from '../../app/config'
 import { selectTransactions } from './transactionsSlice'
 import SubcategoryCell from '../../components/SubcategoryCell'
+import TransactionsTextCell from "./TransactionsTextCell";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,25 +103,44 @@ export default () => {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            transactions.map((transaction, index) => (
-                                <TableRow hover key={index}>
+                            transactions.map((transaction, index) => {
+                                const subcategory = transaction.subcategory ? transaction.subcategory['@id'] : null
+                                const transactionFormatted = {
+                                    ...transaction,
+                                    bank: transaction.bank['@id'],
+                                    subcategory
+                                }
+                                
+
+                                return <TableRow hover key={index}>
                                     <TableCell>
                                         {' '}
                                         {transaction.bank.name}{' '}
                                     </TableCell>
-                                    <SubcategoryCell transaction={transaction} />
+                                    <SubcategoryCell
+                                        transaction={transaction}
+                                    />
                                     <TableCell>
                                         {new Date(
                                             transaction.date
                                         ).toLocaleDateString()}
                                     </TableCell>
-                                    <TableCell data-id={'value'}>
-                                        {transaction.value}
-                                    </TableCell>
-                                    <TableCell>{transaction.payee}</TableCell>
-                                    <TableCell>{transaction.memo}</TableCell>
-                                </TableRow>
-                            ))
+                                    <TransactionsTextCell
+                                        transaction={transactionFormatted}
+                                        valueName="value"
+                                        value={transaction.value}
+                                    />
+                                    <TransactionsTextCell
+                                        transaction={transactionFormatted}
+                                        valueName="payee"
+                                        value={transaction.payee}
+                                    />
+                                    <TransactionsTextCell
+                                        transaction={transactionFormatted}
+                                        valueName="memo"
+                                        value={transaction.memo}
+                                    />
+                                </TableRow> })
                         )}
                     </TableBody>
                 </Table>

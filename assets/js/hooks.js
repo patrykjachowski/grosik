@@ -1,14 +1,34 @@
-// import React, {useEffect, useState} from "react";
-// import axios from "axios";
-//
-// export const useFetch = (url, options) => {
-//     const [response, setResponse] = React.useState(null)
-//     useEffect(() => {
-//         const fetchData = async () => {
-//             const payload = await axios(url)
-//             setResponse(payload.data['hydra:member'])
-//         }
-//         fetchData()
-//     }, [])
-//     return response
-// }
+import { useEffect } from "react";
+
+export const useOutsideClick = (ref, callback) => {
+    const handleClick = e => {
+        if (ref.current && !ref.current.contains(e.target)) {
+            callback();
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("click", handleClick);
+
+        return () => {
+            document.removeEventListener("click", handleClick);
+        };
+    });
+};
+
+
+export const useEnterKeyPressed = (callback) => {
+    const handleKeyPress = e => {
+            if (e.keyCode === 13) {
+                callback()
+            }
+    }
+
+    useEffect(() => {
+        document.addEventListener("keyup", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keyup", handleKeyPress);
+        };
+    });
+}

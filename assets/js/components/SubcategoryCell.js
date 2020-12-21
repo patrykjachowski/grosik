@@ -2,24 +2,22 @@ import React, { useState } from 'react'
 import TableCell from '@material-ui/core/TableCell'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { selectCategories } from '../features/Categories/categoriesSlice'
+import { updateTransaction } from "../features/Transactions/transactionsSlice";
 
-export default function SubcategoryCell({ transaction, onUpdateTransaction }) {
+export default function SubcategoryCell({ transaction }) {
     const [isSelectVisible, setSelectVisible] = useState(false)
-    const subcategory = transaction.subcategory
+    const { subcategory } = transaction
+    const dispatch = useDispatch()
 
     const handleChange = (value) => {
-        console.log('Yo!')
-        console.log(transaction)
-        console.log(value)
         const changedTransaction = {
             ...transaction,
             bank: transaction.bank['@id'],
             subcategory: value['@id']
         }
-        console.log(changedTransaction)
-        onUpdateTransaction(changedTransaction)
+        dispatch(updateTransaction((changedTransaction)))
         setSelectVisible(false)
     }
 
@@ -35,13 +33,14 @@ export default function SubcategoryCell({ transaction, onUpdateTransaction }) {
 }
 
 function Grouped({onValueChange}) {
-    const categories = useSelector(selectCategories)
+    const  categories  = useSelector(selectCategories)
+
     const options = categories
         .map((option) => {
             const subcategories = option.subcategories.map(
                 (subcategory) => ({ ...subcategory, group: option.name })
             )
-            
+
             return [...subcategories]
         })
         .reduce((a, b) => a.concat(b), [])

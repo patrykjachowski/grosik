@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 import axios from 'axios'
 import TableContainer from '@material-ui/core/TableContainer'
 import Table from '@material-ui/core/Table'
@@ -10,10 +11,9 @@ import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import TableHead from '@material-ui/core/TableHead'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-import SubcategoryCell from '../../components/SubcategoryCell'
 import CONFIG from '../../app/config'
-import { useSelector } from 'react-redux'
 import { selectTransactions } from './transactionsSlice'
+import SubcategoryCell from '../../components/SubcategoryCell'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -76,48 +76,6 @@ export default () => {
         setOrderBy(property)
     }
 
-    const updateTransaction = (transaction) => {
-        let data2 = JSON.stringify(transaction)
-        console.log('Transaction to  fetch')
-        console.log(data2)
-        const url = CONFIG.endpoint.transaction + transaction.id
-        axios({
-            method: 'put',
-            url,
-            data: transaction,
-            // {
-            // headers: {
-            //     'Content-Type': 'application/json',
-            // },
-            // data: data2,
-            // } }
-        }).then((response) => {
-            useSelector(selectTransactions)
-        })
-        // axios
-        //     .put(CONFIG.endpoint.transaction + transaction.id,
-        //         transaction
-        //         // {
-        //         // headers: {
-        //         //     'Content-Type': 'application/json',
-        //         // },
-        //         // data: data2,
-        //     // }
-        //     )
-        //     .then((response) => console.log(response))
-    }
-
-    /*
-                    const handleSelectAllClick = (event) => {
-                        if (event.target.checked) {
-                            const newSelecteds = rows.map((n) => n.name);
-                            setSelected(newSelecteds);
-                            return;
-                        }
-                        setSelected([]);
-                    };
-          
-                */
     return (
         <div>
             <TableContainer>
@@ -150,10 +108,7 @@ export default () => {
                                         {' '}
                                         {transaction.bank.name}{' '}
                                     </TableCell>
-                                    <SubcategoryCell
-                                        transaction={transaction}
-                                        onUpdateTransaction={updateTransaction}
-                                    />
+                                    <SubcategoryCell transaction={transaction} />
                                     <TableCell>
                                         {new Date(
                                             transaction.date

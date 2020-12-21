@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import CONFIG from '../../app/config'
 
@@ -6,7 +6,7 @@ export const transactionsSlice = createSlice({
     name: 'transactions',
     initialState: {
         loading: 'idle',
-        transactions: []
+        transactions: [],
     },
     reducers: {
         transactionsLoading(state, action) {
@@ -15,21 +15,35 @@ export const transactionsSlice = createSlice({
             }
         },
         transactionsReceived(state, action) {
-            if (state.loading === 'pending')
-            state.transactions  = action.payload
-        }
+            if (state.loading === 'pending') state.transactions = action.payload
+        },
     },
 })
 
-export const { transactionsLoading, transactionsReceived } = transactionsSlice.actions
+export const {
+    transactionsLoading,
+    transactionsReceived,
+} = transactionsSlice.actions
 
-export const fetchTransactions = () => async dispatch => {
+export const updateTransaction = (transaction) => async (dispatch) => {
     dispatch(transactionsLoading())
-    const response = await axios(CONFIG.endpoint.transactions)
+
+    await axios({
+        method: 'put',
+        url: CONFIG.endpoint.transaction + transaction.id,
+        data: transaction,
+    })
+
+    dispatch(fetchTransactions())
+}
+
+export const fetchTransactions = () => async (dispatch) => {
+    dispatch(transactionsLoading())
+    const response = await axios(CONFIG.endpoint.transactions).catch((err) =>
+        console.log(err)
+    )
     dispatch(transactionsReceived(response.data['hydra:member']))
 }
 
-export const { addTransactions } = transactionsSlice.actions
 export const selectTransactions = (state) => state.transactions
 export default transactionsSlice.reducer
-

@@ -72,7 +72,7 @@ function Row({ row }) {
 }
 
 export default function Categories() {
-    const { categories } = useSelector(selectCategories)
+    const  categories  = useSelector(selectCategories)
 
     return (
         <TableContainer component={Paper}>

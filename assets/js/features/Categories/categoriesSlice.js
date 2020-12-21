@@ -30,6 +30,6 @@ export const fetchCategories = () => async dispatch => {
 }
 
 export const { addTransactions } = categoriesSlice.actions
-export const selectCategories = (state) => state.categories
+export const selectCategories = (state) => state.categories.categories
 export default categoriesSlice.reducer
 

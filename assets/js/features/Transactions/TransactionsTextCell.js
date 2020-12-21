@@ -30,8 +30,8 @@ export default function TransactionTextCell({transaction, valueName, value }) {
         const newValue = e.target.value
         if (!newValue) return
         const updatedTransaction = {...transaction}
-        updatedTransaction[valueName] = newValue
 
+        updatedTransaction[valueName] = newValue
         setUpdatedTransaction(updatedTransaction)
     }
 

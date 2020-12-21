@@ -15,6 +15,7 @@ import CONFIG from '../../app/config'
 import { selectTransactions } from './transactionsSlice'
 import SubcategoryCell from '../../components/SubcategoryCell'
 import TransactionsTextCell from "./TransactionsTextCell";
+import TransactionsDateCell from "./TransactionsDateCell";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -111,7 +112,6 @@ export default () => {
                                     subcategory
                                 }
                                 
-
                                 return <TableRow hover key={index}>
                                     <TableCell>
                                         {' '}
@@ -120,11 +120,7 @@ export default () => {
                                     <SubcategoryCell
                                         transaction={transaction}
                                     />
-                                    <TableCell>
-                                        {new Date(
-                                            transaction.date
-                                        ).toLocaleDateString()}
-                                    </TableCell>
+                                    <TransactionsDateCell transaction={transactionFormatted} />
                                     <TransactionsTextCell
                                         transaction={transactionFormatted}
                                         valueName="value"

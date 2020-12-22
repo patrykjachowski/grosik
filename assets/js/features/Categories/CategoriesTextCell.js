@@ -12,8 +12,6 @@ export default function CategoriesTextCell({ id, name, type, onUpdate }) {
     const [newValue, setNewValue] = useState(null)
     const [updatedCategory, setUpdatedCategory] = useState(false)
     const containerRef = useRef()
-    
-    console.log(arguments)
 
     useEffect(() => {
         containerRef.current

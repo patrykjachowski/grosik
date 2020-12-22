@@ -17,7 +17,6 @@ import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 
 export default function App() {
-    const categories = useSelector(selectCategories)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -55,7 +54,7 @@ export default function App() {
                                 <Transactions />
                             </Route>
                             <Route path="/">
-                                <Categories categories={categories} />
+                                <Categories />
                             </Route>
                         </Switch>
                     </div>

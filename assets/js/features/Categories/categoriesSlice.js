@@ -24,12 +24,26 @@ export const categoriesSlice = createSlice({
 
 export const { categoriesLoading, categoriesReceived } = categoriesSlice.actions
 
+export const createSubcategory = categoryId => async (dispatch) => {
+    console.log('/api/categories/' + categoryId)
+    dispatch(categoriesLoading())
+
+    await axios({
+        method: 'post',
+        url: CONFIG.endpoint.subcategories,
+        data: {
+            name: 'New subcategory',
+            category: '/api/categories/' + categoryId
+        }
+    })
+
+    dispatch(fetchCategories())
+    dispatch(fetchTransactions())
+}
+
 export const update = (changedElement) => async (dispatch) => {
     dispatch(categoriesLoading())
     const elementType = changedElement.type
-
-    console.log(CONFIG.endpoint[elementType] + changedElement.id)
-    console.log(changedElement)
 
     await axios({
         method: 'put',

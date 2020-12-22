@@ -15,9 +15,12 @@ import Paper from '@material-ui/core/Paper'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectCategories, update } from './categoriesSlice'
+import {createSubcategory, selectCategories, update} from './categoriesSlice'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
+import CategoriesRowEdit from './CategoriesRowEdit'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
 
 const useRowStyles = makeStyles({
     root: {
@@ -32,9 +35,13 @@ function Row({ row }) {
     const classes = useRowStyles()
     const dispatch = useDispatch()
 
+    const addSubcategory = (row) => {
+        dispatch(createSubcategory(row.id))
+    }
+
     return (
         <React.Fragment>
-            <TableRow className={classes.root}>
+            <TableRow className={classes.root} bgcolor="#95e3e6">
                 <TableCell style={{ marginRight: '30px' }}>
                     <IconButton
                         aria-label="expand row"
@@ -53,16 +60,17 @@ function Row({ row }) {
                     name={row.name}
                     type={row['@type']}
                     onUpdate={(changedElement) =>
-                        dispatch(
-                            update(
-                                changedElement
-                            )
-                        )
+                        dispatch(update(changedElement))
                     }
                 />
                 <TableCell>{row.budgeted || 0}</TableCell>
                 <TableCell>{row.activity || 0}</TableCell>
                 <TableCell>{row.available || 0}</TableCell>
+                <TableCell align="right">
+                    <IconButton aria-label="add subcategory" onClick={() => addSubcategory(row)}>
+                        <AddIcon />
+                    </IconButton>
+                </TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{ padding: 0 }} colSpan={5}>
@@ -73,43 +81,7 @@ function Row({ row }) {
                                 style={{ tableLayout: 'fixed' }}
                             >
                                 <TableBody>
-                                    {row.subcategories.map((subcategory) => (
-                                        <TableRow key={subcategory['@id']}>
-                                            <TableCell padding="checkbox">
-                                                <Checkbox
-                                                    // indeterminate={numSelected > 0 && numSelected < rowCount}
-                                                    // checked={rowCount > 0 && numSelected === rowCount}
-                                                    // onChange={onSelectAllClick}
-                                                    inputProps={{
-                                                        'aria-label':
-                                                            'select row',
-                                                    }}
-                                                />
-                                            </TableCell>
-
-                                            <CategoriesTextCell
-                                                id={subcategory.id}
-                                                name={subcategory.name}
-                                                type={subcategory['@type']}
-                                                onUpdate={(changedElement) =>
-                                                    dispatch(
-                                                        update(
-                                                            changedElement
-                                                        )
-                                                    )
-                                                }
-                                            />
-                                            <TableCell>
-                                                {subcategory.budgeted || 0}
-                                            </TableCell>
-                                            <TableCell>
-                                                {subcategory.activity || 0}
-                                            </TableCell>
-                                            <TableCell>
-                                                {subcategory.available || 0}
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                    {renderSubcategories(row)}
                                 </TableBody>
                             </Table>
                         </Box>
@@ -117,6 +89,42 @@ function Row({ row }) {
                 </TableCell>
             </TableRow>
         </React.Fragment>
+    )
+}
+
+const renderSubcategories = (row) => {
+    const dispatch = useDispatch()
+    return !row.subcategories.length ? (
+        <TableRow>
+            <TableCell>No categories...</TableCell>
+        </TableRow>
+    ) : (
+        row.subcategories.map((subcategory) => (
+            <TableRow key={subcategory['@id']}>
+                <TableCell padding="checkbox">
+                    <Checkbox
+                        // indeterminate={numSelected > 0 && numSelected < rowCount}
+                        // checked={rowCount > 0 && numSelected === rowCount}
+                        // onChange={onSelectAllClick}
+                        inputProps={{
+                            'aria-label': 'select row',
+                        }}
+                    />
+                </TableCell>
+
+                <CategoriesTextCell
+                    id={subcategory.id}
+                    name={subcategory.name}
+                    type={subcategory['@type']}
+                    onUpdate={(changedElement) =>
+                        dispatch(update(changedElement))
+                    }
+                />
+                <TableCell>{subcategory.budgeted || 0}</TableCell>
+                <TableCell>{subcategory.activity || 0}</TableCell>
+                <TableCell>{subcategory.available || 0}</TableCell>
+            </TableRow>
+        ))
     )
 }
 
@@ -136,6 +144,7 @@ export default function Categories() {
                         <TableCell>Budgeted</TableCell>
                         <TableCell>Activity</TableCell>
                         <TableCell>Available</TableCell>
+                        <TableCell />
                     </TableRow>
                 </TableHead>
                 <TableBody>

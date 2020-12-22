@@ -15,12 +15,14 @@ import Paper from '@material-ui/core/Paper'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { useDispatch, useSelector } from 'react-redux'
-import {createSubcategory, selectCategories, update} from './categoriesSlice'
+import {createSubcategory, deleteSubcategories, selectCategories, update} from './categoriesSlice'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
 import CategoriesRowEdit from './CategoriesRowEdit'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
+import DeleteIcon from '@material-ui/icons/Delete'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const useRowStyles = makeStyles({
     root: {
@@ -31,6 +33,7 @@ const useRowStyles = makeStyles({
 })
 
 function Row({ row }) {
+    const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()
     const dispatch = useDispatch()
@@ -39,39 +42,75 @@ function Row({ row }) {
         dispatch(createSubcategory(row.id))
     }
 
+    const countSelectedSubcategories = (selectedSubcategory) => {
+        const toggledSubcategories = selectedSubcategories.includes(
+            selectedSubcategory
+        )
+            ? selectedSubcategories.filter(
+                  (subcategory) => subcategory !== selectedSubcategory
+              )
+            : [...selectedSubcategories, selectedSubcategory]
+        setSelectedSubcategories(toggledSubcategories)
+    }
+
+    const handleDeleteSubcategories = () => {
+        dispatch(deleteSubcategories(selectedSubcategories))
+        setSelectedSubcategories([])
+    }
+
     return (
         <React.Fragment>
-            <TableRow className={classes.root} bgcolor="#95e3e6">
-                <TableCell style={{ marginRight: '30px' }}>
-                    <IconButton
-                        aria-label="expand row"
-                        size="small"
-                        onClick={() => setOpen(!open)}
-                    >
-                        {!open ? (
-                            <KeyboardArrowUpIcon />
-                        ) : (
-                            <KeyboardArrowDownIcon />
-                        )}
-                    </IconButton>
-                </TableCell>
-                <CategoriesTextCell
-                    id={row.id}
-                    name={row.name}
-                    type={row['@type']}
-                    onUpdate={(changedElement) =>
-                        dispatch(update(changedElement))
-                    }
-                />
-                <TableCell>{row.budgeted || 0}</TableCell>
-                <TableCell>{row.activity || 0}</TableCell>
-                <TableCell>{row.available || 0}</TableCell>
-                <TableCell align="right">
-                    <IconButton aria-label="add subcategory" onClick={() => addSubcategory(row)}>
-                        <AddIcon />
-                    </IconButton>
-                </TableCell>
-            </TableRow>
+            {selectedSubcategories.length > 0 ? (
+                <TableRow className={classes.root} bgcolor="danger">
+                    <TableCell colSpan={3} >
+                        <Typography>
+                            Selected subcategories: {selectedSubcategories.length}
+                        </Typography>
+                    </TableCell>
+                    <TableCell colSpan={3} align="right">
+                        <Tooltip title="Delete">
+                            <IconButton aria-label="delete" onClick={handleDeleteSubcategories}>
+                                <DeleteIcon />
+                            </IconButton>
+                        </Tooltip>
+                    </TableCell>
+                </TableRow>
+            ) : (
+                <TableRow className={classes.root} bgcolor="#95e3e6">
+                    <TableCell style={{ marginRight: '30px' }}>
+                        <IconButton
+                            aria-label="expand row"
+                            size="small"
+                            onClick={() => setOpen(!open)}
+                        >
+                            {!open ? (
+                                <KeyboardArrowUpIcon />
+                            ) : (
+                                <KeyboardArrowDownIcon />
+                            )}
+                        </IconButton>
+                    </TableCell>
+                    <CategoriesTextCell
+                        id={row.id}
+                        name={row.name}
+                        type={row['@type']}
+                        onUpdate={(changedElement) =>
+                            dispatch(update(changedElement))
+                        }
+                    />
+                    <TableCell>{row.budgeted || 0}</TableCell>
+                    <TableCell>{row.activity || 0}</TableCell>
+                    <TableCell>{row.available || 0}</TableCell>
+                    <TableCell align="right">
+                        <IconButton
+                            aria-label="add subcategory"
+                            onClick={() => addSubcategory(row)}
+                        >
+                            <AddIcon />
+                        </IconButton>
+                    </TableCell>
+                </TableRow>
+            )}
             <TableRow>
                 <TableCell style={{ padding: 0 }} colSpan={5}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
@@ -81,7 +120,10 @@ function Row({ row }) {
                                 style={{ tableLayout: 'fixed' }}
                             >
                                 <TableBody>
-                                    {renderSubcategories(row)}
+                                    {renderSubcategories(
+                                        row,
+                                        countSelectedSubcategories
+                                    )}
                                 </TableBody>
                             </Table>
                         </Box>
@@ -92,7 +134,7 @@ function Row({ row }) {
     )
 }
 
-const renderSubcategories = (row) => {
+const renderSubcategories = (row, onCheckboxClick) => {
     const dispatch = useDispatch()
     return !row.subcategories.length ? (
         <TableRow>
@@ -105,7 +147,7 @@ const renderSubcategories = (row) => {
                     <Checkbox
                         // indeterminate={numSelected > 0 && numSelected < rowCount}
                         // checked={rowCount > 0 && numSelected === rowCount}
-                        // onChange={onSelectAllClick}
+                        onChange={() => onCheckboxClick(subcategory)}
                         inputProps={{
                             'aria-label': 'select row',
                         }}

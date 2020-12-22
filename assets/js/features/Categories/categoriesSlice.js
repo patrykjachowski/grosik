@@ -25,7 +25,6 @@ export const categoriesSlice = createSlice({
 export const {categoriesLoading, categoriesReceived} = categoriesSlice.actions
 
 export const createSubcategory = categoryId => async (dispatch) => {
-    console.log('/api/categories/' + categoryId)
     dispatch(categoriesLoading())
 
     await axios({

@@ -7,6 +7,7 @@ use App\Repository\SubcategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\SubcategoryController;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -14,7 +15,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"subcategory"}},
+ *
+ * itemOperations={
+ *     "get","put",
+ *     "delete"={
+ *         "method": "DELETE",
+ *         "controller": SubcategoryController::class
+ *     }
+ * }
  * )
+ *
+ *
  */
 
 class Subcategory
@@ -25,6 +36,7 @@ class Subcategory
      * @ORM\Column(type="integer")
      *
      * @Groups({"category:list"})
+     *
      */
     private $id;
 

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
 import axios from "axios";
 import CONFIG from "../../app/config";
 import {fetchTransactions} from "../Transactions/transactionsSlice";
@@ -6,8 +6,8 @@ import {fetchTransactions} from "../Transactions/transactionsSlice";
 export const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
-            loading: 'idle',
-            categories: []
+        loading: 'idle',
+        categories: []
     },
     reducers: {
         categoriesLoading(state, action) {
@@ -17,12 +17,12 @@ export const categoriesSlice = createSlice({
         },
         categoriesReceived(state, action) {
             if (state.loading === 'pending')
-                state.categories  = action.payload
+                state.categories = action.payload
         }
     },
 })
 
-export const { categoriesLoading, categoriesReceived } = categoriesSlice.actions
+export const {categoriesLoading, categoriesReceived} = categoriesSlice.actions
 
 export const createSubcategory = categoryId => async (dispatch) => {
     console.log('/api/categories/' + categoryId)
@@ -55,37 +55,27 @@ export const update = (changedElement) => async (dispatch) => {
     dispatch(fetchTransactions())
 }
 
-// export const updateSubcategory = (subcategory) => async (dispatch) => {
-//     dispatch(categoriesLoading())
-//
-//     await axios({
-//         method: 'put',
-//         url: CONFIG.endpoint.subcategory + subcategory.id,
-//         data: subcategory,
-//     })
-//
-//     dispatch(fetchCategories())
-// }
-//
-// export const updateCategory = (category) => async (dispatch) => {
-//     dispatch(categoriesLoading())
-//
-//     await axios({
-//         method: 'put',
-//         url: CONFIG.endpoint.category + category.id,
-//         data: category,
-//     })
-//
-//     dispatch(fetchCategories())
-// }
-//
+export const deleteSubcategories = subcategories => async (dispatch) => {
+    dispatch(categoriesLoading())
+
+    for (const subcategory of subcategories) {
+        await axios({
+            method: 'delete',
+            url: CONFIG.endpoint.subcategory + subcategory.id,
+        })
+    }
+
+    dispatch(fetchCategories())
+    dispatch(fetchTransactions())
+}
+
 export const fetchCategories = () => async dispatch => {
     dispatch(categoriesLoading())
     const response = await axios(CONFIG.endpoint.categories)
     dispatch(categoriesReceived(response.data['hydra:member']))
 }
 
-export const { addTransactions } = categoriesSlice.actions
+export const {addTransactions} = categoriesSlice.actions
 export const selectCategories = (state) => state.categories.categories
 export default categoriesSlice.reducer
 

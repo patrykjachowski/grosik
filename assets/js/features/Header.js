@@ -11,7 +11,6 @@ export default () => {
     const fetchData = async () => {
       const payload = await axios(CONFIG.endpoint.currentUser)
       setUser(payload.data)
-      console.log(payload)
     }
     fetchData()
   }, [])

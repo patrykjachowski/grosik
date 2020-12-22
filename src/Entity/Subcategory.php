@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  * @ApiResource(
  *     normalizationContext={"groups"={"subcategory"}},
- *     denormalizationContext={"groups"={"write"}}
+ *     itemOperations={"get","put"}
  * )
  */
 

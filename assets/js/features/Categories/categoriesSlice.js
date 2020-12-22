@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import axios from "axios";
 import CONFIG from "../../app/config";
+import {fetchTransactions} from "../Transactions/transactionsSlice";
 
 export const categoriesSlice = createSlice({
     name: 'categories',
@@ -23,6 +24,47 @@ export const categoriesSlice = createSlice({
 
 export const { categoriesLoading, categoriesReceived } = categoriesSlice.actions
 
+export const update = (changedElement) => async (dispatch) => {
+    dispatch(categoriesLoading())
+    const elementType = changedElement.type
+
+    console.log(CONFIG.endpoint[elementType] + changedElement.id)
+    console.log(changedElement)
+
+    await axios({
+        method: 'put',
+        url: CONFIG.endpoint[elementType] + changedElement.id,
+        data: changedElement,
+    })
+
+    dispatch(fetchCategories())
+    dispatch(fetchTransactions())
+}
+
+// export const updateSubcategory = (subcategory) => async (dispatch) => {
+//     dispatch(categoriesLoading())
+//
+//     await axios({
+//         method: 'put',
+//         url: CONFIG.endpoint.subcategory + subcategory.id,
+//         data: subcategory,
+//     })
+//
+//     dispatch(fetchCategories())
+// }
+//
+// export const updateCategory = (category) => async (dispatch) => {
+//     dispatch(categoriesLoading())
+//
+//     await axios({
+//         method: 'put',
+//         url: CONFIG.endpoint.category + category.id,
+//         data: category,
+//     })
+//
+//     dispatch(fetchCategories())
+// }
+//
 export const fetchCategories = () => async dispatch => {
     dispatch(categoriesLoading())
     const response = await axios(CONFIG.endpoint.categories)

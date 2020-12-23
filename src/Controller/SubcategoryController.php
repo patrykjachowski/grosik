@@ -3,10 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Subcategory;
-//use App\Repository\SubcategoryRepository;
 use App\Repository\SubcategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class SubcategoryController extends AbstractController
 {
@@ -23,7 +21,10 @@ class SubcategoryController extends AbstractController
     public function __invoke(Subcategory $subcategory) : void
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $subcategory = $this->repository->find($subcategory->getId());
+        $transactions = $subcategory->getTransactions()->toArray();
+        foreach ($transactions as $transaction) {
+            $transaction->setSubcategory(null);
+        }
         $entityManager->remove($subcategory);
         $entityManager->flush();
     }

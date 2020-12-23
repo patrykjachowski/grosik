@@ -19,15 +19,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * itemOperations={
  *     "get","put",
  *     "delete"={
- *         "method": "DELETE",
- *         "controller": SubcategoryController::class
+ *         "controller"=SubcategoryController::class
  *     }
- * }
- * )
+ * })
  *
  *
  */
 
+
+//*     "delete_subcategory"={
+//    *         "method"="DELETE",
+// *         "path"="/api/subcategories/{id}/publication",
+// *         "controller"=SubcategoryController::class
+//        *     }
 class Subcategory
 {
     /**
@@ -66,6 +70,14 @@ class Subcategory
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id) : void
+    {
+        $this->id = $id;
     }
 
     public function getName(): ?string

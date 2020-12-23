@@ -23,7 +23,7 @@ export const categoriesSlice = createSlice({
             }
         },
         setErrorMessage(state, action) {
-               state.errorMessage = action.payload
+            state.errorMessage = action.payload
         },
         cleanErrorMessage(state) {
             state.errorMessage = ''
@@ -107,10 +107,14 @@ export const deleteSubcategories = (subcategories) => async (dispatch) => {
             method: 'delete',
             url: CONFIG.endpoint.subcategory + subcategory.id,
         })
+            .then(() => {
+                dispatch(fetchCategories())
+                dispatch(fetchTransactions())
+            })
+            .catch((error) => {
+                if (error) console.log(error)
+            })
     }
-
-    dispatch(fetchCategories())
-    dispatch(fetchTransactions())
 }
 
 export const fetchCategories = () => async (dispatch) => {

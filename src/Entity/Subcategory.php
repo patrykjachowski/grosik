@@ -26,12 +26,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *
  */
 
-
-//*     "delete_subcategory"={
-//    *         "method"="DELETE",
-// *         "path"="/api/subcategories/{id}/publication",
-// *         "controller"=SubcategoryController::class
-//        *     }
 class Subcategory
 {
     /**

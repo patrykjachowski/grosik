@@ -1,13 +1,14 @@
-import {createSlice} from '@reduxjs/toolkit'
-import axios from "axios";
-import CONFIG from "../../app/config";
-import {fetchTransactions} from "../Transactions/transactionsSlice";
+import { createSlice } from '@reduxjs/toolkit'
+import axios from 'axios'
+import CONFIG from '../../app/config'
+import { fetchTransactions } from '../Transactions/transactionsSlice'
 
 export const categoriesSlice = createSlice({
     name: 'categories',
     initialState: {
         loading: 'idle',
-        categories: []
+        categories: [],
+        errorMessage: '',
     },
     reducers: {
         categoriesLoading(state, action) {
@@ -16,15 +17,23 @@ export const categoriesSlice = createSlice({
             }
         },
         categoriesReceived(state, action) {
-            if (state.loading === 'pending')
+            if (state.loading === 'pending') {
                 state.categories = action.payload
-        }
+                state.loading = 'idle'
+            }
+        },
+        setErrorMessage(state, action) {
+               state.errorMessage = action.payload
+        },
+        cleanErrorMessage(state) {
+            state.errorMessage = ''
+        },
     },
 })
 
-export const {categoriesLoading, categoriesReceived} = categoriesSlice.actions
+export const { categoriesLoading, categoriesReceived } = categoriesSlice.actions
 
-export const createSubcategory = categoryId => async (dispatch) => {
+export const createSubcategory = (categoryId) => async (dispatch) => {
     dispatch(categoriesLoading())
 
     await axios({
@@ -32,12 +41,48 @@ export const createSubcategory = categoryId => async (dispatch) => {
         url: CONFIG.endpoint.subcategories,
         data: {
             name: 'New subcategory',
-            category: '/api/categories/' + categoryId
-        }
+            category: '/api/categories/' + categoryId,
+        },
     })
 
     dispatch(fetchCategories())
     dispatch(fetchTransactions())
+}
+
+export const createCategory = () => async (dispatch) => {
+    dispatch(categoriesLoading())
+
+    await axios({
+        method: 'post',
+        url: CONFIG.endpoint.categories,
+        data: {
+            name: 'New category',
+            category: '/api/categories/',
+        },
+    })
+
+    dispatch(fetchCategories())
+    dispatch(fetchTransactions())
+}
+
+export const deleteCategory = (categoryId) => async (dispatch) => {
+    dispatch(categoriesLoading())
+
+    await axios({
+        method: 'delete',
+        url: CONFIG.endpoint.category + categoryId,
+    })
+        .then(() => {
+            dispatch(fetchCategories())
+            dispatch(fetchTransactions())
+        })
+        .catch((error) => {
+            if (error.response.status === 500) {
+                dispatch(
+                    setErrorMessage('Przenieś lub usuń pozostałe kategorie')
+                )
+            }
+        })
 }
 
 export const update = (changedElement) => async (dispatch) => {
@@ -54,7 +99,7 @@ export const update = (changedElement) => async (dispatch) => {
     dispatch(fetchTransactions())
 }
 
-export const deleteSubcategories = subcategories => async (dispatch) => {
+export const deleteSubcategories = (subcategories) => async (dispatch) => {
     dispatch(categoriesLoading())
 
     for (const subcategory of subcategories) {
@@ -68,13 +113,18 @@ export const deleteSubcategories = subcategories => async (dispatch) => {
     dispatch(fetchTransactions())
 }
 
-export const fetchCategories = () => async dispatch => {
+export const fetchCategories = () => async (dispatch) => {
     dispatch(categoriesLoading())
     const response = await axios(CONFIG.endpoint.categories)
     dispatch(categoriesReceived(response.data['hydra:member']))
 }
 
-export const {addTransactions} = categoriesSlice.actions
-export const selectCategories = (state) => state.categories.categories
-export default categoriesSlice.reducer
+export const {
+    addTransactions,
+    setErrorMessage,
+    cleanErrorMessage,
+} = categoriesSlice.actions
 
+export const selectCategories = (state) => state.categories.categories
+export const selectErrorMessage = (state) => state.categories.errorMessage
+export default categoriesSlice.reducer

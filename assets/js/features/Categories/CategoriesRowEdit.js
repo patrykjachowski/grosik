@@ -1,12 +1,10 @@
-import React from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
-import Menu from '@material-ui/core/Menu'
-import TableCell from '@material-ui/core/TableCell'
-import AddIcon from '@material-ui/icons/Add'
-import MenuItem from '@material-ui/core/MenuItem'
-import Fab from "@material-ui/core/Fab";
+import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import {useDispatch} from "react-redux";
+import {deleteCategory} from "./categoriesSlice";
 
 const options = [
     'None',
@@ -23,50 +21,50 @@ const options = [
     'Titania',
     'Triton',
     'Umbriel',
-]
+];
 
-export default function CategoriesRowEdit() {
-    // const [anchorEl, setAnchorEl] = React.useState(null)
-    // const open = Boolean(anchorEl)
+const ITEM_HEIGHT = 48;
 
-    // const handleClick = (event) => {
-    //     setAnchorEl(event.currentTarget)
-    // }
-    //
-    // const handleClose = () => {
-    //     setAnchorEl(null)
-    // }
-    //
+export default function CategoriesRowEdit({id}) {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const dispatch = useDispatch()
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
     return (
-        <>
-            {/*<IconButton*/}
-            {/*    aria-label="more"*/}
-            {/*    aria-controls="long-menu"*/}
-            {/*    aria-haspopup="true"*/}
-            {/*    onClick={handleClick}*/}
-            {/*>*/}
-            {/*    <AddIcon />*/}
-            {/*</IconButton>*/}
-            <Fab size="small" color="default" aria-label="add subcategory" onClick={handleClick}>
-                <AddIcon />
-            </Fab>
-            {/*<Menu*/}
-            {/*    id="long-menu"*/}
-            {/*    anchorEl={anchorEl}*/}
-            {/*    keepMounted*/}
-            {/*    open={open}*/}
-            {/*    onClose={handleClose}*/}
-            {/*>*/}
-            {/*    /!*{options.map((option) => (*!/*/}
-            {/*        <MenuItem*/}
-            {/*            key={'option'}*/}
-            {/*            // selected={option === 'Pyxis'}*/}
-            {/*            onClick={handleClose}*/}
-            {/*        >*/}
-            {/*            New subcategory*/}
-            {/*        </MenuItem>*/}
-            {/*    /!*))}*!/*/}
-            {/*</Menu>*/}
-        </>
-    )
+        <div>
+            <IconButton
+                aria-label="more"
+                aria-controls="long-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+            >
+                <MoreVertIcon />
+            </IconButton>
+            <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        maxHeight: ITEM_HEIGHT * 4.5,
+                        width: '20ch',
+                    },
+                }}
+            >
+                    <MenuItem  onClick={() => dispatch(deleteCategory(id))}>
+                        Delete category
+                    </MenuItem>
+            </Menu>
+        </div>
+    );
 }

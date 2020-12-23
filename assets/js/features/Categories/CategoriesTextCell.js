@@ -7,7 +7,7 @@ import { useOutsideClick, useEnterKeyPressed } from '../../hooks'
 import { useDispatch } from 'react-redux'
 
 // export default function CategoriesTextCell({ category, onUpdate }) {
-export default function CategoriesTextCell({ id, name, type, onUpdate }) {
+export default function CategoriesTextCell({ id, name, type, onUpdate, colSpan}) {
     const [isInChangeMode, setChangeMode] = useState(false)
     const [newValue, setNewValue] = useState(null)
     const [updatedCategory, setUpdatedCategory] = useState(false)
@@ -47,6 +47,7 @@ export default function CategoriesTextCell({ id, name, type, onUpdate }) {
             data-id={'value'}
             data-name={name}
             onClick={handleChange}
+            colSpan={colSpan}
         >
             {!isInChangeMode ? (
                 <span onClick={() => setChangeMode(true)}>{name}</span>

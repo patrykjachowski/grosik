@@ -15,7 +15,13 @@ import Paper from '@material-ui/core/Paper'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
 import { useDispatch, useSelector } from 'react-redux'
-import {createSubcategory, deleteSubcategories, selectCategories, update} from './categoriesSlice'
+import {
+    createCategory,
+    createSubcategory,
+    deleteSubcategories,
+    selectCategories,
+    update,
+} from './categoriesSlice'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
 import CategoriesRowEdit from './CategoriesRowEdit'
@@ -23,6 +29,7 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import DeleteIcon from '@material-ui/icons/Delete'
 import Tooltip from '@material-ui/core/Tooltip'
+import ErrorPopup from "../../components/ErrorPopup";
 
 const useRowStyles = makeStyles({
     root: {
@@ -37,10 +44,6 @@ function Row({ row }) {
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()
     const dispatch = useDispatch()
-
-    const addSubcategory = (row) => {
-        dispatch(createSubcategory(row.id))
-    }
 
     const countSelectedSubcategories = (selectedSubcategory) => {
         const toggledSubcategories = selectedSubcategories.includes(
@@ -62,14 +65,18 @@ function Row({ row }) {
         <React.Fragment>
             {selectedSubcategories.length > 0 ? (
                 <TableRow className={classes.root} bgcolor="danger">
-                    <TableCell colSpan={3} >
+                    <TableCell colSpan={3}>
                         <Typography>
-                            Selected subcategories: {selectedSubcategories.length}
+                            Selected subcategories:{' '}
+                            {selectedSubcategories.length}
                         </Typography>
                     </TableCell>
-                    <TableCell colSpan={3} align="right">
+                    <TableCell colSpan={4} align="right">
                         <Tooltip title="Delete">
-                            <IconButton aria-label="delete" onClick={handleDeleteSubcategories}>
+                            <IconButton
+                                aria-label="delete"
+                                onClick={handleDeleteSubcategories}
+                            >
                                 <DeleteIcon />
                             </IconButton>
                         </Tooltip>
@@ -97,22 +104,18 @@ function Row({ row }) {
                         onUpdate={(changedElement) =>
                             dispatch(update(changedElement))
                         }
+                        colSpan={2}
                     />
                     <TableCell>{row.budgeted || 0}</TableCell>
                     <TableCell>{row.activity || 0}</TableCell>
                     <TableCell>{row.available || 0}</TableCell>
                     <TableCell align="right">
-                        <IconButton
-                            aria-label="add subcategory"
-                            onClick={() => addSubcategory(row)}
-                        >
-                            <AddIcon />
-                        </IconButton>
+                        <CategoriesRowEdit id={row.id} />
                     </TableCell>
                 </TableRow>
             )}
             <TableRow>
-                <TableCell style={{ padding: 0 }} colSpan={5}>
+                <TableCell style={{ padding: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Table
@@ -124,6 +127,30 @@ function Row({ row }) {
                                         row,
                                         countSelectedSubcategories
                                     )}
+                                    <TableRow>
+                                        <TableCell
+                                            colSpan={7}
+                                            align="right"
+                                            style={{
+                                                padding: '5px 16px',
+                                                borderBottom: 0,
+                                            }}
+                                        >
+                                            <IconButton
+                                                aria-label="add subcategory"
+                                                size="small"
+                                                onClick={() =>
+                                                    dispatch(
+                                                        createSubcategory(
+                                                            row.id
+                                                        )
+                                                    )
+                                                }
+                                            >
+                                                <AddIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
                         </Box>
@@ -153,7 +180,6 @@ const renderSubcategories = (row, onCheckboxClick) => {
                         }}
                     />
                 </TableCell>
-
                 <CategoriesTextCell
                     id={subcategory.id}
                     name={subcategory.name}
@@ -161,10 +187,12 @@ const renderSubcategories = (row, onCheckboxClick) => {
                     onUpdate={(changedElement) =>
                         dispatch(update(changedElement))
                     }
+                    colSpan={2}
                 />
                 <TableCell>{subcategory.budgeted || 0}</TableCell>
                 <TableCell>{subcategory.activity || 0}</TableCell>
                 <TableCell>{subcategory.available || 0}</TableCell>
+                <TableCell></TableCell>
             </TableRow>
         ))
     )
@@ -172,35 +200,49 @@ const renderSubcategories = (row, onCheckboxClick) => {
 
 export default function Categories() {
     const categories = useSelector(selectCategories)
+    const dispatch = useDispatch()
 
     return (
-        <TableContainer component={Paper}>
-            <Table
-                aria-label="collapsible table"
-                style={{ tableLayout: 'fixed' }}
-            >
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={{ width: '60px' }} />
-                        <TableCell>Category</TableCell>
-                        <TableCell>Budgeted</TableCell>
-                        <TableCell>Activity</TableCell>
-                        <TableCell>Available</TableCell>
-                        <TableCell />
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {!categories ? (
+        <div style={{ position: 'relative', paddingBottom: '100px' }}>
+            <TableContainer component={Paper}>
+                <Table
+                    aria-label="collapsible table"
+                    style={{ tableLayout: 'fixed' }}
+                >
+                    <TableHead>
                         <TableRow>
-                            <TableCell>Loading categories...</TableCell>
+                            <TableCell style={{ width: '60px' }} />
+                            <TableCell colSpan={2}>Category</TableCell>
+                            <TableCell>Budgeted</TableCell>
+                            <TableCell>Activity</TableCell>
+                            <TableCell>Available</TableCell>
                         </TableRow>
-                    ) : (
-                        categories.map((category) => (
-                            <Row key={category.name} row={category} />
-                        ))
-                    )}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {!categories ? (
+                            <TableRow>
+                                <TableCell>Loading categories...</TableCell>
+                            </TableRow>
+                        ) : (
+                            categories.map((category) => (
+                                <React.Fragment key={category.id}>
+                                    <Row row={category} />
+                                </React.Fragment>
+                            ))
+                        )}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <br />
+            <Fab
+                color="primary"
+                aria-label="add"
+                style={{ position: 'absolute', right: '10px', bottom: '10px' }}
+                onClick={() => dispatch(createCategory())}
+            >
+                <AddIcon />
+            </Fab>
+            <ErrorPopup />
+        </div>
     )
 }

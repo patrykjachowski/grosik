@@ -17,11 +17,12 @@ export default () => {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={6}>
+      <Grid item xs={3}>
         <Calendar />
       </Grid>
-      <Grid item xs={6}>
-        <strong>Balance: {user.totalBalance}</strong>
+      <Grid item xs={9} style={{textAlign: 'right'}}>
+        <strong>Balance: {user.totalBalance || '0'}</strong>
+          <div>To be budgeted</div>
       </Grid>
     </Grid>
   )

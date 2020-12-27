@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect } from 'react'
 import '../styles/app.css'
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 
@@ -7,14 +7,14 @@ import {
     fetchCategories,
     selectCategories,
 } from './features/Categories/categoriesSlice'
-import {
-    fetchTransactions,
-} from './features/Transactions/transactionsSlice'
+import { fetchTransactions } from './features/Transactions/transactionsSlice'
+import { fetchBanks, selectBanks } from './features/Banks/banksSlice'
 
 import Grid from '@material-ui/core/Grid'
 import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
+import Banks from './features/Banks/Banks'
 
 export default function App() {
     const dispatch = useDispatch()
@@ -22,6 +22,7 @@ export default function App() {
     useEffect(() => {
         dispatch(fetchTransactions())
         dispatch(fetchCategories())
+        dispatch(fetchBanks())
     }, [])
 
     return (
@@ -41,6 +42,8 @@ export default function App() {
                             </li>
                         </ul>
                     </nav>
+                    <hr />
+                    <Banks />
                 </Grid>
                 <Grid item xs={10}>
                     <div>

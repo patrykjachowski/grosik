@@ -165,7 +165,7 @@ const renderSubcategories = (row, onCheckboxClick) => {
     const dispatch = useDispatch()
     return !row.subcategories.length ? (
         <TableRow>
-            <TableCell>No categories...</TableCell>
+            <TableCell colSpan={6}>No categories...</TableCell>
         </TableRow>
     ) : (
         row.subcategories.map((subcategory) => (

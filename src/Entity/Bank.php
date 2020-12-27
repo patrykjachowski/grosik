@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=BankRepository::class)
  *
  * @ApiResource(
- *     collectionOperations={"get"={"normalization_context"={"groups"="transaction:list"}}},
- *     itemOperations={"get"={"normalization_context"={"groups"="transaction:item"}}},
+ *     collectionOperations={"get"={"normalization_context"={"groups"="bank:list"}}},
+ *     itemOperations={"get"={"normalization_context"={"groups"="bank:item"}}},
  *     paginationEnabled=false
  * )
  */
@@ -30,7 +30,7 @@ class Bank
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"transaction:list"})
+     * @Groups({"bank:list"})
      */
     private $name;
 
@@ -42,6 +42,7 @@ class Bank
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({"bank:list"})
      */
     private $balance;
 

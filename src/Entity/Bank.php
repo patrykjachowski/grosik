@@ -30,7 +30,7 @@ class Bank
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"bank:list"})
+     * @Groups({"transaction:list","bank:list"})
      */
     private $name;
 

@@ -72,6 +72,11 @@ class Transaction
      */
     private $subcategory;
 
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $balance;
+
     public function getId() : ?int
     {
         return $this->id;
@@ -145,6 +150,18 @@ class Transaction
     public function setSubcategory(?Subcategory $subcategory) : self
     {
         $this->subcategory = $subcategory;
+
+        return $this;
+    }
+
+    public function getBalance(): ?float
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(float $balance): self
+    {
+        $this->balance = $balance;
 
         return $this;
     }

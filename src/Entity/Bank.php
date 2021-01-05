@@ -41,12 +41,6 @@ class Bank
     private $user;
 
     /**
-     * @ORM\Column(type="float")
-     * @Groups({"bank:list"})
-     */
-    private $balance;
-
-    /**
      * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="bank")
      */
     private $transactions;
@@ -81,18 +75,6 @@ class Bank
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getBalance(): ?float
-    {
-        return $this->balance;
-    }
-
-    public function setBalance(float $balance): self
-    {
-        $this->balance = $balance;
 
         return $this;
     }

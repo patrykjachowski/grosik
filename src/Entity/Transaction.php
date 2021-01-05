@@ -159,9 +159,14 @@ class Transaction
         return $this->balance;
     }
 
-    public function setBalance(float $balance): self
+    public function setBalance(): self
     {
-        $this->balance = $balance;
+        $currentBalance = $this->getBank()->getBalance();
+
+        if (!$currentBalance) {
+            $this->balance = $this->getValue();
+        }
+        $this->balance = $currentBalance + $this->getValue();
 
         return $this;
     }

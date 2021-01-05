@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Exception\TransactionNotFoundException;
 use App\Repository\BankRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -90,8 +91,9 @@ class Bank
     public function addTransaction(Transaction $transaction): self
     {
         if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
             $transaction->setBank($this);
+            $transaction->setBalance();
+            $this->transactions[] = $transaction;
         }
 
         return $this;
@@ -99,6 +101,10 @@ class Bank
 
     public function removeTransaction(Transaction $transaction): self
     {
+        if (!$this->transactions->contains($transaction)){
+            throw new TransactionNotFoundException('Transaction is not found!');
+        }
+
         if ($this->transactions->contains($transaction)) {
             $this->transactions->removeElement($transaction);
             // set the owning side to null (unless already changed)
@@ -108,5 +114,23 @@ class Bank
         }
 
         return $this;
+    }
+
+    public function getBalance()
+    {
+        if (!$this->getLastTransaction()) return 0.0;
+        return $this->getLastTransaction()->getBalance();
+    }
+
+    private function getLastTransaction()
+    {
+        $transactions = $this->getTransactions();
+        $transactionsNumber = count($transactions);
+
+        if ($transactionsNumber > 1) {
+            return $transactions[$transactionsNumber - 1];
+        }
+
+        return $transactions[0];
     }
 }

@@ -131,9 +131,4 @@ class BankTest extends TestCase
         $bankUnderTest->removeTransaction($transaction);
         $bankUnderTest->removeTransaction($transaction);
     }
-    
-
-
-
-
 }

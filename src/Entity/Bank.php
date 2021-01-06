@@ -46,6 +46,11 @@ class Bank
      */
     private $transactions;
 
+    /**
+     * @Groups({"bank:list"})
+     */
+    private $balance;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();

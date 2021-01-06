@@ -15,7 +15,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     collectionOperations={
  *          "get"={"normalization_context"={"groups"="transaction:list"}},
  *     },
- *     itemOperations={"get","put"}
+ *     itemOperations={"get","put"},
+ *     attributes={"order"={"date" : "DESC"}}
  * )
  */
 class Transaction

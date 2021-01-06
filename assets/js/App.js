@@ -37,9 +37,6 @@ export default function App() {
                             <li>
                                 <Link to="/transactions">Transakcje</Link>
                             </li>
-                            <li>
-                                <Link to="/report">Raport</Link>
-                            </li>
                         </ul>
                     </nav>
                     <hr />
@@ -50,9 +47,6 @@ export default function App() {
                         <Header />
                         <hr />
                         <Switch>
-                            <Route path="/report">
-                                <Report />
-                            </Route>
                             <Route path="/transactions">
                                 <Transactions />
                             </Route>
@@ -65,8 +59,4 @@ export default function App() {
             </Grid>
         </Router>
     )
-}
-
-const Report = () => {
-    return ' Report '
 }

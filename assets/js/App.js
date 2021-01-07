@@ -15,6 +15,7 @@ import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 import Banks from './features/Banks/Banks'
+import {DropzoneArea} from "material-ui-dropzone";
 
 export default function App() {
     const dispatch = useDispatch()
@@ -24,6 +25,11 @@ export default function App() {
         dispatch(fetchCategories())
         dispatch(fetchBanks())
     }, [])
+
+    const handleFileUpload = (statement) => {
+        console.log('ello')
+        console.log(statement)
+    }
 
     return (
         <Router>
@@ -48,6 +54,7 @@ export default function App() {
                         <hr />
                         <Switch>
                             <Route path="/transactions">
+                                <DropzoneArea onChange={handleFileUpload} />
                                 <Transactions />
                             </Route>
                             <Route path="/">

@@ -15,7 +15,8 @@ import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 import Banks from './features/Banks/Banks'
-import {DropzoneArea} from "material-ui-dropzone";
+import { DropzoneArea } from 'material-ui-dropzone'
+import axios from 'axios'
 
 export default function App() {
     const dispatch = useDispatch()
@@ -26,9 +27,21 @@ export default function App() {
         dispatch(fetchBanks())
     }, [])
 
-    const handleFileUpload = (statement) => {
-        console.log('ello')
-        console.log(statement)
+    const handleFileUpload = (file) => {
+        if (!file.length) return
+        console.log(file)
+        const formData = new FormData()
+        formData.append('file', file[0])
+
+        axios
+            .post('/statement', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            })
+            .catch(function (error) {
+                console.log(error.response.data.detail)
+            })
     }
 
     return (

@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class StatementController extends AbstractController
@@ -18,7 +19,7 @@ class StatementController extends AbstractController
      *
      * @param BankRepository $bankRepository
      */
-    public function index(Request $request, BankRepository $bankRepository) : void
+    public function index(Request $request, BankRepository $bankRepository) : Response
     {
         $statement = $request->files->get('file');
 
@@ -34,5 +35,15 @@ class StatementController extends AbstractController
 
         $statementParser = new StatementParser();
         $transactions = $statementParser->getTransactions($bank, $statement);
+
+        foreach ($transactions as $transaction) {
+            $bank->addTransaction($transaction);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+        }
+
+        return new Response('Success ', Response::HTTP_OK);
     }
 }

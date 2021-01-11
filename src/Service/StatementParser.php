@@ -31,7 +31,7 @@ class StatementParser
             $transaction = new Transaction();
             $transaction->setDate(\DateTime::createFromFormat('Y-m-d', $statement[$i][1]));
             $transaction->setValue(floatval(str_replace(',', '.', $statement[$i][7])));
-            $transaction->setPayee($payee);
+            $transaction->setPayee(utf8_encode($payee));
             $transaction->setMemo($statement[$i][6]);
             $transaction->setBank($bank);
             $transactions[] = $transaction;

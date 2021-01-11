@@ -2,7 +2,7 @@
 
 namespace App\Tests\Service;
 
-use App\Service\BankStatementConverter;
+use App\Service\StatementParser;
 use PHPUnit\Framework\TestCase;
 
 class BankStatementConverterTest extends TestCase

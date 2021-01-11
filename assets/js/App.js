@@ -29,9 +29,11 @@ export default function App() {
 
     const handleFileUpload = (file) => {
         if (!file.length) return
-        console.log(file)
         const formData = new FormData()
+        const bankId = 1
+
         formData.append('file', file[0])
+        formData.append('bankId', bankId)
 
         axios
             .post('/statement', formData, {

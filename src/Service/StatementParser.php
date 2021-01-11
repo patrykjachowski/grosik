@@ -3,82 +3,41 @@
 namespace App\Service;
 
 use App\Entity\Bank;
-use App\Repository\BankRepository;
-//use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Transaction;
 
 class StatementParser
 {
-    const MBANK_TRANSACTIONS_BEGIN = 45;
-    private $entityManager;
+    const MBANK_TRANSACTIONS_BEGINNING_ROW = 45;
 
-    public function __construct(BankRepository $bankRepository)
+    public function getTransactions(Bank $bank, array $statement)
     {
-        $this->bankRepository = $bankRepository;
+        // TODO: Not found bank exception
+        switch ($bank->getType()) {
+            case 'mBank':
+                return $this->parseMbankStatement($bank, $statement);
+        }
     }
 
-
-    private function getBankByName(string $bankName)
-    {
-        $em = $this->bankRepository;
-        dd($em);
-        //$bankRepository = $em->getRepository(Bank::class);
-        dd($bankRepository->findOneBy(['name'=>$bankName]));
-        //$product = $this->getDoctrine()
-        //    ->getRepository(Product::class)
-        //    ->find($id);
-        ///** @var BankRepository $banks */
-        //$banks = BankRepository::class;
-        //$banks->findOneBy(['name'=> $bankName]);
-    }
-
-    private function parseMbankStatement(string $bankName, array $statement)
+    private function parseMbankStatement(Bank $bank, array $statement)
     {
         $transactions = [];
 
-        $lastItemIndex = array_search(end($statement), $statement);
-
-        for ($i = self::MBANK_TRANSACTIONS_BEGIN; $i <= $lastItemIndex; $i++) {
-            if (!isset($statement[$i]))  continue;
+        for ($i = self::MBANK_TRANSACTIONS_BEGINNING_ROW; $i <= end($statement); $i++) {
+            if (!isset($statement[$i])) continue;
             if ($statement[$i][0] == null) break;
 
-            $transactions[$i] = [
-                'date' => \DateTime::createFromFormat('Y-m-d', $statement[$i][1]),
-                'description' => $statement[$i][2],
-                'title' => $statement[$i][3],
-                'bank' => $this->getBankByName($bankName),
-                'memo' => $statement[$i][6],
-                'value' => floatval(str_replace(',','.',$statement[$i][7])),
-                'subcategory' => null,
-            ];
+            $payee = empty($statement[$i][3]) ? $statement[$i][2] : $statement[$i][3];
+
+            $transaction = new Transaction();
+            $transaction->setDate(\DateTime::createFromFormat('Y-m-d', $statement[$i][1]));
+            $transaction->setValue(floatval(str_replace(',', '.', $statement[$i][7])));
+            $transaction->setPayee($payee);
+            $transaction->setMemo($statement[$i][6]);
+            $transaction->setBank($bank);
+            $transactions[] = $transaction;
+
         }
 
         return array_values($transactions);
-    }
-
-    public function getBankType(array $statement1)
-    {
-        if (str_contains($statement1[0][0], 'mBank')) {
-            return 'mBank';
-        }
-
-        if (str_contains($statement1[0][0], 'ING')) {
-            return 'ING';
-        }
-
-        if (str_contains($statement1[0][0], 'Millenium')) {
-            return 'Millenium';
-        }
-
-        return false;
-    }
-
-    public function getTransactions(string $bankName, array $statement)
-    {
-        // TODO: Not found bank exception
-        switch ($bankName) {
-            case 'mBank':
-                dd($this->parseMbankStatement($bankName, $statement));
-                return $this->parseMbankStatement($bankName, $statement);
-        }
     }
 }

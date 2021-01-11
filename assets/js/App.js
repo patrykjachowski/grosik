@@ -41,7 +41,11 @@ export default function App() {
                     'Content-Type': 'multipart/form-data',
                 },
             })
-            .catch(function (error) {
+            .then(() => {
+                console.log('dispatched')
+                dispatch(fetchTransactions())
+            })
+            .catch((error) => {
                 console.log(error.response.data.detail)
             })
     }

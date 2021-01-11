@@ -125,11 +125,12 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Bank[]
+     * @return Bank
      */
-    public function getBanks(): Collection
+    public function getBanks(): Bank
     {
-        return $this->banks;
+        // MVP one bank. In future - multiple
+        return $this->banks[0];
     }
 
     public function addBank(Bank $bank): self

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Bank;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -23,21 +24,15 @@ class UserController extends AbstractController
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
-        $userBanks = $user->getBanks()->getValues();
-        // TODO: Test it
-        $totalBalance = array_reduce($userBanks, function($carry, $item) {
-            return $carry + $item->getBalance();
-        });
+        /** @var Bank $userBanks */
+        $bank = $user->getBanks();
+        $totalBalance = $bank->getTransactions()->last()->getBalance();
 
         $userResponse = [
             'email' => $user->getEmail(),
             'totalBalance' => $totalBalance,
         ];
         return $this->json( $userResponse );
-
-        //return $this->render('user/index.html.twig', [
-        //    'users' => $userRepository->findAll(),
-        //]);
     }
 
     /**

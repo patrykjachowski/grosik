@@ -16,9 +16,9 @@ class StatementController extends AbstractController
      * @Route("/statement", name="statement")
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @param BankRepository $bankRepository
      */
-    public function index(Request $request, BankRepository $bankRepository)
+    public function index(Request $request, BankRepository $bankRepository) : void
     {
         $statement = $request->files->get('file');
 
@@ -34,9 +34,5 @@ class StatementController extends AbstractController
 
         $statementParser = new StatementParser();
         $transactions = $statementParser->getTransactions($bank, $statement);
-        dump('pozdrawiam mamę');
-        dd($transactions);
-
-        //return $this->json(['statement' => $statement]);
     }
 }

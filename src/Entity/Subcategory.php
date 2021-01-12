@@ -56,6 +56,12 @@ class Subcategory
      */
     private $transactions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=budget::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $budget;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -125,6 +131,18 @@ class Subcategory
                 $transaction->setSubcategory(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBudget(): ?budget
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(budget $budget): self
+    {
+        $this->budget = $budget;
 
         return $this;
     }

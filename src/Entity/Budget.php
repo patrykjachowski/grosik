@@ -20,10 +20,10 @@ class Budget
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Subcategory::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne (targetEntity=Subcategory::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $subcategory_id;
+    private $subcategory;
 
     /**
      * @ORM\Column(type="float")
@@ -40,14 +40,14 @@ class Budget
         return $this->id;
     }
 
-    public function getSubcategoryId(): ?Subcategory
+    public function getSubcategory(): ?Subcategory
     {
-        return $this->subcategory_id;
+        return $this->subcategory;
     }
 
-    public function setSubcategoryId(Subcategory $subcategory_id): self
+    public function setSubcategory(Subcategory $subcategory): self
     {
-        $this->subcategory_id = $subcategory_id;
+        $this->subcategory = $subcategory;
 
         return $this;
     }

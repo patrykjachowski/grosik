@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\SubcategoryController;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=SubcategoryRepository::class)
@@ -135,14 +136,15 @@ class Subcategory
         return $this;
     }
 
-    public function getBudget(): ?budget
+    public function getBudgetByDate(\DateTime $dateTime): ?budget
     {
         return $this->budget;
     }
 
-    public function setBudget(budget $budget): self
+    public function setBudgetByDate(\DateTime $date): self
     {
-        $this->budget = $budget;
+        $this->budget = new Budget();
+        $this->budget->setDate($date);
 
         return $this;
     }

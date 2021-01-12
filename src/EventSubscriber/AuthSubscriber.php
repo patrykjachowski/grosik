@@ -2,11 +2,14 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Budget;
 use App\Entity\Subcategory;
 use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
+use App\Service\Budgeter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class AuthSubscriber implements EventSubscriberInterface
 {
@@ -47,15 +50,20 @@ class AuthSubscriber implements EventSubscriberInterface
 
     public function createBudgets()
     {
-/*        $subcategories = $this->subcategoryRepository->findAll();
+        $subcategories = $this->subcategoryRepository->findAll();
 
+        /** @var Subcategory $subcategory */
         foreach ($subcategories as $subcategory){
+            if (!$subcategory->getBudgetByDate(new DateTime())) {
+                $subcategory->setBudgetByDate();
+            }
+            //Budgeter::class->getBudgetByDate($subcategory);
             $subcategory->setBudget()
 
             //BudgetSerivice->createBudget($subcategory);
 
         }
 
-        dd($budgets);*/
+        dd($budgets);
     }
 }

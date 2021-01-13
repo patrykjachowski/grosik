@@ -58,7 +58,7 @@ class Subcategory
     private $transactions;
 
     /**
-     * @ORM\OneToMany(targetEntity=budget::class, cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="category")
      * @ORM\JoinColumn(nullable=false)
      */
     private $budget;
@@ -143,7 +143,7 @@ class Subcategory
 
     public function setBudgetByDate(\DateTime $date): self
     {
-        $this->budget = new Budget();
+        //$this->budget = new Budget();
         $this->budget->setDate($date);
 
         return $this;

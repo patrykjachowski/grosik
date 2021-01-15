@@ -3,12 +3,15 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Exception\BudgetAlreadyExistsException;
+use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\SubcategoryController;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -26,7 +29,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  *
  *
  */
-
 class Subcategory
 {
     /**
@@ -58,17 +60,18 @@ class Subcategory
     private $transactions;
 
     /**
-     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="subcategory")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $budget;
+    private $budgets;
 
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
+        $this->budgets = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -81,24 +84,24 @@ class Subcategory
         $this->id = $id;
     }
 
-    public function getName(): ?string
+    public function getName() : ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(string $name) : self
     {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getCategory(): ?Category
+    public function getCategory() : ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    public function setCategory(?Category $category) : self
     {
         $this->category = $category;
 
@@ -108,12 +111,12 @@ class Subcategory
     /**
      * @return Collection|Transaction[]
      */
-    public function getTransactions(): Collection
+    public function getTransactions() : Collection
     {
         return $this->transactions;
     }
 
-    public function addTransaction(Transaction $transaction): self
+    public function addTransaction(Transaction $transaction) : self
     {
         if (!$this->transactions->contains($transaction)) {
             $this->transactions[] = $transaction;
@@ -123,7 +126,7 @@ class Subcategory
         return $this;
     }
 
-    public function removeTransaction(Transaction $transaction): self
+    public function removeTransaction(Transaction $transaction) : self
     {
         if ($this->transactions->contains($transaction)) {
             $this->transactions->removeElement($transaction);
@@ -136,16 +139,46 @@ class Subcategory
         return $this;
     }
 
-    public function getBudgetByDate(\DateTime $dateTime): ?budget
+    /**
+     * @return Collection|Budget[]
+     */
+    public function getBudgets() : Collection
     {
-        return $this->budget;
+        return $this->budgets;
     }
 
-    public function setBudgetByDate(\DateTime $date): self
+    public function getBudgetByDate(\DateTime $date) : ?Budget
     {
-        //$this->budget = new Budget();
-        $this->budget->setDate($date);
+        $dateUnified = $this->unifyDate($date);
+
+        $budgets =  $this->budgets->filter(function($budget) use ($dateUnified) {
+            return $budget->getDate() === $dateUnified;
+        });
+
+        return $budgets[0];
+    }
+
+    public function createBudgetByDate(\DateTime $date) : self
+    {
+        if (null != $this->getBudgetByDate($date)) {
+            throw new BudgetAlreadyExistsException('Budget is already created for selected date!');
+        }
+
+        $budget = new Budget();
+        $dateUnified = $this->unifyDate($date);
+        $budget->setDate($dateUnified);
+
+        $this->budgets[] = $budget;
+        $entityManager = $this->getDoctrine()->getManager();
+
 
         return $this;
+    }
+
+    private function unifyDate(\DateTime $date) : \DateTime {
+        $date->setDate($date->format('Y'), $date->format('m'), 1);
+        $date->setTime(0, 0, 0);
+
+        return $date;
     }
 }

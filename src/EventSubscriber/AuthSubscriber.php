@@ -7,6 +7,7 @@ use App\Entity\Subcategory;
 use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
 use App\Service\Budgeter;
+use mysql_xdevapi\Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -52,18 +53,12 @@ class AuthSubscriber implements EventSubscriberInterface
     {
         $subcategories = $this->subcategoryRepository->findAll();
 
-        /** @var Subcategory $subcategory */
-        foreach ($subcategories as $subcategory){
-            if (!$subcategory->getBudgetByDate(new DateTime())) {
-                $subcategory->setBudgetByDate();
+        foreach ($subcategories as $subcategory) {
+            try {
+                $subcategory->createBudgetByDate(new \DateTime());
+            } catch (Exception $e) {
+                continue;
             }
-            //Budgeter::class->getBudgetByDate($subcategory);
-            $subcategory->setBudget()
-
-            //BudgetSerivice->createBudget($subcategory);
-
         }
-
-        dd($budgets);
     }
 }

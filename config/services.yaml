@@ -6,6 +6,14 @@
 parameters:
 
 services:
+#    App\Service\Budgeter:
+#        public: true
+#        alias: app.budgeter
+
+    app.budgeter:
+        alias: App\Service\Budgeter
+        public: true
+
 #    get_set_method_normalizer:
 #        class: Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer
 #        tags: [ serializer.notermalizer ]

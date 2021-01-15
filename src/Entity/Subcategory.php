@@ -147,38 +147,13 @@ class Subcategory
         return $this->budgets;
     }
 
-    public function getBudgetByDate(\DateTime $date) : ?Budget
+    public function addBudget(Budget $budget) : self
     {
-        $dateUnified = $this->unifyDate($date);
-
-        $budgets =  $this->budgets->filter(function($budget) use ($dateUnified) {
-            return $budget->getDate() === $dateUnified;
-        });
-
-        return $budgets[0];
-    }
-
-    public function createBudgetByDate(\DateTime $date) : self
-    {
-        if (null != $this->getBudgetByDate($date)) {
-            throw new BudgetAlreadyExistsException('Budget is already created for selected date!');
+        if (!$this->budgets->contains($budget)) {
+            $this->budgets[] = $budget;
+            $budget->setSubcategory($this);
         }
 
-        $budget = new Budget();
-        $dateUnified = $this->unifyDate($date);
-        $budget->setDate($dateUnified);
-
-        $this->budgets[] = $budget;
-        $entityManager = $this->getDoctrine()->getManager();
-
-
         return $this;
-    }
-
-    private function unifyDate(\DateTime $date) : \DateTime {
-        $date->setDate($date->format('Y'), $date->format('m'), 1);
-        $date->setTime(0, 0, 0);
-
-        return $date;
     }
 }

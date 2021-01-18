@@ -47,11 +47,6 @@ class Bank
     private $transactions;
 
     /**
-     * @Groups({"bank:list"})
-     */
-    private $balance;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $type;

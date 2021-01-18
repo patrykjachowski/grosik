@@ -10,9 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class Budgeter
 {
-    /**
-     * @var EntityManagerInterface
-     */
     private $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)

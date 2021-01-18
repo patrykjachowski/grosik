@@ -26,7 +26,9 @@ class UserController extends AbstractController
         $user = $this->getUser();
         /** @var Bank $userBanks */
         $bank = $user->getBanks();
-        $totalBalance = $bank->getTransactions()->last()->getBalance();
+        // TODO: calculate user total balance
+        //$totalBalance = $bank->getTransactions()->last()->getBalance();
+        $totalBalance = 5000;
 
         $userResponse = [
             'email' => $user->getEmail(),

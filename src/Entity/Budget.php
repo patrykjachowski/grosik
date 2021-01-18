@@ -28,7 +28,7 @@ class Budget
     /**
      * @ORM\Column(type="float")
      */
-    private $value;
+    private $value = 0;
 
     /**
      * @ORM\Column(type="date")

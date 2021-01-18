@@ -49,7 +49,7 @@ class Subcategory
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="subcategories")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="subcategories", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;

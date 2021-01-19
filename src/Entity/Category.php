@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"category:list"}},
+ *     normalizationContext={"groups"={"category"}},
  * )
  */
 class Category
@@ -22,21 +23,19 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups({"category:list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"category:list"})
+     * @Groups({"category"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Subcategory::class, mappedBy="category")
-     *
-     * @Groups({"category:list"})
+     * @Groups({"category"})
      */
     private $subcategories;
 

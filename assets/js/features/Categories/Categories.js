@@ -21,7 +21,11 @@ export default function Categories() {
     const categories = useSelector(selectCategories)
     const dispatch = useDispatch()
 
-    console.log(categories)
+    if (categories.length) {
+        console.log(categories[0].subcategories[0].budget)
+        console.log(categories[0].subcategories[0].budgets)
+        console.log(categories[0].subcategories[0])
+    }
 
     return (
         <div style={{ position: 'relative', paddingBottom: '100px' }}>
@@ -46,7 +50,7 @@ export default function Categories() {
                             </TableRow>
                         ) : (
                             categories.map((category) => (
-                                <React.Fragment key={category.id}>
+                                <React.Fragment key={category['@id']}>
                                     <CategoriesRow row={category} />
                                 </React.Fragment>
                             ))

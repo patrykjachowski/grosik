@@ -28,7 +28,7 @@ const useRowStyles = makeStyles({
 })
 
 
-export default function Row({ row }) {
+export default function CategoriesRow({ row }) {
     const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()

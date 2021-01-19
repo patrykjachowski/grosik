@@ -26,7 +26,7 @@ export default function CategoriesSubRows({row, onCheckboxClick}) {
                     />
                 </TableCell>
                 <CategoriesTextCell
-                    id={subcategory.id}
+                    id={subcategory['@id']}
                     name={subcategory.name}
                     type={subcategory['@type']}
                     onUpdate={(changedElement) =>
@@ -35,8 +35,8 @@ export default function CategoriesSubRows({row, onCheckboxClick}) {
                     colSpan={2}
                 />
                 <CategoriesTextCell
-                    id={subcategory.id}
-                    name={subcategory.name}
+                    id={subcategory['@id']}
+                    name={subcategory.budget[0].value}
                     // type={row['@type']}
                     onUpdate={(changedElement) =>
                         dispatch(update(changedElement))

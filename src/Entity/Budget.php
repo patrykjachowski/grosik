@@ -5,8 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BudgetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     normalizationContext={"groups"={"category"}},
+ * )
  * @ORM\Entity(repositoryClass=BudgetRepository::class)
  */
 class Budget
@@ -19,12 +23,13 @@ class Budget
     private $id;
 
     /**
-     * @ORM\ManyToOne (targetEntity=Subcategory::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne (targetEntity=Subcategory::class, cascade={"persist", "remove"}, inversedBy="budgets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $subcategory;
 
     /**
+     * @Groups({"category"})
      * @ORM\Column(type="float")
      */
     private $value = 0;

@@ -86,6 +86,7 @@ export const deleteCategory = (categoryId) => async (dispatch) => {
 }
 
 export const update = (changedElement) => async (dispatch) => {
+    return console.log(changedElement)
     dispatch(categoriesLoading())
     const elementType = changedElement.type
 

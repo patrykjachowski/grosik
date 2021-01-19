@@ -7,7 +7,6 @@ use App\Repository\BudgetRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=BudgetRepository::class)
  */
 class Budget
@@ -35,41 +34,49 @@ class Budget
      */
     private $date;
 
-    public function getId(): ?int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function getSubcategory(): ?Subcategory
+    /**
+     * @param mixed $id
+     */
+    public function setId($id) : void
+    {
+        $this->id = $id;
+    }
+
+    public function getSubcategory() : ?Subcategory
     {
         return $this->subcategory;
     }
 
-    public function setSubcategory(Subcategory $subcategory): self
+    public function setSubcategory(Subcategory $subcategory) : self
     {
         $this->subcategory = $subcategory;
 
         return $this;
     }
 
-    public function getValue(): ?float
+    public function getValue() : ?float
     {
         return $this->value;
     }
 
-    public function setValue(float $value): self
+    public function setValue(float $value) : self
     {
         $this->value = $value;
 
         return $this;
     }
 
-    public function getDate(): ?\DateTime
+    public function getDate() : ?\DateTime
     {
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): self
+    public function setDate(\DateTime $date) : self
     {
         $this->date = $date;
 

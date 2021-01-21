@@ -14,9 +14,9 @@ import Grid from '@material-ui/core/Grid'
 import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
-import Banks from './features/Banks/Banks'
 import { DropzoneArea } from 'material-ui-dropzone'
 import axios from 'axios'
+import {fetchBudgets} from "./features/Budgets/budgetsSlice";
 
 export default function App() {
     const dispatch = useDispatch()
@@ -25,6 +25,7 @@ export default function App() {
         dispatch(fetchTransactions())
         dispatch(fetchCategories())
         dispatch(fetchBanks())
+        dispatch(fetchBudgets())
     }, [])
 
     const handleFileUpload = (file) => {
@@ -65,7 +66,7 @@ export default function App() {
                         </ul>
                     </nav>
                     <hr />
-                    <Banks />
+                    {/*<Banks />*/}
                 </Grid>
                 <Grid item xs={10}>
                     <div>

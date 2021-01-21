@@ -1,23 +1,27 @@
-import React from "react";
-import {useDispatch} from "react-redux";
-import {createSubcategory, deleteSubcategories, update} from "./categoriesSlice";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import CategoriesTextCell from "./CategoriesTextCell";
-import CategoriesRowEdit from "./CategoriesRowEdit";
-import Collapse from "@material-ui/core/Collapse";
-import Box from "@material-ui/core/Box";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import AddIcon from "@material-ui/icons/Add";
-import CategoriesSubRows from "./CategoriesSubRows";
-import {makeStyles} from "@material-ui/core/styles";
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import {
+    createSubcategory,
+    deleteSubcategories,
+    update,
+} from './categoriesSlice'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import Typography from '@material-ui/core/Typography'
+import Tooltip from '@material-ui/core/Tooltip'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteIcon from '@material-ui/icons/Delete'
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp'
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown'
+import CategoriesTextCell from './CategoriesTextCell'
+import CategoriesRowEdit from './CategoriesRowEdit'
+import Collapse from '@material-ui/core/Collapse'
+import Box from '@material-ui/core/Box'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import AddIcon from '@material-ui/icons/Add'
+import CategoriesSubRows from './CategoriesSubRows'
+import { makeStyles } from '@material-ui/core/styles'
 
 const useRowStyles = makeStyles({
     root: {
@@ -26,7 +30,6 @@ const useRowStyles = makeStyles({
         },
     },
 })
-
 
 export default function CategoriesRow({ row }) {
     const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
@@ -39,8 +42,8 @@ export default function CategoriesRow({ row }) {
             selectedSubcategory
         )
             ? selectedSubcategories.filter(
-                (subcategory) => subcategory !== selectedSubcategory
-            )
+                  (subcategory) => subcategory !== selectedSubcategory
+              )
             : [...selectedSubcategories, selectedSubcategory]
         setSelectedSubcategories(toggledSubcategories)
     }
@@ -48,6 +51,14 @@ export default function CategoriesRow({ row }) {
     const handleDeleteSubcategories = () => {
         dispatch(deleteSubcategories(selectedSubcategories))
         setSelectedSubcategories([])
+    }
+
+    const renderSubcategoriesBudgetSum = (category) => {
+        const childSubcategoriesBudget = category.subcategories.map(
+            (subcategory) => subcategory.budget[0]
+        )
+
+        return childSubcategoriesBudget.reduce((a, b) => a + b.value, 0)
     }
 
     return (
@@ -95,7 +106,7 @@ export default function CategoriesRow({ row }) {
                         }
                         colSpan={2}
                     />
-                    <TableCell>{row.budgeted || 0}</TableCell>
+                    <TableCell>{renderSubcategoriesBudgetSum(row)}</TableCell>
                     <TableCell>{row.activity || 0}</TableCell>
                     <TableCell>{row.available || 0}</TableCell>
                     <TableCell align="right">
@@ -116,7 +127,12 @@ export default function CategoriesRow({ row }) {
                                     {/*    row,*/}
                                     {/*    countSelectedSubcategories*/}
                                     {/*)}*/}
-                                    <CategoriesSubRows row={row} countSelectedSubcategories={countSelectedSubcategories} />
+                                    <CategoriesSubRows
+                                        row={row}
+                                        countSelectedSubcategories={
+                                            countSelectedSubcategories
+                                        }
+                                    />
                                     <TableRow>
                                         <TableCell
                                             colSpan={7}

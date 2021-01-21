@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core'
 import axios from 'axios'
 import Calendar from './Calendar'
 import CONFIG from '../app/config'
+import Budgets from "./Budgets/Budgets";
 
 export default () => {
     const [user, setUser] = useState({ totalBalance: 0 })
@@ -28,9 +29,17 @@ export default () => {
             <Grid item xs={3}>
                 <Calendar />
             </Grid>
-            <Grid item xs={9} style={{ textAlign: 'right' }}>
-                <strong>Balance: {user.totalBalance || '0'}</strong>
-                <div>{renderBalanceInfo()}</div>
+            <Grid item xs={4} style={{ textAlign: 'center' }}>
+                <Budgets />
+            </Grid>
+            <Grid item xs={5} style={{ textAlign: 'right' }}>
+                <div>
+                    <strong>{user.totalBalance || '0'}</strong>
+                    <div>{renderBalanceInfo()}</div>
+                </div>
+                <div>
+                    <small>Total Balance: {user.totalBalance || '0'}</small>
+                </div>
             </Grid>
         </Grid>
     )

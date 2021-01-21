@@ -35,7 +35,7 @@ class Subcategory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     *
+     * @Groups({"category"})
      */
     private $id;
 

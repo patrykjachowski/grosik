@@ -1,12 +1,12 @@
-import React from "react";
-import {useDispatch} from "react-redux";
-import {update} from "./categoriesSlice";
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import Checkbox from "@material-ui/core/Checkbox";
-import CategoriesTextCell from "./CategoriesTextCell";
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { update, updateBudget } from './categoriesSlice'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import Checkbox from '@material-ui/core/Checkbox'
+import CategoriesTextCell from './CategoriesTextCell'
 
-export default function CategoriesSubRows({row, onCheckboxClick}) {
+export default function CategoriesSubRows({ row, onCheckboxClick }) {
     const dispatch = useDispatch()
     return !row.subcategories.length ? (
         <TableRow>
@@ -26,7 +26,7 @@ export default function CategoriesSubRows({row, onCheckboxClick}) {
                     />
                 </TableCell>
                 <CategoriesTextCell
-                    id={subcategory['@id']}
+                    id={subcategory.id}
                     name={subcategory.name}
                     type={subcategory['@type']}
                     onUpdate={(changedElement) =>
@@ -35,11 +35,16 @@ export default function CategoriesSubRows({row, onCheckboxClick}) {
                     colSpan={2}
                 />
                 <CategoriesTextCell
-                    id={subcategory['@id']}
+                    id={subcategory.budget[0].id}
                     name={subcategory.budget[0].value}
-                    // type={row['@type']}
+                    type={'budget'}
                     onUpdate={(changedElement) =>
-                        dispatch(update(changedElement))
+                        dispatch(
+                            update({
+                                ...changedElement,
+                                value: parseFloat(changedElement.name),
+                            })
+                        )
                     }
                 />
                 {/*<TableCell>{subcategory.budgeted || 0}</TableCell>*/}

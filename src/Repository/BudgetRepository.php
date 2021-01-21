@@ -20,7 +20,7 @@ class BudgetRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Budget[] Returns an array of Budget objects
+    //  * @return Budgets[] Returns an array of Budgets objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class BudgetRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Budget
+    public function findOneBySomeField($value): ?Budgets
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.exampleField = :val')

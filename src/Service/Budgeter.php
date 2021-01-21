@@ -20,7 +20,7 @@ class Budgeter
     public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : Budget
     {
         if (null != $this->getBudgetByDate($subcategory, $date)) {
-            throw new BudgetAlreadyExistsException('Budget is already created for selected date!');
+            throw new BudgetAlreadyExistsException('Budgets is already created for selected date!');
         }
 
         $budget = new Budget();

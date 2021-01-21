@@ -19,13 +19,6 @@ import CategoriesRow from "./CategoriesRow";
 
 export default function Categories() {
     const categories = useSelector(selectCategories)
-    const dispatch = useDispatch()
-
-    if (categories.length) {
-        console.log(categories[0].subcategories[0].budget)
-        console.log(categories[0].subcategories[0].budgets)
-        console.log(categories[0].subcategories[0])
-    }
 
     return (
         <div style={{ position: 'relative', paddingBottom: '100px' }}>

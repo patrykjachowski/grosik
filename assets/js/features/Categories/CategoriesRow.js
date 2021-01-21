@@ -31,11 +31,40 @@ const useRowStyles = makeStyles({
     },
 })
 
+const calculateCategoryBudget = (row) => {
+    const subcategoriesBudget = row.subcategories.map(
+        (subcategory) => subcategory.budget[0]
+    )
+
+    return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
+}
+
+const calculateCategoryActivity = (row) => {
+    let activitySum = 0
+
+    row.subcategories.forEach((subcategory) => {
+        const subcategoryActivity = subcategory.transactions
+            .reduce((a, b) => a + b.value, 0)
+            .toFixed(2)
+
+        activitySum += parseFloat(subcategoryActivity)
+    })
+
+    return activitySum
+}
+
+const calculateCategoryAvailable = (categoryActivity, categoryBudget) => {
+    return categoryActivity + categoryBudget
+}
+
 export default function CategoriesRow({ row }) {
     const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()
     const dispatch = useDispatch()
+    const categoryActivity = calculateCategoryActivity(row)
+    const categoryBudget = calculateCategoryBudget(row)
+    const categoryAvailable = calculateCategoryAvailable(categoryActivity, categoryBudget)
 
     const countSelectedSubcategories = (selectedSubcategory) => {
         const toggledSubcategories = selectedSubcategories.includes(
@@ -51,14 +80,6 @@ export default function CategoriesRow({ row }) {
     const handleDeleteSubcategories = () => {
         dispatch(deleteSubcategories(selectedSubcategories))
         setSelectedSubcategories([])
-    }
-
-    const renderSubcategoriesBudgetSum = (category) => {
-        const childSubcategoriesBudget = category.subcategories.map(
-            (subcategory) => subcategory.budget[0]
-        )
-
-        return childSubcategoriesBudget.reduce((a, b) => a + b.value, 0)
     }
 
     return (
@@ -106,9 +127,9 @@ export default function CategoriesRow({ row }) {
                         }
                         colSpan={2}
                     />
-                    <TableCell>{renderSubcategoriesBudgetSum(row)}</TableCell>
-                    <TableCell>{row.activity || 0}</TableCell>
-                    <TableCell>{row.available || 0}</TableCell>
+                    <TableCell>{categoryBudget}</TableCell>
+                    <TableCell>{categoryActivity}</TableCell>
+                    <TableCell>{categoryAvailable}</TableCell>
                     <TableCell align="right">
                         <CategoriesRowEdit id={row.id} />
                     </TableCell>
@@ -123,10 +144,6 @@ export default function CategoriesRow({ row }) {
                                 style={{ tableLayout: 'fixed' }}
                             >
                                 <TableBody>
-                                    {/*{renderSubcategories(*/}
-                                    {/*    row,*/}
-                                    {/*    countSelectedSubcategories*/}
-                                    {/*)}*/}
                                     <CategoriesSubRows
                                         row={row}
                                         countSelectedSubcategories={

@@ -4,16 +4,13 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
-use App\Exception\BudgetAlreadyExistsException;
-use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\SubcategoryController;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Validator\Constraints\Date;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass=SubcategoryRepository::class)
@@ -54,6 +51,7 @@ class Subcategory
 
     /**
      * @ORM\OneToMany(targetEntity=Transaction::class, mappedBy="subcategory")
+     * @Groups({"category"})
      */
     private $transactions;
 

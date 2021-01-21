@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionRepository::class)
@@ -27,6 +28,7 @@ class Transaction
      * @ORM\Column(type="integer")
      *
      * @Groups({"transaction:list", "transaction:item"})
+     * @Groups({"category"})
      */
     private $id;
 
@@ -34,6 +36,7 @@ class Transaction
      * @ORM\Column(type="date")
      *
      * @Groups({"transaction:list", "transaction:item"})
+     * @Groups({"category"})
      */
     private $date;
 
@@ -41,6 +44,7 @@ class Transaction
      * @ORM\Column(type="float")
      *
      * @Groups({"transaction:list", "transaction:item"})
+     * @Groups({"category"})
      */
     private $value;
 

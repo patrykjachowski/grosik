@@ -13,44 +13,54 @@ export default function CategoriesSubRows({ row, onCheckboxClick }) {
             <TableCell colSpan={6}>No categories...</TableCell>
         </TableRow>
     ) : (
-        row.subcategories.map((subcategory) => (
-            <TableRow key={subcategory['@id']}>
-                <TableCell padding="checkbox">
-                    <Checkbox
-                        // indeterminate={numSelected > 0 && numSelected < rowCount}
-                        // checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={() => onCheckboxClick(subcategory)}
-                        inputProps={{
-                            'aria-label': 'select row',
-                        }}
+        row.subcategories.map((subcategory) => {
+            const activity = subcategory
+                ? subcategory.transactions
+                      .reduce((a, b) => a + b.value, 0)
+                      .toFixed(2)
+                : 0
+
+            const available = (subcategory.budget[0].value + parseFloat(activity)).toFixed(2)
+
+            return (
+                <TableRow key={subcategory['@id']}>
+                    <TableCell padding="checkbox">
+                        <Checkbox
+                            // indeterminate={numSelected > 0 && numSelected < rowCount}
+                            // checked={rowCount > 0 && numSelected === rowCount}
+                            onChange={() => onCheckboxClick(subcategory)}
+                            inputProps={{
+                                'aria-label': 'select row',
+                            }}
+                        />
+                    </TableCell>
+                    <CategoriesTextCell
+                        id={subcategory.id}
+                        name={subcategory.name}
+                        type={subcategory['@type']}
+                        onUpdate={(changedElement) =>
+                            dispatch(update(changedElement))
+                        }
+                        colSpan={2}
                     />
-                </TableCell>
-                <CategoriesTextCell
-                    id={subcategory.id}
-                    name={subcategory.name}
-                    type={subcategory['@type']}
-                    onUpdate={(changedElement) =>
-                        dispatch(update(changedElement))
-                    }
-                    colSpan={2}
-                />
-                <CategoriesTextCell
-                    id={subcategory.budget[0].id}
-                    name={subcategory.budget[0].value}
-                    type={'budget'}
-                    onUpdate={(changedElement) =>
-                        dispatch(
-                            update({
-                                ...changedElement,
-                                value: parseFloat(changedElement.name),
-                            })
-                        )
-                    }
-                />
-                <TableCell>{subcategory.activity || 0}</TableCell>
-                <TableCell>{subcategory.available || 0}</TableCell>
-                <TableCell></TableCell>
-            </TableRow>
-        ))
+                    <CategoriesTextCell
+                        id={subcategory.budget[0].id}
+                        name={subcategory.budget[0].value}
+                        type={'budget'}
+                        onUpdate={(changedElement) =>
+                            dispatch(
+                                update({
+                                    ...changedElement,
+                                    value: parseFloat(changedElement.name),
+                                })
+                            )
+                        }
+                    />
+                    <TableCell>{activity}</TableCell>
+                    <TableCell> {available} </TableCell>
+                    <TableCell></TableCell>
+                </TableRow>
+            )
+        })
     )
 }

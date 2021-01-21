@@ -5,8 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BudgetRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(
+ *     normalizationContext={"groups"={"category"}},
+ * )
  * @ORM\Entity(repositoryClass=BudgetRepository::class)
  */
 class Budget
@@ -15,6 +19,7 @@ class Budget
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"category"})
      */
     private $id;
 
@@ -25,6 +30,7 @@ class Budget
     private $subcategory;
 
     /**
+     * @Groups({"category"})
      * @ORM\Column(type="float")
      */
     private $value = 0;

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Bank;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,17 +19,17 @@ class UserController extends AbstractController
 {
     /**
      * @Route("/", name="user_index", methods={"GET"})
+     * @param TransactionRepository $transactionRepository
+     *
+     * @return Response
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(TransactionRepository $transactionRepository): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
-        /** @var Bank $userBanks */
-        $bank = $user->getBanks();
-        // TODO: calculate user total balance
-        //$totalBalance = $bank->getTransactions()->last()->getBalance();
-        $totalBalance = 5000;
+        $transactions = $transactionRepository->findAll();
+        $totalBalance = end($transactions)->getBalance();
 
         $userResponse = [
             'email' => $user->getEmail(),

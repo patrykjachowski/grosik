@@ -7,9 +7,7 @@ use App\Entity\Category;
 use App\Entity\Subcategory;
 use App\Service\Budgeter;
 use DateTime;
-use Doctrine\Persistence\ObjectRepository;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Validator\Constraints\Date;
 
 class BudgetControllerTest extends WebTestCase
 {
@@ -34,7 +32,6 @@ class BudgetControllerTest extends WebTestCase
 
         $budgetUnderTest = $this->budgeter->createSubcategoryBudget($subcategory, new DateTime());
 
-        //$data = ['value' => 50];
         $expectedValue = 50;
 
         // When

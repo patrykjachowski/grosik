@@ -6,7 +6,6 @@ import TextField from '@material-ui/core/TextField'
 import { useOutsideClick, useEnterKeyPressed } from '../../hooks'
 import { useDispatch } from 'react-redux'
 
-// export default function CategoriesTextCell({ category, onUpdate }) {
 export default function CategoriesTextCell({ id, name, type, onUpdate, colSpan}) {
     const [isInChangeMode, setChangeMode] = useState(false)
     const [newValue, setNewValue] = useState(null)

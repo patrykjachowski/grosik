@@ -6,6 +6,8 @@ export default {
     category: window.location.origin + '/api/categories/',
     subcategories: window.location.origin + '/api/subcategories',
     subcategory: window.location.origin + '/api/subcategories/',
+    budgets: window.location.origin + '/api/budgets',
+    budget: window.location.origin + '/api/budgets/',
     banks: window.location.origin + '/api/banks',
     currentUser: window.location.origin + '/user/',
   },

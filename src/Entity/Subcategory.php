@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Exception\BudgetAlreadyExistsException;
 use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
@@ -18,7 +19,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  * @ORM\Entity(repositoryClass=SubcategoryRepository::class)
  *
  * @ApiResource(
- *     normalizationContext={"groups"={"subcategory"}},
  *
  * itemOperations={
  *     "get","put",
@@ -26,7 +26,6 @@ use Symfony\Component\Validator\Constraints\DateTime;
  *         "controller"=SubcategoryController::class
  *     }
  * })
- *
  *
  */
 class Subcategory
@@ -36,15 +35,14 @@ class Subcategory
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      *
-     * @Groups({"category:list"})
-     *
+     * @Groups({"category"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      *
-     * @Groups({"transaction:list", "category:list"})
+     * @Groups({"transaction:list", "category"})
      */
     private $name;
 
@@ -61,9 +59,13 @@ class Subcategory
 
     /**
      * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="subcategory")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $budgets;
+
+    /**
+     * @Groups({"category"})
+     */
+    private $budget;
 
     public function __construct()
     {
@@ -145,6 +147,13 @@ class Subcategory
     public function getBudgets() : Collection
     {
         return $this->budgets;
+    }
+
+    public function getBudget()
+    {
+        return $this->getBudgets()->filter(function(Budget $budget){
+            return $budget->getDate()->format('Y-m') == '2021-01';
+        });
     }
 
     public function addBudget(Budget $budget) : self

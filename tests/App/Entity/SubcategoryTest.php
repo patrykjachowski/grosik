@@ -59,7 +59,7 @@ class SubcategoryTest extends TestCase
     //{
     //    // Expect
     //    $this->expectException(BudgetAlreadyExistsException::class);
-    //    $this->expectExceptionMessage('Budget is already created for selected date!');
+    //    $this->expectExceptionMessage('Budgets is already created for selected date!');
     //
     //    // Given
     //    $subcategoryUnderTest = new Subcategory();

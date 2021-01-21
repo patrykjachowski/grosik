@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Grid } from '@material-ui/core'
-import axios from 'axios'
 import Calendar from './Calendar'
-import CONFIG from '../app/config'
+import Budgets from './Budgets/Budgets'
+import { useSelector } from 'react-redux'
+import { selectUser } from './User/userSlice'
 
 export default () => {
-    const [user, setUser] = useState({ totalBalance: 0 })
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const payload = await axios(CONFIG.endpoint.currentUser)
-            setUser(payload.data)
-        }
-        fetchData()
-    }, [])
+    const user = useSelector(selectUser)
+    const totalBalance = user ? user.totalBalance : 0
 
     const renderBalanceInfo = () => {
-        return user.totalBalance > 0 ? (
+        return totalBalance > 0 ? (
             <span className="success">To be budgeted</span>
         ) : (
             <span className="alarm">Overspent!</span>
@@ -28,9 +22,17 @@ export default () => {
             <Grid item xs={3}>
                 <Calendar />
             </Grid>
-            <Grid item xs={9} style={{ textAlign: 'right' }}>
-                <strong>Balance: {user.totalBalance || '0'}</strong>
-                <div>{renderBalanceInfo()}</div>
+            <Grid item xs={4} style={{ textAlign: 'center' }}>
+                <Budgets />
+            </Grid>
+            <Grid item xs={5} style={{ textAlign: 'right' }}>
+                <div>
+                    <strong>{totalBalance || '0'}</strong>
+                    <div>{renderBalanceInfo()}</div>
+                </div>
+                <div>
+                    <small>Total Balance: {totalBalance || '0'}</small>
+                </div>
             </Grid>
         </Grid>
     )

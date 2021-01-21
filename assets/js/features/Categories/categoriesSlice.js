@@ -2,6 +2,8 @@ import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 import CONFIG from '../../app/config'
 import { fetchTransactions } from '../Transactions/transactionsSlice'
+import {fetchBudgets} from "../Budgets/budgetsSlice";
+import {fetchUser} from "../User/userSlice";
 
 export const categoriesSlice = createSlice({
     name: 'categories',
@@ -88,15 +90,16 @@ export const deleteCategory = (categoryId) => async (dispatch) => {
 export const update = (changedElement) => async (dispatch) => {
     dispatch(categoriesLoading())
     const elementType = changedElement.type
-
+    
     await axios({
-        method: 'put',
+        method: 'patch',
         url: CONFIG.endpoint[elementType] + changedElement.id,
         data: changedElement,
     })
 
     dispatch(fetchCategories())
     dispatch(fetchTransactions())
+    dispatch(fetchBudgets())
 }
 
 export const deleteSubcategories = (subcategories) => async (dispatch) => {

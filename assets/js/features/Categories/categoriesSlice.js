@@ -91,8 +91,6 @@ export const update = (changedElement) => async (dispatch) => {
     dispatch(categoriesLoading())
     const elementType = changedElement.type
     
-    console.log('dzień dobry')
-
     await axios({
         method: 'patch',
         url: CONFIG.endpoint[elementType] + changedElement.id,
@@ -102,18 +100,6 @@ export const update = (changedElement) => async (dispatch) => {
     dispatch(fetchCategories())
     dispatch(fetchTransactions())
     dispatch(fetchBudgets())
-}
-export const updateBudget = (changedElement) => async (dispatch) => {
-    dispatch(categoriesLoading())
-    
-    await axios({
-        method: 'patch',
-        url: CONFIG.endpoint.budget + changedElement.id,
-        data: changedElement,
-    })
-
-    dispatch(fetchCategories())
-    dispatch(fetchTransactions())
 }
 
 export const deleteSubcategories = (subcategories) => async (dispatch) => {

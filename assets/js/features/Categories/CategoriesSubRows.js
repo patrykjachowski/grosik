@@ -47,7 +47,6 @@ export default function CategoriesSubRows({ row, onCheckboxClick }) {
                         )
                     }
                 />
-                {/*<TableCell>{subcategory.budgeted || 0}</TableCell>*/}
                 <TableCell>{subcategory.activity || 0}</TableCell>
                 <TableCell>{subcategory.available || 0}</TableCell>
                 <TableCell></TableCell>

@@ -15,7 +15,6 @@ export const userSlice = createSlice({
             }
         },
         userReceived(state, action) {
-            console.log(action)
             if (state.loading === 'pending') {
                 state.user = action.payload
                 state.loading = 'idle'

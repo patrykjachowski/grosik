@@ -4,19 +4,19 @@ import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
-    fetchCategories,
-    selectCategories,
+    fetchCategories
 } from './features/Categories/categoriesSlice'
 import { fetchTransactions } from './features/Transactions/transactionsSlice'
-import { fetchBanks, selectBanks } from './features/Banks/banksSlice'
+import { fetchBanks} from './features/Banks/banksSlice'
+import { fetchBudgets } from './features/Budgets/budgetsSlice'
+import { fetchUser } from './features/User/userSlice'
 
 import Grid from '@material-ui/core/Grid'
 import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
-import { DropzoneArea } from 'material-ui-dropzone'
 import axios from 'axios'
-import {fetchBudgets} from "./features/Budgets/budgetsSlice";
+import { DropzoneArea } from 'material-ui-dropzone'
 
 export default function App() {
     const dispatch = useDispatch()
@@ -26,6 +26,7 @@ export default function App() {
         dispatch(fetchCategories())
         dispatch(fetchBanks())
         dispatch(fetchBudgets())
+        dispatch(fetchUser())
     }, [])
 
     const handleFileUpload = (file) => {

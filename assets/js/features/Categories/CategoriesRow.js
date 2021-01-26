@@ -32,7 +32,6 @@ const useRowStyles = makeStyles({
 })
 
 const calculateCategoryBudget = (row) => {
-    console.log(row)
     const subcategoriesBudget = row.subcategories.map(
         (subcategory) => subcategory.budget[0]
     )

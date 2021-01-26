@@ -4,6 +4,7 @@ import transactionsReducer from '../features/Transactions/transactionsSlice'
 import banksReducer from '../features/Banks/banksSlice'
 import budgetsReducer from '../features/Budgets/budgetsSlice'
 import userReducer from '../features/User/userSlice'
+import calendarReducer from '../features/Calendar/calendarSlice'
 
 export default configureStore({
     reducer: {
@@ -12,5 +13,6 @@ export default configureStore({
         categories: categoriesReducer,
         transactions: transactionsReducer,
         user: userReducer,
+        calendar: calendarReducer,
     }
 })

@@ -37,6 +37,7 @@ class Budget
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({"category"})
      */
     private $date;
 

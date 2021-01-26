@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid } from '@material-ui/core'
-import Calendar from './Calendar'
+import Calendar from './Calendar/Calendar'
 import Budgets from './Budgets/Budgets'
 import { useSelector } from 'react-redux'
 import { selectUser } from './User/userSlice'

@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\SubcategoryCreateController;
-use App\Controller\SubcategoryRemoveController;
+use App\Controller\SubcategoryController;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
@@ -19,9 +19,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ApiResource(
  *  itemOperations={
  *      "get",
- *      "delete"={
- *         "controller"=SubcategoryRemoveController::class
- *     }
+ *      "patch",
  *  },
  *  collectionOperations={
 *     }

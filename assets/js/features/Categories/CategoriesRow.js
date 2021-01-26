@@ -147,11 +147,10 @@ export default function CategoriesRow({ row }) {
                                 <TableBody>
                                     <CategoriesSubRows
                                         row={row}
-                                        countSelectedSubcategories={
+                                        onCheckboxClick={
                                             countSelectedSubcategories
                                         }
                                     />
-                                    {console.log(row)}
                                     <TableRow>
                                         <TableCell
                                             colSpan={7}

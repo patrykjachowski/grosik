@@ -6,7 +6,7 @@ use App\Entity\Subcategory;
 use App\Repository\SubcategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class SubcategoryController extends AbstractController
+class SubcategoryRemoveController extends AbstractController
 {
     /**
      * @var Subcategory

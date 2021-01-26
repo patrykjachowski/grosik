@@ -2,10 +2,8 @@
 
 namespace App\EventSubscriber;
 
-use App\Repository\BudgetRepository;
 use App\Repository\SubcategoryRepository;
 use App\Service\Budgeter;
-use mysql_xdevapi\Exception;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
@@ -36,11 +34,7 @@ class AuthSubscriber implements EventSubscriberInterface
         $subcategories = $this->subcategoryRepository->findAll();
 
         foreach ($subcategories as $subcategory) {
-            try {
                 $this->budgeter->createSubcategoryBudget($subcategory, new \DateTime());
-            } catch (Exception $e) {
-                continue;
-            }
         }
     }
 }

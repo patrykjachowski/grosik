@@ -17,10 +17,10 @@ class Budgeter
         $this->entityManager = $entityManager;
     }
 
-    public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : Budget
+    public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : bool
     {
-        if (null != $this->getBudgetByDate($subcategory, $date)) {
-            throw new BudgetAlreadyExistsException('Budgets is already created for selected date!');
+        if (null != $this->getBudgetByDate($subcategory, $date) ) {
+                return true;
         }
 
         $budget = new Budget();
@@ -31,7 +31,7 @@ class Budgeter
         $this->entityManager->persist($subcategory);
         $this->entityManager->flush();
 
-        return $budget;
+        return true;
     }
 
     public function getBudgetByDate(Subcategory $subcategory, DateTime $date) : ?Budget

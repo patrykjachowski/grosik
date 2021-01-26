@@ -40,11 +40,7 @@ export const createSubcategory = (categoryId) => async (dispatch) => {
 
     await axios({
         method: 'post',
-        url: CONFIG.endpoint.subcategories,
-        data: {
-            name: 'New subcategory',
-            category: '/api/categories/' + categoryId,
-        },
+        url: CONFIG.endpoint.category + categoryId + '/subcategories/',
     })
 
     dispatch(fetchCategories())

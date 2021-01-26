@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
+use App\Controller\CategoryController;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -24,6 +25,7 @@ class Category
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"category"})
      */
     private $id;
 
@@ -35,7 +37,7 @@ class Category
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Subcategory::class, mappedBy="category")
+     * @ORM\OneToMany(targetEntity=Subcategory::class, mappedBy="category", cascade={"persist"})
      * @Groups({"category"})
      */
     private $subcategories;

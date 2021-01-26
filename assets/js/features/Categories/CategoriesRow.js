@@ -32,6 +32,7 @@ const useRowStyles = makeStyles({
 })
 
 const calculateCategoryBudget = (row) => {
+    console.log(row)
     const subcategoriesBudget = row.subcategories.map(
         (subcategory) => subcategory.budget[0]
     )
@@ -150,6 +151,7 @@ export default function CategoriesRow({ row }) {
                                             countSelectedSubcategories
                                         }
                                     />
+                                    {console.log(row)}
                                     <TableRow>
                                         <TableCell
                                             colSpan={7}

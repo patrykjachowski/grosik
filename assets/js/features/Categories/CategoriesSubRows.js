@@ -1,26 +1,26 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import { update, updateBudget } from './categoriesSlice'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
+import { getCurrentMonthActivities } from './helpers'
+import {selectDate} from "../Calendar/calendarSlice";
 
-export default function CategoriesSubRows({ row, onCheckboxClick }) {
+export default function CategoriesSubRows({ category, onCheckboxClick }) {
     const dispatch = useDispatch()
-    return !row.subcategories.length ? (
+    const calendarDate = useSelector(selectDate)
+
+    return !category.subcategories.length ? (
         <TableRow>
             <TableCell colSpan={6}>No categories...</TableCell>
         </TableRow>
     ) : (
-        row.subcategories.map((subcategory) => {
-            const activity = subcategory
-                ? subcategory.transactions
-                      .reduce((a, b) => a + b.value, 0)
-                      .toFixed(2)
-                : 0
-
+        category.subcategories.map((subcategory) => {
+            const activity = getCurrentMonthActivities(subcategory, calendarDate)
             const available = (subcategory.budget[0].value + parseFloat(activity)).toFixed(2)
+            console.log(activity)
 
             return (
                 <TableRow key={subcategory['@id']}>
@@ -58,7 +58,7 @@ export default function CategoriesSubRows({ row, onCheckboxClick }) {
                     />
                     <TableCell>{activity}</TableCell>
                     <TableCell> {available} </TableCell>
-                    <TableCell></TableCell>
+                    <TableCell/>
                 </TableRow>
             )
         })

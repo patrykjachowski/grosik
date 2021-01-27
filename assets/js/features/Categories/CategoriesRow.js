@@ -31,18 +31,18 @@ const useRowStyles = makeStyles({
     },
 })
 
-const calculateCategoryBudget = (row) => {
-    const subcategoriesBudget = row.subcategories.map(
+const calculateCategoryBudget = (category) => {
+    const subcategoriesBudget = category.subcategories.map(
         (subcategory) => subcategory.budget[0]
     )
 
     return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
 }
 
-const calculateCategoryActivity = (row) => {
+const calculateCategoryActivity = (category) => {
     let activitySum = 0
 
-    row.subcategories.forEach((subcategory) => {
+    category.subcategories.forEach((subcategory) => {
         const subcategoryActivity = subcategory.transactions
             .reduce((a, b) => a + b.value, 0)
             .toFixed(2)
@@ -57,13 +57,13 @@ const calculateCategoryAvailable = (categoryActivity, categoryBudget) => {
     return categoryActivity + categoryBudget
 }
 
-export default function CategoriesRow({ row }) {
+export default function CategoriesRow({ category }) {
     const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()
     const dispatch = useDispatch()
-    const categoryActivity = calculateCategoryActivity(row)
-    const categoryBudget = calculateCategoryBudget(row)
+    const categoryActivity = calculateCategoryActivity(category)
+    const categoryBudget = calculateCategoryBudget(category)
     const categoryAvailable = calculateCategoryAvailable(categoryActivity, categoryBudget)
 
     const countSelectedSubcategories = (selectedSubcategory) => {
@@ -107,7 +107,7 @@ export default function CategoriesRow({ row }) {
                 <TableRow className={classes.root} bgcolor="#95e3e6">
                     <TableCell style={{ marginRight: '30px' }}>
                         <IconButton
-                            aria-label="expand row"
+                            aria-label="expand category"
                             size="small"
                             onClick={() => setOpen(!open)}
                         >
@@ -119,9 +119,9 @@ export default function CategoriesRow({ row }) {
                         </IconButton>
                     </TableCell>
                     <CategoriesTextCell
-                        id={row.id}
-                        name={row.name}
-                        type={row['@type']}
+                        id={category.id}
+                        name={category.name}
+                        type={category['@type']}
                         onUpdate={(changedElement) =>
                             dispatch(update(changedElement))
                         }
@@ -131,7 +131,7 @@ export default function CategoriesRow({ row }) {
                     <TableCell>{categoryActivity}</TableCell>
                     <TableCell>{categoryAvailable}</TableCell>
                     <TableCell align="right">
-                        <CategoriesRowEdit id={row.id} />
+                        <CategoriesRowEdit id={category.id} />
                     </TableCell>
                 </TableRow>
             )}
@@ -145,7 +145,7 @@ export default function CategoriesRow({ row }) {
                             >
                                 <TableBody>
                                     <CategoriesSubRows
-                                        row={row}
+                                        category={category}
                                         onCheckboxClick={
                                             countSelectedSubcategories
                                         }
@@ -165,7 +165,7 @@ export default function CategoriesRow({ row }) {
                                                 onClick={() =>
                                                     dispatch(
                                                         createSubcategory(
-                                                            row.id
+                                                            category.id
                                                         )
                                                     )
                                                 }

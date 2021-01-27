@@ -44,7 +44,7 @@ export default function Categories() {
                         ) : (
                             categories.map((category) => (
                                 <React.Fragment key={category['@id']}>
-                                    <CategoriesRow row={category} />
+                                    <CategoriesRow category={category} />
                                 </React.Fragment>
                             ))
                         )}

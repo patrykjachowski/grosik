@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {
     createSubcategory,
     deleteSubcategories,
@@ -22,6 +22,8 @@ import TableBody from '@material-ui/core/TableBody'
 import AddIcon from '@material-ui/icons/Add'
 import CategoriesSubRows from './CategoriesSubRows'
 import { makeStyles } from '@material-ui/core/styles'
+import {getCategoryWithAdditionalData} from "./helpers";
+import {selectDate} from "../Calendar/calendarSlice";
 
 const useRowStyles = makeStyles({
     root: {
@@ -39,19 +41,6 @@ const useRowStyles = makeStyles({
 //     return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
 // }
 
-const calculateCategoryActivity = (category) => {
-    let activitySum = 0
-
-    category.subcategories.forEach((subcategory) => {
-        const subcategoryActivity = subcategory.transactions
-            .reduce((a, b) => a + b.value, 0)
-            .toFixed(2)
-
-        activitySum += parseFloat(subcategoryActivity)
-    })
-
-    return activitySum
-}
 
 const calculateCategoryAvailable = (categoryActivity, categoryBudget) => {
     return categoryActivity + categoryBudget
@@ -62,10 +51,9 @@ export default function CategoriesRow({ category }) {
     const [open, setOpen] = React.useState(true)
     const classes = useRowStyles()
     const dispatch = useDispatch()
-    const categoryActivity = calculateCategoryActivity(category)
-    // const categoryBudget = 0 || calculateCategoryBudget(category)
-    const categoryBudget = 0
-    const categoryAvailable = calculateCategoryAvailable(categoryActivity, categoryBudget)
+    const calendarCurrentDate = useSelector(selectDate)
+    const categoryEnriched = getCategoryWithAdditionalData(category, calendarCurrentDate)
+    const categoryAvailable = calculateCategoryAvailable(categoryEnriched.activity, categoryEnriched.budget)
 
     const countSelectedSubcategories = (selectedSubcategory) => {
         const toggledSubcategories = selectedSubcategories.includes(
@@ -128,8 +116,8 @@ export default function CategoriesRow({ category }) {
                         }
                         colSpan={2}
                     />
-                    <TableCell>{categoryBudget}</TableCell>
-                    <TableCell>{categoryActivity}</TableCell>
+                    <TableCell>{categoryEnriched.budget}</TableCell>
+                    <TableCell>{categoryEnriched.activity}</TableCell>
                     <TableCell>{categoryAvailable}</TableCell>
                     <TableCell align="right">
                         <CategoriesRowEdit id={category.id} />
@@ -146,7 +134,7 @@ export default function CategoriesRow({ category }) {
                             >
                                 <TableBody>
                                     <CategoriesSubRows
-                                        category={category}
+                                        category={categoryEnriched}
                                         onCheckboxClick={
                                             countSelectedSubcategories
                                         }

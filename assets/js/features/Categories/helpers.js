@@ -1,7 +1,33 @@
-export const getCurrentMonthTransactionsSum = (
-    subcategory,
+export const getCategoryWithAdditionalData = (
+    category,
     calendarCurrentDate
 ) => {
+    const subcategories = category.subcategories.map((subcategory) => {
+        return {
+            ...subcategory,
+            activity: getCurrentMonthTransactionsSum(
+                subcategory,
+                calendarCurrentDate
+            ),
+            budget: getCurrentMonthBudget(subcategory, calendarCurrentDate),
+        }
+    })
+
+    const activity = parseFloat(
+        subcategories.reduce((a, b) => a + b.activity, 0).toFixed(2)
+    )
+
+    const budget = subcategories.reduce((a, b) => a + b.budget[0].value, 0)
+
+    return {
+        ...category,
+        activity,
+        budget,
+        subcategories,
+    }
+}
+
+const getCurrentMonthTransactionsSum = (subcategory, calendarCurrentDate) => {
     const transactions = getCurrentMonthElements(
         'transactions',
         subcategory,
@@ -9,17 +35,11 @@ export const getCurrentMonthTransactionsSum = (
     )
 
     if (!transactions.length) return 0
-    return transactions.reduce((a, b) => a + b.value, 0).toFixed(2)
+    return transactions.reduce((a, b) => a + b.value, 0)
 }
 
-export const getCurrentMonthBudget = (subcategory, calendarCurrentDate) => {
-    const budget = getCurrentMonthElements(
-        'budgets',
-        subcategory,
-        calendarCurrentDate
-    )
-
-    return budget.length ? budget[0] : 0
+const getCurrentMonthBudget = (subcategory, calendarCurrentDate) => {
+    return getCurrentMonthElements('budgets', subcategory, calendarCurrentDate)
 }
 
 const getCurrentMonthElements = (

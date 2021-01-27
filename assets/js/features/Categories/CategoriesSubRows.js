@@ -1,19 +1,13 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { update, updateBudget } from './categoriesSlice'
+import { useDispatch } from 'react-redux'
+import { update } from './categoriesSlice'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
-import {
-    getCurrentMonthTransactionsSum,
-    getCurrentMonthBudget,
-} from './helpers'
-import { selectDate } from '../Calendar/calendarSlice'
 
 export default function CategoriesSubRows({ category, onCheckboxClick }) {
     const dispatch = useDispatch()
-    const calendarDate = useSelector(selectDate)
 
     return !category.subcategories.length ? (
         <TableRow>
@@ -21,14 +15,7 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
         </TableRow>
     ) : (
         category.subcategories.map((subcategory) => {
-            const activitiesSum = getCurrentMonthTransactionsSum(
-                subcategory,
-                calendarDate
-            )
-            const budget = getCurrentMonthBudget(subcategory, calendarDate)
-            const available = budget
-                ? (budget.value + parseFloat(activitiesSum)).toFixed(2)
-                : 0
+            const available =  (subcategory.budget[0].value + subcategory.activity).toFixed(2)
 
             return (
                 <TableRow key={subcategory['@id']}>
@@ -52,8 +39,8 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                         colSpan={2}
                     />
                     <CategoriesTextCell
-                        id={budget ? budget.id : 0}
-                        name={budget.value || 0}
+                        id={subcategory.budget[0] ? subcategory.budget[0].id : 0}
+                        name={subcategory.budget[0].value || 0}
                         type={'budget'}
                         onUpdate={(changedElement) =>
                             dispatch(
@@ -64,7 +51,7 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                             )
                         }
                     />
-                    <TableCell>{activitiesSum}</TableCell>
+                    <TableCell>{subcategory.activity}</TableCell>
                     <TableCell> {available} </TableCell>
                     <TableCell />
                 </TableRow>

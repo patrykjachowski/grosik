@@ -1,24 +1,50 @@
-export const getCurrentMonthActivities = (subcategory, calendarCurrentDate) => {
+export const getCurrentMonthTransactionsSum = (
+    subcategory,
+    calendarCurrentDate
+) => {
+    const transactions = getCurrentMonthElements(
+        'transactions',
+        subcategory,
+        calendarCurrentDate
+    )
+
+    if (!transactions.length) return 0
+    return transactions.reduce((a, b) => a + b.value, 0).toFixed(2)
+}
+
+export const getCurrentMonthBudget = (subcategory, calendarCurrentDate) => {
+    const budget = getCurrentMonthElements(
+        'budgets',
+        subcategory,
+        calendarCurrentDate
+    )
+
+    return budget[0] || 0
+}
+
+const getCurrentMonthElements = (
+    elements,
+    subcategory,
+    calendarCurrentDate
+) => {
     if (!subcategory) return 0
 
-    const matchingTransactions = subcategory.transactions.map((transaction) => {
-        const transactionDate = new Date(transaction.date)
-        const transactionYear = transactionDate.getFullYear()
-        const transactionMonth = transactionDate.getMonth()
+    return subcategory[elements]
+        .map((element) => {
+            const elementDate = new Date(element.date)
+            const elementYear = elementDate.getFullYear()
+            const elementMonth = elementDate.getMonth()
 
-        const calendarDate = new Date(calendarCurrentDate)
-        const calendarDateYear = calendarDate.getFullYear()
-        const calendarDateMonth = calendarDate.getMonth()
+            const calendarDate = new Date(calendarCurrentDate)
+            const calendarDateYear = calendarDate.getFullYear()
+            const calendarDateMonth = calendarDate.getMonth()
 
-        if (
-            transactionYear === calendarDateYear &&
-            transactionMonth === calendarDateMonth
-        ) {
-            return transaction
-        }
-    }).filter((n) => n)
-
-
-    if (!matchingTransactions.length) return 0
-    return matchingTransactions.reduce((a, b) => a + b.value, 0).toFixed(2)
+            if (
+                elementYear === calendarDateYear &&
+                elementMonth === calendarDateMonth
+            ) {
+                return element
+            }
+        })
+        .filter((n) => n)
 }

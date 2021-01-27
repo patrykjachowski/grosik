@@ -5,7 +5,7 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
-import { getCurrentMonthActivities } from './helpers'
+import {getCurrentMonthTransactionsSum, getCurrentMonthBudget} from './helpers'
 import {selectDate} from "../Calendar/calendarSlice";
 
 export default function CategoriesSubRows({ category, onCheckboxClick }) {
@@ -18,9 +18,9 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
         </TableRow>
     ) : (
         category.subcategories.map((subcategory) => {
-            const activity = getCurrentMonthActivities(subcategory, calendarDate)
-            const available = (subcategory.budget[0].value + parseFloat(activity)).toFixed(2)
-            console.log(activity)
+            const activities = getCurrentMonthTransactionsSum(subcategory, calendarDate)
+            const budget = getCurrentMonthBudget(subcategory, calendarDate)
+            // const available = (subcategory.budget[0].value + parseFloat(activities)).toFixed(2)
 
             return (
                 <TableRow key={subcategory['@id']}>
@@ -44,8 +44,8 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                         colSpan={2}
                     />
                     <CategoriesTextCell
-                        id={subcategory.budget[0].id}
-                        name={subcategory.budget[0].value}
+                        id={budget.id}
+                        name={budget.value || 0}
                         type={'budget'}
                         onUpdate={(changedElement) =>
                             dispatch(
@@ -56,8 +56,9 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                             )
                         }
                     />
-                    <TableCell>{activity}</TableCell>
-                    <TableCell> {available} </TableCell>
+                    <TableCell>{activities}</TableCell>
+                    {/*<TableCell> {available} </TableCell>*/}
+                    <TableCell>0</TableCell>
                     <TableCell/>
                 </TableRow>
             )

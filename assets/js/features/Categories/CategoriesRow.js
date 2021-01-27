@@ -31,13 +31,13 @@ const useRowStyles = makeStyles({
     },
 })
 
-const calculateCategoryBudget = (category) => {
-    const subcategoriesBudget = category.subcategories.map(
-        (subcategory) => subcategory.budget[0]
-    )
-
-    return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
-}
+// const calculateCategoryBudget = (category) => {
+//     const subcategoriesBudget = category.subcategories.map(
+//         (subcategory) => subcategory.budget[0]
+//     )
+//
+//     return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
+// }
 
 const calculateCategoryActivity = (category) => {
     let activitySum = 0
@@ -63,7 +63,8 @@ export default function CategoriesRow({ category }) {
     const classes = useRowStyles()
     const dispatch = useDispatch()
     const categoryActivity = calculateCategoryActivity(category)
-    const categoryBudget = calculateCategoryBudget(category)
+    // const categoryBudget = 0 || calculateCategoryBudget(category)
+    const categoryBudget = 0
     const categoryAvailable = calculateCategoryAvailable(categoryActivity, categoryBudget)
 
     const countSelectedSubcategories = (selectedSubcategory) => {

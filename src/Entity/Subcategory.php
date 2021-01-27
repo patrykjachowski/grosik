@@ -61,11 +61,11 @@ class Subcategory
 
     /**
      * @ORM\OneToMany(targetEntity=Budget::class, mappedBy="subcategory")
+     * @Groups({"category"})
      */
     private $budgets;
 
     /**
-     * @Groups({"category"})
      */
     private $budget;
 

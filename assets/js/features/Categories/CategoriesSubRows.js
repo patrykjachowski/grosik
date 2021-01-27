@@ -1,12 +1,15 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { update, updateBudget } from './categoriesSlice'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
-import {getCurrentMonthTransactionsSum, getCurrentMonthBudget} from './helpers'
-import {selectDate} from "../Calendar/calendarSlice";
+import {
+    getCurrentMonthTransactionsSum,
+    getCurrentMonthBudget,
+} from './helpers'
+import { selectDate } from '../Calendar/calendarSlice'
 
 export default function CategoriesSubRows({ category, onCheckboxClick }) {
     const dispatch = useDispatch()
@@ -18,9 +21,14 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
         </TableRow>
     ) : (
         category.subcategories.map((subcategory) => {
-            const activities = getCurrentMonthTransactionsSum(subcategory, calendarDate)
+            const activitiesSum = getCurrentMonthTransactionsSum(
+                subcategory,
+                calendarDate
+            )
             const budget = getCurrentMonthBudget(subcategory, calendarDate)
-            // const available = (subcategory.budget[0].value + parseFloat(activities)).toFixed(2)
+            const available = budget
+                ? (budget.value + parseFloat(activitiesSum)).toFixed(2)
+                : 0
 
             return (
                 <TableRow key={subcategory['@id']}>
@@ -44,7 +52,7 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                         colSpan={2}
                     />
                     <CategoriesTextCell
-                        id={budget.id}
+                        id={budget ? budget.id : 0}
                         name={budget.value || 0}
                         type={'budget'}
                         onUpdate={(changedElement) =>
@@ -56,10 +64,9 @@ export default function CategoriesSubRows({ category, onCheckboxClick }) {
                             )
                         }
                     />
-                    <TableCell>{activities}</TableCell>
-                    {/*<TableCell> {available} </TableCell>*/}
-                    <TableCell>0</TableCell>
-                    <TableCell/>
+                    <TableCell>{activitiesSum}</TableCell>
+                    <TableCell> {available} </TableCell>
+                    <TableCell />
                 </TableRow>
             )
         })

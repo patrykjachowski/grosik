@@ -19,7 +19,7 @@ export const getCurrentMonthBudget = (subcategory, calendarCurrentDate) => {
         calendarCurrentDate
     )
 
-    return budget[0] || 0
+    return budget.length ? budget[0] : 0
 }
 
 const getCurrentMonthElements = (

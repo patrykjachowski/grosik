@@ -29,7 +29,7 @@ class UserController extends AbstractController
         /** @var User $user */
         $user = $this->getUser();
         $transactions = $transactionRepository->findAll();
-        $totalBalance = end($transactions)->getBalance();
+        $totalBalance = empty($transactions) ? 0 : end($transactions)->getBalance();
 
         $userResponse = [
             'email' => $user->getEmail(),

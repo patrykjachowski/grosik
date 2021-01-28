@@ -33,15 +33,6 @@ const useRowStyles = makeStyles({
     },
 })
 
-// const calculateCategoryBudget = (category) => {
-//     const subcategoriesBudget = category.subcategories.map(
-//         (subcategory) => subcategory.budget[0]
-//     )
-//
-//     return subcategoriesBudget.reduce((a, b) => a + b.value, 0)
-// }
-
-
 const calculateCategoryAvailable = (categoryActivity, categoryBudget) => {
     return categoryActivity + categoryBudget
 }
@@ -56,13 +47,15 @@ export default function CategoriesRow({ category }) {
     const categoryAvailable = calculateCategoryAvailable(categoryEnriched.activity, categoryEnriched.budget)
 
     const countSelectedSubcategories = (selectedSubcategory) => {
-        const toggledSubcategories = selectedSubcategories.includes(
-            selectedSubcategory
-        )
+        const isSubcategoryToggled = selectedSubcategories.filter(subcategory => subcategory.id === selectedSubcategory.id).length
+
+        const toggledSubcategories = isSubcategoryToggled
             ? selectedSubcategories.filter(
-                  (subcategory) => subcategory !== selectedSubcategory
+                  (subcategory) => subcategory.id !== selectedSubcategory.id
               )
             : [...selectedSubcategories, selectedSubcategory]
+        
+
         setSelectedSubcategories(toggledSubcategories)
     }
 

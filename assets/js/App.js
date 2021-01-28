@@ -17,6 +17,9 @@ import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 import axios from 'axios'
 import { DropzoneArea } from 'material-ui-dropzone'
+import Navigation from "./components/Navigation";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 
 export default function App() {
     const dispatch = useDispatch()
@@ -44,7 +47,6 @@ export default function App() {
                 },
             })
             .then(() => {
-                console.log('dispatched')
                 dispatch(fetchTransactions())
             })
             .catch((error) => {
@@ -56,17 +58,7 @@ export default function App() {
         <Router>
             <Grid container spacing={2}>
                 <Grid item xs={2}>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Kategorie</Link>
-                            </li>
-                            <li>
-                                <Link to="/transactions">Transakcje</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                    <hr />
+                    <Navigation />
                     {/*<Banks />*/}
                 </Grid>
                 <Grid item xs={10}>

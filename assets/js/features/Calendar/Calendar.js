@@ -11,6 +11,12 @@ import {
 import Input from '@material-ui/core/Input'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectDate, setDate } from './calendarSlice'
+import {Button} from "@material-ui/core";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Divider from "@material-ui/core/Divider";
+import {ArrowBack} from "@material-ui/icons";
+import {ArrowLeftIcon} from "@material-ui/pickers/_shared/icons/ArrowLeftIcon";
+import {ArrowRightIcon} from "@material-ui/pickers/_shared/icons/ArrowRightIcon";
 
 export default () => {
     const calendarDate = useSelector(selectDate)
@@ -52,8 +58,7 @@ export default () => {
     }
 
     return (
-        <div style={{ display: 'flex' }}>
-            <button onClick={setPrevMonth}> {'<'} </button>
+        <div style={{ 'textAlign': 'center' }}>
             <MuiPickersUtilsProvider utils={DateFnsUtils} locale={plLocale}>
                 <DatePicker
                     views={['year', 'month']}
@@ -73,8 +78,15 @@ export default () => {
                         },
                     }}
                 />
-                <button onClick={setNextMonth}> {'>'} </button>
             </MuiPickersUtilsProvider>
+            <ButtonGroup disableElevation variant="contained" color="primary" style={{'marginTop':'20px'}}>
+                <Button onClick={setPrevMonth}>
+                    <ArrowLeftIcon />
+                </Button>
+                <Button onClick={setNextMonth}>
+                    <ArrowRightIcon/>
+                </Button>
+            </ButtonGroup>
         </div>
     )
 }

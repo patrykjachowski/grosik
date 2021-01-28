@@ -4,6 +4,9 @@ import Calendar from './Calendar/Calendar'
 import Budgets from './Budgets/Budgets'
 import { useSelector } from 'react-redux'
 import { selectUser } from './User/userSlice'
+import AppBar from '@material-ui/core/AppBar'
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
 
 export default () => {
     const user = useSelector(selectUser)
@@ -18,22 +21,21 @@ export default () => {
     }
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={3}>
-                <Calendar />
-            </Grid>
-            <Grid item xs={4} style={{ textAlign: 'center' }}>
-                <Budgets />
-            </Grid>
-            <Grid item xs={5} style={{ textAlign: 'right' }}>
-                <div>
-                    <strong>{totalBalance || '0'}</strong>
-                    <div>{renderBalanceInfo()}</div>
-                </div>
-                <div>
-                    <small>Total Balance: {totalBalance || '0'}</small>
-                </div>
-            </Grid>
-        </Grid>
+        <AppBar color="default" position="static" >
+            <Toolbar style={{'padding': '20px'}}>
+                <Grid container spacing={1}>
+                    <Grid item xs={4}>
+                        <Calendar />
+                    </Grid>
+                    <Grid item xs={5} style={{ textAlign: 'center' }}>
+                        <Budgets />
+                    </Grid>
+                    <Grid item xs={3} style={{ textAlign: 'right' }}>
+                        <Typography variant="h6">{totalBalance || '0'} PLN</Typography>
+                        <Typography>Total balance</Typography>
+                    </Grid>
+                </Grid>
+            </Toolbar>
+        </AppBar>
     )
 }

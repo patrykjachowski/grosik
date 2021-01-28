@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use DateTime;
 use App\Repository\SubcategoryRepository;
 use App\Service\Budgeter;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -34,7 +35,7 @@ class AuthSubscriber implements EventSubscriberInterface
         $subcategories = $this->subcategoryRepository->findAll();
 
         foreach ($subcategories as $subcategory) {
-                $this->budgeter->createSubcategoryBudget($subcategory, new \DateTime());
+                $this->budgeter->createSubcategoryBudget($subcategory, new DateTime());
         }
     }
 }

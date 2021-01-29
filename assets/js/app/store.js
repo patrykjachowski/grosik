@@ -7,12 +7,12 @@ import userReducer from '../features/User/userSlice'
 import calendarReducer from '../features/Calendar/calendarSlice'
 
 export default configureStore({
-    reducer: {
-        banks: banksReducer,
-        budgets: budgetsReducer,
-        categories: categoriesReducer,
-        transactions: transactionsReducer,
-        user: userReducer,
-        calendar: calendarReducer,
-    }
+  reducer: {
+    banks: banksReducer,
+    budgets: budgetsReducer,
+    categories: categoriesReducer,
+    transactions: transactionsReducer,
+    user: userReducer,
+    calendar: calendarReducer,
+  },
 })

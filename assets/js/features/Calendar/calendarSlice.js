@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
-const currentDate = new Date().setHours(0,0,0)
+const currentDate = new Date().setHours(0, 0, 0)
 
 export const calendarSlice = createSlice({
-    name: 'calendar',
-    initialState: {
-        date: currentDate,
+  name: 'calendar',
+  initialState: {
+    date: currentDate,
+  },
+  reducers: {
+    setDate(state, action) {
+      state.date = action.payload
     },
-    reducers: {
-        setDate(state, action) {
-            state.date = action.payload
-        },
-    },
+  },
 })
 
 export const { setDate } = calendarSlice.actions

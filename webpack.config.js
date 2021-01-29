@@ -22,8 +22,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('index', './assets/js/index.js')
-    //.addEntry('page1', './assets/page1.js')
-    //.addEntry('page2', './assets/page2.js')
+    .addEntry('polyfill', 'babel-polyfill')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -44,8 +43,43 @@ Encore
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
+    // .enableEslintLoader(options => {
+    //     options.parser = 'babel-eslint'
+    // })
+    // .configureLoaderRule('eslint', loader => {
+    //     loader.test = /\.js?$/
+    // })
+    .enableReactPreset()
 
-    // enables @babel/preset-env polyfills
+
+    // .configureBabelPresetEnv((config) => {
+    //     config.useBuiltIns = 'usage';
+    //     config.corejs = 3;
+    // })
+
+    .addLoader({
+        test: /\.js$/,
+        enforce: 'pre',
+        loader: 'prettier-loader',
+        exclude: /node_modules/,
+        options: {
+            parser: "babel"
+        }
+     })
+
+
+    .addLoader({
+        test: /\.js$/,
+        enforce: 'pre',
+        loader: 'eslint-loader',
+        exclude: /node_modules/,
+        options: {
+          fix: true,
+            parser: 'babel-eslint'
+        }
+  })
+
+
     // enables Sass/SCSS support
     //.enableSassLoader()
 

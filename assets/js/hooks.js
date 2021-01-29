@@ -1,34 +1,33 @@
-import { useEffect } from "react";
+import { useEffect } from 'react'
 
 export const useOutsideClick = (ref, callback) => {
-    const handleClick = e => {
-        if (ref.current && !ref.current.contains(e.target)) {
-            callback();
-        }
-    };
+  const handleClick = (e) => {
+    if (ref.current && !ref.current.contains(e.target)) {
+      callback()
+    }
+  }
 
-    useEffect(() => {
-        document.addEventListener("click", handleClick);
+  useEffect(() => {
+    document.addEventListener('click', handleClick)
 
-        return () => {
-            document.removeEventListener("click", handleClick);
-        };
-    });
-};
-
+    return () => {
+      document.removeEventListener('click', handleClick)
+    }
+  })
+}
 
 export const useEnterKeyPressed = (callback) => {
-    const handleKeyPress = e => {
-            if (e.keyCode === 13) {
-                callback()
-            }
+  const handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      callback()
     }
+  }
 
-    useEffect(() => {
-        document.addEventListener("keyup", handleKeyPress);
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyPress)
 
-        return () => {
-            document.removeEventListener("keyup", handleKeyPress);
-        };
-    });
+    return () => {
+      document.removeEventListener('keyup', handleKeyPress)
+    }
+  })
 }

@@ -1,61 +1,69 @@
 import React, { useEffect, useRef, useState } from 'react'
+import PropTypes from 'prop-types'
 import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
-import { updateCategory } from './categoriesSlice'
 import TextField from '@material-ui/core/TextField'
 import { useOutsideClick, useEnterKeyPressed } from '../../hooks'
-import { useDispatch } from 'react-redux'
 
-export default function CategoriesTextCell({ id, name, type, onUpdate, colSpan}) {
-    const [isInChangeMode, setChangeMode] = useState(false)
-    const [newValue, setNewValue] = useState(null)
-    const [updatedCategory, setUpdatedCategory] = useState(false)
-    const containerRef = useRef()
+export default function CategoriesTextCell({
+  id,
+  name,
+  type,
+  onUpdate,
+  colSpan,
+}) {
+  const [isInChangeMode, setChangeMode] = useState(false)
+  const [updatedCategory, setUpdatedCategory] = useState(false)
+  const containerRef = useRef()
 
-    useEffect(() => {
-        containerRef.current
-        if (isInChangeMode) {
-            containerRef.current.querySelector('input').focus()
-        }
-    }, [isInChangeMode])
-
-    useOutsideClick(containerRef, () => {
-        if (!isInChangeMode) return
-        submitChanges()
-    })
-
-    useEnterKeyPressed(() => {
-        submitChanges()
-    })
-
-    const handleChange = (e) => {
-        const newName = e.target.value
-        if (!newName) return
-        setUpdatedCategory({id, name: newName, type: type.toLowerCase()})
+  useEffect(() => {
+    containerRef.current
+    if (isInChangeMode) {
+      containerRef.current.querySelector('input').focus()
     }
+  }, [isInChangeMode])
 
-    const submitChanges = () => {
-        if (!updatedCategory) return
-        onUpdate(updatedCategory)
-        setChangeMode(false)
-    }
+  useOutsideClick(containerRef, () => {
+    if (!isInChangeMode) return
+    submitChanges()
+  })
 
-    return (
-        <TableCell
-            ref={containerRef}
-            data-id={'value'}
-            data-name={name}
-            onClick={handleChange}
-            colSpan={colSpan}
-        >
-            {!isInChangeMode ? (
-                <span onClick={() => setChangeMode(true)}>{name}</span>
-            ) : (
-                <TextField
-                    defaultValue={name}
-                    onChange={handleChange}
-                />
-            )}
-        </TableCell>
-    )
+  useEnterKeyPressed(() => {
+    submitChanges()
+  })
+
+  const handleChange = (e) => {
+    const newName = e.target.value
+    if (!newName) return
+    setUpdatedCategory({ id, name: newName, type: type.toLowerCase() })
+  }
+
+  const submitChanges = () => {
+    if (!updatedCategory) return
+    onUpdate(updatedCategory)
+    setChangeMode(false)
+  }
+
+  return (
+    <TableCell
+      ref={containerRef}
+      data-id={'value'}
+      data-name={name}
+      onClick={handleChange}
+      colSpan={colSpan}
+    >
+      {!isInChangeMode ? (
+        <span onClick={() => setChangeMode(true)}>{name}</span>
+      ) : (
+        <TextField defaultValue={name} onChange={handleChange} />
+      )}
+    </TableCell>
+  )
+}
+
+CategoriesTextCell.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string,
+  onUpdate: PropTypes.func,
+  colSpan: PropTypes.number,
 }

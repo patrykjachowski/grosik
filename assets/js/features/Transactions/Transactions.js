@@ -189,9 +189,9 @@ EnhancedTableHead.propTypes = {
 
 EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.func,
-  order: PropTypes.number,
-  orderBy: PropTypes.number,
+  order: PropTypes.string,
+  orderBy: PropTypes.string,
   numSelected: PropTypes.number,
   rowCount: PropTypes.number,
-  onRequestSort: PropTypes.number,
+  onRequestSort: PropTypes.func,
 }

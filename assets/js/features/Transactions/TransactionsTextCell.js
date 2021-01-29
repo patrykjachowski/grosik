@@ -62,5 +62,5 @@ export default function TransactionTextCell({ transaction, valueName, value }) {
 TransactionTextCell.propTypes = {
   transaction: PropTypes.object.isRequired,
   valueName: PropTypes.string.isRequired,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 }

@@ -62,7 +62,7 @@ export default function CategoriesTextCell({
 
 CategoriesTextCell.propTypes = {
   id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   type: PropTypes.string,
   onUpdate: PropTypes.func,
   colSpan: PropTypes.number,

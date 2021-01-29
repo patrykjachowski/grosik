@@ -41,21 +41,8 @@ Encore
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
-    // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
-    // .enableEslintLoader(options => {
-    //     options.parser = 'babel-eslint'
-    // })
-    // .configureLoaderRule('eslint', loader => {
-    //     loader.test = /\.js?$/
-    // })
     .enableReactPreset()
-
-
-    // .configureBabelPresetEnv((config) => {
-    //     config.useBuiltIns = 'usage';
-    //     config.corejs = 3;
-    // })
 
     .addLoader({
         test: /\.js$/,
@@ -67,7 +54,6 @@ Encore
         }
      })
 
-
     .addLoader({
         test: /\.js$/,
         enforce: 'pre',
@@ -78,20 +64,6 @@ Encore
             parser: 'babel-eslint'
         }
   })
-
-
-    // enables Sass/SCSS support
-    //.enableSassLoader()
-
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
-
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
-
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
 
     // uncomment if you use API Platform Admin (composer req api-admin)
 

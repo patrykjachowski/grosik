@@ -7,9 +7,9 @@ import TableBody from '@material-ui/core/TableBody'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import CategoriesTableHead from './CategoriesTableHead'
-import { getCategoryWithAdditionalData } from './helpers'
+import { getCategoryWithAdditionalData } from '../helpers'
 import { useSelector } from 'react-redux'
-import { selectDate } from '../Calendar/calendarSlice'
+import { selectDate } from '../../Calendar/calendarSlice'
 import CategoriesTableBody from './CategoriesTableBody'
 
 const CategoriesTable = ({ category }) => {

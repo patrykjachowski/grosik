@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import TableCell from '@material-ui/core/TableCell'
 import TextField from '@material-ui/core/TextField'
-import { useOutsideClick, useEnterKeyPressed } from '../../hooks'
+import { useOutsideClick, useEnterKeyPressed } from '../../../hooks'
 
 export default function CategoriesTextCell({
   id,

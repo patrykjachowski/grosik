@@ -5,7 +5,7 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import { useDispatch } from 'react-redux'
-import { deleteCategory } from './categoriesSlice'
+import { deleteCategory } from '../categoriesSlice'
 
 const ITEM_HEIGHT = 48
 

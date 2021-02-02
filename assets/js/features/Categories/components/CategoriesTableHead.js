@@ -4,7 +4,7 @@ import CategoriesTextCell from './CategoriesTextCell'
 import CategoriesRowEdit from './CategoriesRowEdit'
 import PropTypes from 'prop-types'
 import { TableHead, TableRow } from '@material-ui/core'
-import ArrowButton from '../../components/ArrowButton'
+import ArrowButton from '../../../components/ArrowButton'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   update,
@@ -12,7 +12,7 @@ import {
   deselectSubcategories,
   selectMarkedSubcategories,
   toggleCategoryCollapse,
-} from './categoriesSlice'
+} from '../categoriesSlice'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 import IconButton from '@material-ui/core/IconButton'

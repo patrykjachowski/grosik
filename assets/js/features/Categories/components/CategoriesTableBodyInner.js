@@ -4,9 +4,9 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
-import { selectCategories, update, updateCategories } from './categoriesSlice'
+import { selectCategories, update, updateCategories } from '../categoriesSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleSubcategory } from './helpers'
+import { toggleSubcategory } from '../helpers'
 
 const CategoriesTableBodyInner = ({ subcategories }) => {
   const dispatch = useDispatch()

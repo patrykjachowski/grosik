@@ -59,39 +59,43 @@ export default function Calendar() {
 
   return (
     <div style={{ textAlign: 'center' }}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils} locale={plLocale}>
-        <DatePicker
-          views={['year', 'month']}
-          minDate={new Date(2019, 1, 1, 0, 0, 0, 0)}
-          maxDate={new Date()}
-          value={new Date(calendarDate)}
-          onChange={() => {}}
-          format={'MMM yyyy'}
-          openTo="month"
-          TextFieldComponent={renderInput}
-          inputProps={{
-            style: {
-              fontSize: '30px',
-              textTransform: 'uppercase',
-              letterSpacing: '3px',
-              textAlign: 'center',
-            },
-          }}
-        />
-      </MuiPickersUtilsProvider>
-      <ButtonGroup
-        disableElevation
-        variant="contained"
-        color="primary"
-        style={{ marginTop: '20px' }}
-      >
-        <Button onClick={setPrevMonth}>
-          <ArrowLeftIcon />
-        </Button>
-        <Button onClick={setNextMonth}>
-          <ArrowRightIcon />
-        </Button>
-      </ButtonGroup>
+      <div>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={plLocale}>
+          <DatePicker
+            views={['year', 'month']}
+            minDate={new Date(2019, 1, 1, 0, 0, 0, 0)}
+            maxDate={new Date()}
+            value={new Date(calendarDate)}
+            onChange={() => {}}
+            format={'MMM yyyy'}
+            openTo="month"
+            TextFieldComponent={renderInput}
+            inputProps={{
+              style: {
+                fontSize: '30px',
+                textTransform: 'uppercase',
+                letterSpacing: '3px',
+                textAlign: 'center',
+              },
+            }}
+          />
+        </MuiPickersUtilsProvider>
+      </div>
+      <div>
+        <ButtonGroup
+          disableElevation
+          variant="contained"
+          color="primary"
+          style={{ marginTop: '20px' }}
+        >
+          <Button onClick={setPrevMonth}>
+            <ArrowLeftIcon />
+          </Button>
+          <Button onClick={setNextMonth}>
+            <ArrowRightIcon />
+          </Button>
+        </ButtonGroup>
+      </div>
     </div>
   )
 }

@@ -19,7 +19,7 @@ class Budgeter
 
     public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : bool
     {
-        if (null != $this->getBudgetByDate($subcategory, $date) ) {
+        if (null != $this->getBudgetByDate($subcategory, $this->unifyDate($date)) ) {
                 return true;
         }
 

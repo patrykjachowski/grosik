@@ -137,20 +137,25 @@ export const update = (changedElement) => async (dispatch) => {
 
 export const deleteSubcategories = (subcategories) => async (dispatch) => {
   dispatch(categoriesLoading())
+  const deletePromises = []
 
   for (let subcategory of subcategories) {
-    await axios({
-      method: 'delete',
-      url: CONFIG.endpoint.subcategory + subcategory.id,
-    })
-      .then(() => {
-        dispatch(fetchCategories())
-        dispatch(fetchTransactions())
+    deletePromises.push(
+      axios({
+        method: 'delete',
+        url: CONFIG.endpoint.subcategory + subcategory.id,
       })
-      .catch((error) => {
-        if (error) console.log(error)
-      })
+    )
   }
+
+  Promise.all(deletePromises)
+    .then(() => {
+      dispatch(fetchCategories())
+      dispatch(fetchTransactions())
+    })
+    .catch((error) => {
+      if (error) console.log(error)
+    })
 }
 
 export const fetchCategories = () => async (dispatch) => {

@@ -10,63 +10,53 @@ import { useDispatch } from 'react-redux'
 const CategoriesTableBodyInner = ({ subcategories }) => {
   const dispatch = useDispatch()
 
-  const handleToggle = (subcategoryId) => {
-    dispatch(toggleSubcategory(subcategoryId))
-  }
-
   return !subcategories.length ? (
     <TableRow>
       <TableCell colSpan={6}>No categories...</TableCell>
     </TableRow>
   ) : (
-    renderSubcategories(subcategories, handleToggle)
-  )
-}
+    subcategories.map((subcategory) => {
+      const available = (
+        subcategory.budget[0].value + subcategory.activity
+      ).toFixed(2)
 
-const renderSubcategories = (subcategories, onToggle) => {
-  const dispatch = useDispatch()
-
-  return subcategories.map((subcategory) => {
-    const available = (
-      subcategory.budget[0].value + subcategory.activity
-    ).toFixed(2)
-
-    return (
-      <TableRow key={subcategory['@id']}>
-        <TableCell padding="checkbox">
-          <Checkbox
-            onChange={() => onToggle(subcategory.id)}
-            inputProps={{
-              'aria-label': 'select subcategory',
-            }}
+      return (
+        <TableRow key={subcategory['@id']}>
+          <TableCell padding="checkbox">
+            <Checkbox
+              onChange={() => dispatch(toggleSubcategory(subcategory.id))}
+              inputProps={{
+                'aria-label': 'select subcategory',
+              }}
+            />
+          </TableCell>
+          <CategoriesTextCell
+            id={subcategory.id}
+            name={subcategory.name}
+            type={subcategory['@type']}
+            onUpdate={(changedElement) => dispatch(update(changedElement))}
+            colSpan={2}
           />
-        </TableCell>
-        <CategoriesTextCell
-          id={subcategory.id}
-          name={subcategory.name}
-          type={subcategory['@type']}
-          onUpdate={(changedElement) => dispatch(update(changedElement))}
-          colSpan={2}
-        />
-        <CategoriesTextCell
-          id={subcategory.budget[0] ? subcategory.budget[0].id : 0}
-          name={subcategory.budget[0].value || 0}
-          type={'budget'}
-          onUpdate={(changedElement) =>
-            dispatch(
-              update({
-                ...changedElement,
-                value: parseFloat(changedElement.name),
-              })
-            )
-          }
-        />
-        <TableCell>{subcategory.activity}</TableCell>
-        <TableCell> {available} </TableCell>
-        <TableCell />
-      </TableRow>
-    )
-  })
+          <CategoriesTextCell
+            id={subcategory.budget[0] ? subcategory.budget[0].id : 0}
+            name={subcategory.budget[0].value || 0}
+            type={'budget'}
+            onUpdate={(changedElement) =>
+              dispatch(
+                update({
+                  ...changedElement,
+                  value: parseFloat(changedElement.name),
+                })
+              )
+            }
+          />
+          <TableCell>{subcategory.activity}</TableCell>
+          <TableCell> {available} </TableCell>
+          <TableCell />
+        </TableRow>
+      )
+    })
+  )
 }
 
 CategoriesTableBodyInner.propTypes = {

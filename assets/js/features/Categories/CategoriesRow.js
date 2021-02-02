@@ -22,26 +22,18 @@ import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import AddIcon from '@material-ui/icons/Add'
 import CategoriesSubRows from './CategoriesSubRows'
-import { makeStyles } from '@material-ui/core/styles'
 import { getCategoryWithAdditionalData } from './helpers'
 import { selectDate } from '../Calendar/calendarSlice'
-
-const useRowStyles = makeStyles({
-  root: {
-    '& > *': {
-      borderBottom: 'unset',
-    },
-  },
-})
 
 const calculateCategoryAvailable = (categoryActivity, categoryBudget) => {
   return categoryActivity + categoryBudget
 }
 
-export default function CategoriesRow({ category }) {
+export default CategoriesRow
+
+function CategoriesRow({ category }) {
   const [selectedSubcategories, setSelectedSubcategories] = React.useState([])
   const [open, setOpen] = React.useState(true)
-  const classes = useRowStyles()
   const dispatch = useDispatch()
   const calendarCurrentDate = useSelector(selectDate)
   const categoryEnriched = getCategoryWithAdditionalData(
@@ -75,7 +67,7 @@ export default function CategoriesRow({ category }) {
   return (
     <React.Fragment>
       {selectedSubcategories.length > 0 ? (
-        <TableRow className={classes.root} bgcolor="danger">
+        <TableRow bgcolor="danger">
           <TableCell colSpan={3}>
             <Typography>
               Selected subcategories: {selectedSubcategories.length}
@@ -93,7 +85,7 @@ export default function CategoriesRow({ category }) {
           </TableCell>
         </TableRow>
       ) : (
-        <TableRow className={classes.root} bgcolor="#95e3e6">
+        <TableRow>
           <TableCell style={{ marginRight: '30px' }}>
             <IconButton
               aria-label="expand category"

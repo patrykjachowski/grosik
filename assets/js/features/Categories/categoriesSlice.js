@@ -23,6 +23,30 @@ export const categoriesSlice = createSlice({
         state.loading = 'idle'
       }
     },
+    updateCategories(state, action) {
+      state.categories = action.payload
+    },
+    deselectSubcategories(state) {
+      state.categories = state.categories.map((category) => {
+        return {
+          ...category,
+          subcategories: category.subcategories.map((subcategory) => ({
+            ...subcategory,
+            select: false,
+          })),
+        }
+      })
+    },
+    toggleCategoryCollapse(state, action) {
+      state.categories = state.categories.map((category) => {
+        return category.id === action.payload
+          ? {
+              ...category,
+              collapsed: !category.collapsed,
+            }
+          : category
+      })
+    },
     setErrorMessage(state, action) {
       state.errorMessage = action.payload
     },
@@ -32,7 +56,18 @@ export const categoriesSlice = createSlice({
   },
 })
 
-export const { categoriesLoading, categoriesReceived } = categoriesSlice.actions
+export const {
+  categoriesLoading,
+  categoriesReceived,
+  updateCategories,
+  addTransactions,
+  setErrorMessage,
+  cleanErrorMessage,
+  deselectSubcategories,
+  toggleCategoryCollapse,
+} = categoriesSlice.actions
+
+export default categoriesSlice.reducer
 
 export const createSubcategory = (categoryId) => async (dispatch) => {
   dispatch(categoriesLoading())
@@ -119,12 +154,19 @@ export const fetchCategories = () => async (dispatch) => {
   dispatch(categoriesReceived(response.data['hydra:member']))
 }
 
-export const {
-  addTransactions,
-  setErrorMessage,
-  cleanErrorMessage,
-} = categoriesSlice.actions
-
 export const selectCategories = (state) => state.categories.categories
 export const selectErrorMessage = (state) => state.categories.errorMessage
-export default categoriesSlice.reducer
+export const selectMarkedSubcategories = (state) => {
+  const { categories } = state.categories
+
+  return categories
+    .map((category) => {
+      const markedSubcategories = category.subcategories
+        .filter((subcategory) => subcategory.select === true)
+        .map((subcategory) => ({ ...subcategory, categoryId: category.id }))
+
+      return markedSubcategories.length ? markedSubcategories : null
+    })
+    .filter((n) => n)
+    .flat()
+}

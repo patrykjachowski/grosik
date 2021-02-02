@@ -68,3 +68,21 @@ const getCurrentMonthElements = (
     })
     .filter((n) => n)
 }
+
+export function toggleSubcategory(subcategoryId, categories) {
+  return categories.map((category) => {
+    const subcategories = category.subcategories.map((subcategory) => {
+      return subcategory.id === subcategoryId
+        ? {
+            ...subcategory,
+            select: !subcategory.select,
+          }
+        : subcategory
+    })
+
+    return {
+      ...category,
+      subcategories,
+    }
+  })
+}

@@ -1,6 +1,5 @@
 import React from 'react'
 import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
@@ -11,15 +10,15 @@ import { createCategory, selectCategories } from './categoriesSlice'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import ErrorPopup from '../../components/ErrorPopup'
-import CategoriesRow from './CategoriesRow'
+import CategoriesTable from './CategoriesTable'
 
 export default function Categories() {
   const categories = useSelector(selectCategories)
-  const dispatch = useDispatch
+  const dispatch = useDispatch()
 
   return (
     <div style={{ position: 'relative', paddingBottom: '100px' }}>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} style={{ marginBottom: 0 }}>
         <Table aria-label="collapsible table" style={{ tableLayout: 'fixed' }}>
           <TableHead>
             <TableRow>
@@ -28,23 +27,18 @@ export default function Categories() {
               <TableCell>Budgeted</TableCell>
               <TableCell>Activity</TableCell>
               <TableCell>Available</TableCell>
+              <TableCell />
             </TableRow>
           </TableHead>
-          <TableBody>
-            {!categories ? (
-              <TableRow>
-                <TableCell>Loading categories...</TableCell>
-              </TableRow>
-            ) : (
-              categories.map((category) => (
-                <React.Fragment key={category['@id']}>
-                  <CategoriesRow category={category} />
-                </React.Fragment>
-              ))
-            )}
-          </TableBody>
         </Table>
       </TableContainer>
+      {!categories ? (
+        <CategoriesTable category={null} />
+      ) : (
+        categories.map((category) => (
+          <CategoriesTable key={category.id} category={category} />
+        ))
+      )}
       <br />
       <Fab
         color="primary"

@@ -15,6 +15,10 @@ import CategoriesTableBodyInner from './CategoriesTableBodyInner'
 const CategoriesTableBody = ({ category }) => {
   const dispatch = useDispatch()
 
+  const handleAddSubcategory = () => {
+    dispatch(createSubcategory(category.id))
+  }
+
   return (
     <TableBody>
       <TableRow>
@@ -23,9 +27,11 @@ const CategoriesTableBody = ({ category }) => {
             <Box margin={1}>
               <Table aria-label="purchases" style={{ tableLayout: 'fixed' }}>
                 <TableBody>
-                  <CategoriesTableBodyInner
-                    subcategories={category.subcategories}
-                  />
+                  {category.subcategories && (
+                    <CategoriesTableBodyInner
+                      subcategories={category.subcategories}
+                    />
+                  )}
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -38,7 +44,7 @@ const CategoriesTableBody = ({ category }) => {
                       <IconButton
                         aria-label="add subcategory"
                         size="small"
-                        onClick={() => dispatch(createSubcategory(category.id))}
+                        onClick={handleAddSubcategory}
                       >
                         <AddIcon />
                       </IconButton>

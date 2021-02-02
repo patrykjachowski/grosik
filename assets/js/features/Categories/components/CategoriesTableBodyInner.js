@@ -4,17 +4,14 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import Checkbox from '@material-ui/core/Checkbox'
 import CategoriesTextCell from './CategoriesTextCell'
-import { selectCategories, update, updateCategories } from '../categoriesSlice'
-import { useDispatch, useSelector } from 'react-redux'
-import { toggleSubcategory } from '../helpers'
+import { toggleSubcategory, update } from '../categoriesSlice'
+import { useDispatch } from 'react-redux'
 
 const CategoriesTableBodyInner = ({ subcategories }) => {
   const dispatch = useDispatch()
-  const categories = useSelector(selectCategories)
 
   const handleToggle = (subcategoryId) => {
-    const categoriesUpdated = toggleSubcategory(subcategoryId, categories)
-    dispatch(updateCategories(categoriesUpdated))
+    dispatch(toggleSubcategory(subcategoryId))
   }
 
   return !subcategories.length ? (

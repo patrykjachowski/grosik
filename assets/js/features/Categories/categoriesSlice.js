@@ -3,6 +3,7 @@ import axios from 'axios'
 import CONFIG from '../../app/config'
 import { fetchTransactions } from '../Transactions/transactionsSlice'
 import { fetchBudgets } from '../Budgets/budgetsSlice'
+import { getCategoriesWithToggledSubcategory } from './helpers'
 
 export const categoriesSlice = createSlice({
   name: 'categories',
@@ -47,6 +48,9 @@ export const categoriesSlice = createSlice({
           : category
       })
     },
+    toggleSubcategory(state, action) {
+      state.categories = getCategoriesWithToggledSubcategory(state, action)
+    },
     setErrorMessage(state, action) {
       state.errorMessage = action.payload
     },
@@ -65,6 +69,7 @@ export const {
   cleanErrorMessage,
   deselectSubcategories,
   toggleCategoryCollapse,
+  toggleSubcategory,
 } = categoriesSlice.actions
 
 export default categoriesSlice.reducer

@@ -17,7 +17,10 @@ export const getCategoryWithAdditionalData = (
     subcategories.reduce((a, b) => a + b.activity, 0).toFixed(2)
   )
 
-  const budget = subcategories.reduce((a, b) => a + b.budget[0].value, 0)
+  const budget = subcategories.reduce(
+    (a, b) => (!b.budget[0] ? a : a + b.budget[0].value),
+    0
+  )
 
   return {
     ...category,
@@ -39,7 +42,13 @@ const getCurrentMonthTransactionsSum = (subcategory, calendarCurrentDate) => {
 }
 
 const getCurrentMonthBudget = (subcategory, calendarCurrentDate) => {
-  return getCurrentMonthElements('budgets', subcategory, calendarCurrentDate)
+  const budget = getCurrentMonthElements(
+    'budgets',
+    subcategory,
+    calendarCurrentDate
+  )
+
+  return budget.length ? budget : [{ id: 0, value: 0 }]
 }
 
 const getCurrentMonthElements = (

@@ -27,11 +27,9 @@ const CategoriesTableBody = ({ category }) => {
             <Box margin={1}>
               <Table aria-label="purchases" style={{ tableLayout: 'fixed' }}>
                 <TableBody>
-                  {category.subcategories && (
-                    <CategoriesTableBodyInner
-                      subcategories={category.subcategories}
-                    />
-                  )}
+                  <CategoriesTableBodyInner
+                    subcategories={category.subcategories}
+                  />
                   <TableRow>
                     <TableCell
                       colSpan={7}

@@ -14,9 +14,8 @@ import Grid from '@material-ui/core/Grid'
 import Header from './features/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
-import axios from 'axios'
-import { DropzoneArea } from 'material-ui-dropzone'
 import Navigation from './components/Navigation'
+import StatementUploader from './features/StatementUploader/StatementUploader'
 
 export default function App() {
   const dispatch = useDispatch()
@@ -28,28 +27,6 @@ export default function App() {
     dispatch(fetchBudgets())
     dispatch(fetchUser())
   }, [])
-
-  const handleFileUpload = (file) => {
-    if (!file.length) return
-    const formData = new FormData()
-    const bankId = 1
-
-    formData.append('file', file[0])
-    formData.append('bankId', bankId)
-
-    axios
-      .post('/statement', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(() => {
-        dispatch(fetchTransactions())
-      })
-      .catch((error) => {
-        console.log(error.response.data.detail)
-      })
-  }
 
   return (
     <Router>
@@ -64,7 +41,7 @@ export default function App() {
             <hr />
             <Switch>
               <Route path="/transactions">
-                <DropzoneArea onChange={handleFileUpload} />
+                <StatementUploader />
                 <Transactions />
               </Route>
               <Route path="/">

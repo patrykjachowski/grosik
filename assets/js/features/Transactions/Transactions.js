@@ -13,6 +13,7 @@ import { selectTransactions } from './transactionsSlice'
 import SubcategoryCell from '../../components/SubcategoryCell'
 import TransactionsTextCell from './TransactionsTextCell'
 import TransactionsDateCell from './TransactionsDateCell'
+import Paper from '@material-ui/core/Paper'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,7 +55,7 @@ const Transactions = () => {
   }
 
   return (
-    <div>
+    <Paper>
       <TableContainer>
         <Table
           // className={classes.table}
@@ -113,7 +114,7 @@ const Transactions = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+    </Paper>
   )
 }
 

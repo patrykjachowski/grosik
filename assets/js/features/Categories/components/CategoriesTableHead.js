@@ -27,7 +27,7 @@ const CategoriesTableHead = ({
   collapsed = false,
 }) => {
   const dispatch = useDispatch()
-  const available = activity + budget
+  const available = (activity + budget).toFixed(2)
   const selectedSubcategories = useSelector(selectMarkedSubcategories)
   const markedCategorySubcategories = selectedSubcategories.filter(
     (subcategory) => subcategory.categoryId === id

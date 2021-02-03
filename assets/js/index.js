@@ -7,19 +7,19 @@ import store from './app/store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { createMuiTheme } from '@material-ui/core'
-import purple from '@material-ui/core/colors/purple'
-import green from '@material-ui/core/colors/green'
+// import purple from '@material-ui/core/colors/purple'
+// import green from '@material-ui/core/colors/green'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 const theme = createMuiTheme({
-  palette: {
-    primary: {
-      main: purple[500],
-    },
-    secondary: {
-      main: green[500],
-    },
-  },
+  // palette: {
+  //   primary: {
+  //     main: purple[500],
+  //   },
+  //   secondary: {
+  //     main: green[500],
+  //   },
+  // },
   overrides: {
     MuiTableContainer: {
       root: {
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
     },
     MuiTableHead: {
       root: {
-        backgroundColor: 'gray',
+        backgroundColor: '#ebebeb',
         // paddingTop: 4,
         // paddingBottom: 4,
         // '&:last-child': {

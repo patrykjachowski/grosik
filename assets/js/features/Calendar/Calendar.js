@@ -57,6 +57,10 @@ export default function Calendar() {
       dispatch(setDate(nextMonthDate))
   }
 
+  const handleDateChange = (newDate) => {
+    dispatch(setDate(newDate.getTime()))
+  }
+
   return (
     <div style={{ textAlign: 'center' }}>
       <div>
@@ -66,7 +70,7 @@ export default function Calendar() {
             minDate={new Date(2019, 1, 1, 0, 0, 0, 0)}
             maxDate={new Date()}
             value={new Date(calendarDate)}
-            onChange={() => {}}
+            onChange={handleDateChange}
             format={'MMM yyyy'}
             openTo="month"
             TextFieldComponent={renderInput}

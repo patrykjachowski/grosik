@@ -43,7 +43,7 @@ const CategoriesTableHead = ({
   }
 
   return (
-    <TableHead>
+    <TableHead color="primary.main">
       {markedCategorySubcategories.length ? (
         <TableRow bgcolor="danger">
           <TableCell colSpan={3}>

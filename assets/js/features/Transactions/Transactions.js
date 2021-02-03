@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import TableContainer from '@material-ui/core/TableContainer'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
@@ -9,11 +9,12 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-import { selectTransactions } from './transactionsSlice'
+import { selectPage, selectTransactions, setPage } from './transactionsSlice'
 import SubcategoryCell from '../../components/SubcategoryCell'
 import TransactionsTextCell from './TransactionsTextCell'
 import TransactionsDateCell from './TransactionsDateCell'
 import Paper from '@material-ui/core/Paper'
+import TablePagination from '@material-ui/core/TablePagination'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,6 +42,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Transactions = () => {
   const { transactions } = useSelector(selectTransactions)
+  const dispatch = useDispatch()
+  const page = useSelector(selectPage)
 
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
@@ -53,6 +56,16 @@ const Transactions = () => {
     setOrder(isAsc ? 'desc' : 'asc')
     setOrderBy(property)
   }
+
+  const handleChangePage = (event, newPage) => {
+    dispatch(setPage(newPage))
+  }
+
+  // const handleChangeRowsPerPage = (event) => {
+  //   setRowsPerPage(parseInt(event.target.value, 10));
+  //   setPage(0);
+  // };
+  //
 
   return (
     <Paper>
@@ -114,6 +127,13 @@ const Transactions = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        onChangePage={handleChangePage}
+        count={transactions.length}
+        rowsPerPageOptions={[10, 50]}
+        page={page}
+        rowsPerPage={5}
+      />
     </Paper>
   )
 }

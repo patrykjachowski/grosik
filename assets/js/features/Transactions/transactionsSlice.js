@@ -7,8 +7,12 @@ export const transactionsSlice = createSlice({
   initialState: {
     loading: 'idle',
     transactions: [],
+    page: 0,
   },
   reducers: {
+    setPage(state, action) {
+      state.page = action.payload
+    },
     transactionsLoading(state) {
       if (state.loading === 'idle') {
         state.loading = 'pending'
@@ -23,7 +27,10 @@ export const transactionsSlice = createSlice({
 export const {
   transactionsLoading,
   transactionsReceived,
+  setPage,
 } = transactionsSlice.actions
+
+export default transactionsSlice.reducer
 
 export const updateTransaction = (transaction) => async (dispatch) => {
   dispatch(transactionsLoading())
@@ -51,4 +58,4 @@ export const fetchTransactions = () => async (dispatch) => {
 }
 
 export const selectTransactions = (state) => state.transactions
-export default transactionsSlice.reducer
+export const selectPage = (state) => state.transactions.page

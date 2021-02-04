@@ -8,6 +8,7 @@ export const transactionsSlice = createSlice({
     loading: 'idle',
     transactions: [],
     page: 0,
+    rowsPerPage: 10,
   },
   reducers: {
     setPage(state, action) {
@@ -59,3 +60,4 @@ export const fetchTransactions = () => async (dispatch) => {
 
 export const selectTransactions = (state) => state.transactions
 export const selectPage = (state) => state.transactions.page
+export const selectRowsPerPage = (state) => state.transactions.rowsPerPage

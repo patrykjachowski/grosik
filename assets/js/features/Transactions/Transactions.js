@@ -9,12 +9,18 @@ import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
-import { selectPage, selectTransactions, setPage } from './transactionsSlice'
+import {
+  selectPage,
+  selectRowsPerPage,
+  selectTransactions,
+  setPage,
+} from './transactionsSlice'
 import SubcategoryCell from '../../components/SubcategoryCell'
 import TransactionsTextCell from './TransactionsTextCell'
 import TransactionsDateCell from './TransactionsDateCell'
 import Paper from '@material-ui/core/Paper'
 import TablePagination from '@material-ui/core/TablePagination'
+import TableFooter from '@material-ui/core/TableFooter'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,6 +50,7 @@ const Transactions = () => {
   const { transactions } = useSelector(selectTransactions)
   const dispatch = useDispatch()
   const page = useSelector(selectPage)
+  const rowsPerPage = useSelector(selectRowsPerPage)
 
   const classes = useStyles()
   const [order, setOrder] = React.useState('asc')
@@ -65,7 +72,6 @@ const Transactions = () => {
   //   setRowsPerPage(parseInt(event.target.value, 10));
   //   setPage(0);
   // };
-  //
 
   return (
     <Paper>
@@ -90,50 +96,59 @@ const Transactions = () => {
                 <TableCell>Transactions list is empty</TableCell>
               </TableRow>
             ) : (
-              transactions.map((transaction, index) => {
-                const subcategory = transaction.subcategory
-                  ? transaction.subcategory['@id']
-                  : null
-                const transactionFormatted = {
-                  ...transaction,
-                  bank: transaction.bank['@id'],
-                  subcategory,
-                }
+              transactions
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((transaction, index) => {
+                  const subcategory = transaction.subcategory
+                    ? transaction.subcategory['@id']
+                    : null
 
-                return (
-                  <TableRow hover key={index}>
-                    <TableCell> {transaction.bank.name} </TableCell>
-                    <SubcategoryCell transaction={transaction} />
-                    <TransactionsDateCell transaction={transactionFormatted} />
-                    <TransactionsTextCell
-                      transaction={transactionFormatted}
-                      valueName="value"
-                      value={transaction.value}
-                    />
-                    <TransactionsTextCell
-                      transaction={transactionFormatted}
-                      valueName="payee"
-                      value={transaction.payee}
-                    />
-                    <TransactionsTextCell
-                      transaction={transactionFormatted}
-                      valueName="memo"
-                      value={transaction.memo}
-                    />
-                  </TableRow>
-                )
-              })
+                  const transactionFormatted = {
+                    ...transaction,
+                    bank: transaction.bank['@id'],
+                    subcategory,
+                  }
+
+                  return (
+                    <TableRow hover key={index}>
+                      <TableCell> {transaction.bank.name} </TableCell>
+                      <SubcategoryCell transaction={transaction} />
+                      <TransactionsDateCell
+                        transaction={transactionFormatted}
+                      />
+                      <TransactionsTextCell
+                        transaction={transactionFormatted}
+                        valueName="value"
+                        value={transaction.value}
+                      />
+                      <TransactionsTextCell
+                        transaction={transactionFormatted}
+                        valueName="payee"
+                        value={transaction.payee}
+                      />
+                      <TransactionsTextCell
+                        transaction={transactionFormatted}
+                        valueName="memo"
+                        value={transaction.memo}
+                      />
+                    </TableRow>
+                  )
+                })
             )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TablePagination
+                onChangePage={handleChangePage}
+                count={transactions.length}
+                rowsPerPageOptions={[10, 50]}
+                page={page}
+                rowsPerPage={rowsPerPage}
+              />
+            </TableRow>
+          </TableFooter>
         </Table>
       </TableContainer>
-      <TablePagination
-        onChangePage={handleChangePage}
-        count={transactions.length}
-        rowsPerPageOptions={[10, 50]}
-        page={page}
-        rowsPerPage={5}
-      />
     </Paper>
   )
 }

@@ -7,7 +7,7 @@ use App\Entity\Transaction;
 
 class StatementParser
 {
-    const MBANK_TRANSACTIONS_BEGINNING_ROW = 45;
+    const MBANK_TRANSACTIONS_START_ROW = 45;
 
     public function getTransactions(Bank $bank, array $statement)
     {
@@ -22,7 +22,7 @@ class StatementParser
     {
         $transactions = [];
 
-        for ($i = self::MBANK_TRANSACTIONS_BEGINNING_ROW; $i <= end($statement); $i++) {
+        for ($i = self::MBANK_TRANSACTIONS_START_ROW; $i <= end($statement); $i++) {
             if (!isset($statement[$i])) continue;
             if ($statement[$i][0] == null) break;
 

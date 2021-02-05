@@ -48,7 +48,7 @@ class HomeController extends AbstractController
 
         $this->manuallyAuthenticateUser();
 
-        return $this->render('home/index.html.twig', [
+        return $this->render('base.html.twig', [
             'controller_name' => 'HomeController',
         ]);
     }

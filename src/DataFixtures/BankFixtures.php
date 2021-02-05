@@ -29,8 +29,8 @@ class BankFixtures extends Fixture implements DependentFixtureInterface
         $bank = new Bank();
         $user = $this->userRepository->findOneByEmail('test@test.pl');
         $bank->setName('AcmeBank');
-        $bank->setBalance(0);
         $bank->setUser($user);
+        $bank->setType('mBank');
 
         $this->addReference(self::BANK_REFERENCE, $bank);
 

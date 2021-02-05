@@ -11,7 +11,7 @@ import { fetchBudgets } from './features/Budgets/budgetsSlice'
 import { fetchUser } from './features/User/userSlice'
 
 import Grid from '@material-ui/core/Grid'
-import Header from './features/Header'
+import Header from './components/Header'
 import Transactions from './features/Transactions/Transactions'
 import Categories from './features/Categories/Categories'
 import Navigation from './components/Navigation'

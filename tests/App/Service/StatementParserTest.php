@@ -34,7 +34,7 @@ class StatementParserTest extends TestCase
             45 => [
                 0 => "2020-07-03",
                 1 => "2020-07-03",
-                2 => "BLIK P2P-PRZYCHODZ¥CY",
+                2 => "BLIK P2P-PRZYCHODZACY",
                 3 => "",
                 4 => "",
                 5 => "",
@@ -69,7 +69,7 @@ class StatementParserTest extends TestCase
         // Then
         $this->assertInstanceOf(DateTime::class, $actual->getDate());
         $this->assertSame(5.0, $actualValue);
-        $this->assertSame('BLIK P2P-PRZYCHODZ¥CY', $actualPayee);
+        $this->assertSame('BLIK P2P-PRZYCHODZACY', $actualPayee);
         $this->assertSame('Przelew na telefon BLIK', $actualMemo);
         $this->assertSame('mBank', $actualBankType);
     }
@@ -98,7 +98,7 @@ class StatementParserTest extends TestCase
             45 => [
                 0 => "2020-07-03",
                 1 => "2020-07-03",
-                2 => "BLIK P2P-PRZYCHODZ¥CY",
+                2 => "BLIK P2P-PRZYCHODZACY",
                 3 => "",
                 4 => "",
                 5 => "",
@@ -151,7 +151,7 @@ class StatementParserTest extends TestCase
         // Then
         $this->assertInstanceOf(DateTime::class, $transaction1->getDate());
         $this->assertSame(5.0, $transaction1Value);
-        $this->assertSame('BLIK P2P-PRZYCHODZ¥CY', $transaction1Payee);
+        $this->assertSame('BLIK P2P-PRZYCHODZACY', $transaction1Payee);
         $this->assertSame('Przelew na telefon BLIK', $transaction1Memo);
         $this->assertSame('mBank', $transaction1BankType);
 

@@ -7,6 +7,7 @@ use App\Entity\Subcategory;
 use App\Exception\BudgetAlreadyExistsException;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 class Budgeter
 {
@@ -17,23 +18,34 @@ class Budgeter
         $this->entityManager = $entityManager;
     }
 
-    public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : bool
+    /**
+     * @param Subcategory $subcategory
+     * @param DateTime $date
+     *
+     * @return Response
+     */
+    public function createSubcategoryBudget(Subcategory $subcategory, \DateTime $date) : Response
     {
-        if (null != $this->getBudgetByDate($subcategory, $this->unifyDate($date)) ) {
-                return true;
-        }
+        $budget = $this->getBudgetByDate($subcategory, $this->unifyDate($date));
+        if (null != $budget) return new Response('Success ', Response::HTTP_OK);
 
-        $budget = new Budget();
-        $budget->setDate($this->unifyDate($date));
-        $subcategory->addBudget($budget);
+        $newBudget = new Budget();
+        $newBudget->setDate($this->unifyDate($date));
+        $subcategory->addBudget($newBudget);
 
-        $this->entityManager->persist($budget);
+        $this->entityManager->persist($newBudget);
         $this->entityManager->persist($subcategory);
         $this->entityManager->flush();
 
-        return true;
+        return new Response('Success ', Response::HTTP_OK);
     }
 
+    /**
+     * @param Subcategory $subcategory
+     * @param DateTime $date
+     *
+     * @return Budget|null
+     */
     public function getBudgetByDate(Subcategory $subcategory, DateTime $date) : ?Budget
     {
         $dateUnified = $this->unifyDate($date);

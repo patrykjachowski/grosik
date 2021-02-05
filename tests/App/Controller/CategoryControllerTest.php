@@ -35,7 +35,7 @@ class CategoryControllerTest extends WebTestCase
     {
         // Given
         /** @var Category $categoryUnderTest */
-        $categoryUnderTest = $this->entityManager->getRepository(Category::class)->find(1);
+        $categoryUnderTest = $this->entityManager->getRepository(Category::class)->findOneBy([]);
         $baseSubcategoriesNumber = $categoryUnderTest->getSubcategories()->count();
 
         // When
@@ -43,11 +43,11 @@ class CategoryControllerTest extends WebTestCase
         $actualSubcategoriesNumber = $categoryUnderTest->getSubcategories()->count();
         /** @var Subcategory $newSubcategory */
         $newSubcategory = $categoryUnderTest->getSubcategories()->last();
-        $actualNewSubcategoryBudgetDate = $newSubcategory->getBudgets()->last()->getDate();
+        $actualNewSubcategoryBudgetDate = $newSubcategory->getBudgets()->first()->getDate()->format("Ym");
 
         // Then
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
         $this->assertEquals($baseSubcategoriesNumber + 1, $actualSubcategoriesNumber);
-        $this->assertEquals(($actualNewSubcategoryBudgetDate)->format("Ym"), (new \DateTime())->format("Ym"));
+        $this->assertEquals($actualNewSubcategoryBudgetDate, (new \DateTime())->format("Ym"));
     }
 }

@@ -12,6 +12,7 @@ class BudgeterTest extends WebTestCase
 {
     private static $currentDate;
     private static $pastDate;
+    /** * @var Budgeter */
     private $budgeterUnderTest;
 
     protected function setUp() : void
@@ -67,29 +68,10 @@ class BudgeterTest extends WebTestCase
         $this->budgeterUnderTest->createSubcategoryBudget($subcategory2, self::$pastDate);
 
         $actualDate1 = $subcategory1->getBudgets()->first()->getDate();
-        $actualDate2 = $subcategory2->getBudgets()->last()->getDate();
+        $actualDate2 = $subcategory2->getBudgets()->first()->getDate();
 
         // Then
         $this->assertEquals($expected1->format('Ym'), $actualDate1->format('Ym'));
         $this->assertEquals($expected2->format('Ym'), $actualDate2->format('Ym'));
-    }
-
-    public function testShouldThrowBudgetAlreadyExistsWhenITryToAddNewBudgetWithTheSameDate()
-    {
-        // Expect
-        $this->expectException(BudgetAlreadyExistsException::class);
-        $this->expectExceptionMessage('Budgets is already created for selected date!');
-
-        // Given
-        $category = new Category();
-        $category->setName('Life costs');
-
-        $subcategory = new Subcategory();
-        $subcategory->setName('Groceries');
-        $subcategory->setCategory($category);
-
-        // When
-        $this->budgeterUnderTest->createSubcategoryBudget($subcategory, self::$currentDate);
-        $this->budgeterUnderTest->createSubcategoryBudget($subcategory, self::$currentDate);
     }
 }

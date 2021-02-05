@@ -31,7 +31,7 @@ class BankControllerTest extends WebTestCase
     {
         // Given
         $expectedNumber = 1;
-        $expectedBalance = 100;
+        $expectedBalance = 100.0;
         $bankUnderTest = new Bank();
         $transaction = new Transaction();
         $transaction->setValue(100);

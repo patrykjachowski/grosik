@@ -44,6 +44,11 @@ Encore
     .enableVersioning(Encore.isProduction())
     .enableReactPreset()
 
+    .configureBabel(function(babelConfig) {
+        babelConfig.presets.push('@babel/preset-react');
+    })
+
+
     .addLoader({
         test: /\.js$/,
         enforce: 'pre',

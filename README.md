@@ -36,9 +36,9 @@ The key to successful budgeting is to assign every money to categories. There is
 * MySQL 
 
 
-![Grosik1](https://github.com/patrykjachowski/grosik/assets/images/grosik1.png)  
+![Grosik1](https://github.com/patrykjachowski/grosik/blob/develop/assets/images/grosik1.png?raw=true)  
 
-![Grosik2](https://github.com/patrykjachowski/grosik/assets/images/grosik2.png)
+![Grosik2](https://github.com/patrykjachowski/grosik/blob/develop/assets/images/grosik2.png?raw=true)
 
 - - - -
 

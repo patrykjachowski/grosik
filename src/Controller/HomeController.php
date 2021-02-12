@@ -67,7 +67,7 @@ class HomeController extends AbstractController
 
     public function manuallyAuthenticateUser() : void
     {
-        $user = $this->userRepository->find(1);
+        $user = $this->userRepository->findOneBy([]);
         $token = new UsernamePasswordToken($user, null, 'main', $user->getRoles());
         $this->get('security.token_storage')->setToken($token);
         $this->get('session')->set('_security_main', serialize($token));

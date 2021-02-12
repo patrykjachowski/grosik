@@ -2,13 +2,10 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
 use App\Entity\Subcategory;
 use App\Repository\CategoryRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-
-use App\DataFixtures\CategoryFixtures;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class SubcategoryFixtures extends Fixture implements DependentFixtureInterface
@@ -31,10 +28,14 @@ class SubcategoryFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $firstCategoryId = $this->categoryRepository->findOneBy([])->getId();
+        $lastCategoryId = $firstCategoryId + CategoryFixtures::MAX_CATEGORIES - 1;
+
         for ($i = 0; $i < self::MAX_SUBCATEGORIES; $i++) {
+            $randomCategoryId = rand($firstCategoryId, $lastCategoryId);
             $subcategory = new Subcategory();
             $subcategory->setName('Subcategory' . $i);
-            $subcategory->setCategory($this->categoryRepository->find(rand(1,CategoryFixtures::MAX_CATEGORIES)));
+            $subcategory->setCategory($this->categoryRepository->find($randomCategoryId));
             $manager->persist($subcategory);
         }
 
@@ -43,8 +44,8 @@ class SubcategoryFixtures extends Fixture implements DependentFixtureInterface
 
     public function getDependencies()
     {
-        return array(
+        return [
             CategoryFixtures::class,
-        );
+        ];
     }
 }

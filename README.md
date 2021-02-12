@@ -1,10 +1,10 @@
 # Grosik [MVP]
 Grosik is a home budget app. This project is the MVP version and it will be developing consistently.
 
-## Table of Contents:
-1. App Description
-2. Installation
-3. Roadmap, future plans
+#### Table of Contents:
+1. [App Description](https://github.com/patrykjachowski/grosik#app-description)
+2. [Installation](https://github.com/patrykjachowski/grosik#installation)
+3. [Roadmap, future plans](https://github.com/patrykjachowski/grosik#roadmap)
 
 - - - -
 
@@ -35,6 +35,7 @@ The key to successful budgeting is to assign every money to categories. There is
 * api-platform
 * MySQL 
 
+#### Screenshots:
 
 ![Grosik1](https://github.com/patrykjachowski/grosik/blob/develop/assets/images/grosik1.png?raw=true)  
 
@@ -118,5 +119,33 @@ Make sure you have unlocked port :8000 on your localhost to get the app running.
 
 - - - -
 
+## Roadmap:
+
+##### Features implemented:
+- [x] Import transactions from CSV file and parsing them as data. *
+- [x] Budgeting subcategories based on date - calendar months
+- [x] Autotracking expenses based on transactions
+- [x] Display info about budgeting: insufficient, overbudget, equal
+
+* currently only mBank statement (csv) is supported
+
+#### Todo:
+
+- [ ] Change transaction/subcategory edit UI - sidebar instead input
+- [ ] Support for multiple banks and multiple bank accounts
+- [ ] Support for multiple banks and multiple bank accounts
+- [ ] Draggable categories, custom order
+- [ ] Transaction subcategory proposals
+- [ ] Extended user action logs
+- [ ] Export data / backup
+- [ ] Prevent importing transaction duplicates
+- [ ] Demo tour
+- [ ] Styling / responsiveness
+- [ ] Mobile app
+
+#### Ideas:
+
+- [ ] Sending csv file to the app email and automatically parsing them from inbox
+- [ ] Proposal transactions base on history, annotations, reminders
 
 

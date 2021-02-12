@@ -9,7 +9,7 @@ Grosik is a home budget app. This project is the MVP version and it will be deve
 - - - -
 
 ## App description:
-The main goal of the Grosik is for you to have a full control over you budget. 
+The main goal of the Grosik is for you to have a full control over your budget. 
 
 The flow of the app:
 1. You create your categories which you spend your money on: 

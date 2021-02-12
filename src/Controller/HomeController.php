@@ -36,6 +36,7 @@ class HomeController extends AbstractController
 
     /**
      * @Route("/", name="home")
+     * @Route("/transactions", name="home")
      * @param Request $request
      *
      * @return Response

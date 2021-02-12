@@ -3,6 +3,7 @@ services:
 
   php:
     build: .docker/php
+    image: patrykjachowski/grosik
     container_name: ${PROJECT_NAME}-php
     working_dir: /application
     volumes:

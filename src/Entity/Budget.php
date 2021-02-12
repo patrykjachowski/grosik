@@ -24,7 +24,7 @@ class Budget
     private $id;
 
     /**
-     * @ORM\ManyToOne (targetEntity=Subcategory::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne (targetEntity=Subcategory::class, cascade={"persist", "remove"}, inversedBy="budgets")
      * @ORM\JoinColumn(nullable=false)
      */
     private $subcategory;

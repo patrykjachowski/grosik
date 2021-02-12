@@ -18,9 +18,9 @@ RUN node -v && npm -v
 # Remove APT cache
 RUN apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Set Paris timezone
+# Set Warsaw timezone
 RUN rm /etc/localtime
-RUN ln -s /usr/share/zoneinfo/Europe/Paris /etc/localtime
+RUN ln -s /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
 RUN "date"
 
 # Type docker-php-ext-install to see available extensions
